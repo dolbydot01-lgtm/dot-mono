@@ -1,0 +1,165 @@
+{
+  "$defs": {
+    "ReportCue": {
+      "additionalProperties": false,
+      "properties": {
+        "cue": {
+          "title": "Cue",
+          "type": "string"
+        },
+        "when": {
+          "title": "When",
+          "type": "string"
+        },
+        "fault_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fault Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "cue",
+        "when",
+        "fault_ids"
+      ],
+      "title": "ReportCue",
+      "type": "object"
+    },
+    "ReportExercisePlanItem": {
+      "additionalProperties": false,
+      "properties": {
+        "exercise_id": {
+          "title": "Exercise Id",
+          "type": "string"
+        },
+        "focus": {
+          "title": "Focus",
+          "type": "string"
+        },
+        "related_fault_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Related Fault Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "exercise_id",
+        "focus",
+        "related_fault_ids"
+      ],
+      "title": "ReportExercisePlanItem",
+      "type": "object"
+    },
+    "ReportPriority": {
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "fault_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fault Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "title",
+        "detail",
+        "fault_ids"
+      ],
+      "title": "ReportPriority",
+      "type": "object"
+    },
+    "ReportStrength": {
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "observation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Observation Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "title",
+        "detail",
+        "observation_ids"
+      ],
+      "title": "ReportStrength",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Narrow schema requested from the language model.",
+  "properties": {
+    "summary": {
+      "title": "Summary",
+      "type": "string"
+    },
+    "strengths": {
+      "items": {
+        "$ref": "#/$defs/ReportStrength"
+      },
+      "title": "Strengths",
+      "type": "array"
+    },
+    "priorities": {
+      "items": {
+        "$ref": "#/$defs/ReportPriority"
+      },
+      "title": "Priorities",
+      "type": "array"
+    },
+    "coaching_cues": {
+      "items": {
+        "$ref": "#/$defs/ReportCue"
+      },
+      "title": "Coaching Cues",
+      "type": "array"
+    },
+    "exercise_plan": {
+      "items": {
+        "$ref": "#/$defs/ReportExercisePlanItem"
+      },
+      "title": "Exercise Plan",
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "summary",
+    "strengths",
+    "priorities",
+    "coaching_cues",
+    "exercise_plan",
+    "limitations"
+  ],
+  "title": "ReportDraft",
+  "type": "object"
+}

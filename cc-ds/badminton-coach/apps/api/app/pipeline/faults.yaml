@@ -1,0 +1,119 @@
+version: "2026-10-21.1"
+
+faults:
+  READY_KNEES_TOO_STRAIGHT:
+    title: Knees are too straight in the ready stance
+    category: ready_stance
+    severity: minor
+    episode_type: ready_stance
+    metric_key: ready_knee_angle
+    comparator: gt
+    threshold: 168
+    view_requirements: [side, front]
+    joints: [11, 12, 13, 14, 15, 16]
+    description: Your knees stay close to locked in the ready stance, which limits how quickly you can push off.
+    cue: Stay in a quarter-squat and bounce lightly on the balls of your feet between movements.
+
+  READY_STANCE_NARROW:
+    title: Ready stance is narrower than your shoulders
+    category: ready_stance
+    severity: minor
+    episode_type: ready_stance
+    metric_key: ready_stance_width_ratio
+    comparator: lt
+    threshold: 0.85
+    view_requirements: [front]
+    joints: [5, 6, 15, 16]
+    description: Your feet are close together in the ready stance, reducing side-to-side stability.
+    cue: Set your feet slightly wider than your shoulders before the movement starts.
+
+  READY_STANCE_ASYMMETRIC:
+    title: Left and right legs are uneven in the ready stance
+    category: ready_stance
+    severity: minor
+    episode_type: ready_stance
+    metric_key: ready_knee_asymmetry
+    comparator: gt
+    threshold: 15
+    view_requirements: [front, side]
+    joints: [11, 12, 13, 14, 15, 16]
+    description: One leg is noticeably more bent or loaded than the other in the ready stance.
+    cue: Check that your weight is centered and both knees have a similar bend.
+
+  LUNGE_SHALLOW:
+    title: Lunge does not reach enough knee depth
+    category: lunge
+    severity: major
+    episode_type: lunge
+    metric_key: lead_knee_min_angle
+    comparator: gt
+    threshold: 145
+    view_requirements: [side, front]
+    joints: [11, 12, 13, 14, 15, 16]
+    description: The lead knee stays high during the lunge, limiting reach and the ability to load the leg.
+    cue: Reach the lead foot out and let the knee travel forward over the toes while the heel stays down if comfortable.
+
+  LUNGE_TRUNK_LEAN_EXCESSIVE:
+    title: Torso leans too far forward in the lunge
+    category: lunge
+    severity: major
+    episode_type: lunge
+    metric_key: trunk_lean_at_deepest
+    comparator: gt
+    threshold: 30
+    view_requirements: [side]
+    joints: [5, 6, 11, 12]
+    description: Your torso pitches forward at the deepest part of the lunge, which can make recovery slower.
+    cue: Keep your chest tall over your hips and hinge from the hips only as much as the reach requires.
+
+  LUNGE_KNEE_TRACKS_INWARD:
+    title: Lead knee drifts inward over the foot
+    category: lunge
+    severity: minor
+    episode_type: lunge
+    metric_key: knee_ankle_alignment_ratio
+    comparator: lt
+    threshold: 0.75
+    view_requirements: [front]
+    joints: [11, 12, 13, 14, 15, 16]
+    description: The lead knee sits inside the line of the foot at the deepest part of the lunge.
+    cue: Point the lead knee and toes in the same direction and keep the knee stacked over the middle of the foot.
+
+  OVERHEAD_LOW_REACH:
+    title: Racket hand does not reach high enough
+    category: overhead
+    severity: major
+    episode_type: overhead_motion
+    metric_key: peak_wrist_height
+    comparator: lt
+    threshold: 0.55
+    view_requirements: [side, front]
+    joints: [5, 6, 7, 8, 9, 10]
+    description: The racket-hand wrist stays low relative to the shoulder at the top of the overhead movement.
+    cue: Reach up and slightly forward with the racket hand, finishing with a tall arm rather than a low push.
+
+  OVERHEAD_ELBOW_BENT:
+    title: Elbow stays bent at peak reach
+    category: overhead
+    severity: minor
+    episode_type: overhead_motion
+    metric_key: elbow_angle_at_peak
+    comparator: lt
+    threshold: 150
+    view_requirements: [side, front]
+    joints: [5, 6, 7, 8, 9, 10]
+    description: The racket-arm elbow is still noticeably bent when the wrist reaches its highest point.
+    cue: Extend the elbow upward through the swing and think about reaching the racket to the ceiling.
+
+  BALANCE_OUTSIDE_BASE:
+    title: Hips move beyond the front foot in the lunge
+    category: balance
+    severity: minor
+    episode_type: lunge
+    metric_key: com_beyond_front_ankle
+    comparator: gt
+    threshold: 0.05
+    view_requirements: [side]
+    joints: [11, 12, 15, 16]
+    description: The hips travel past the front ankle during the lunge, making the position harder to control and recover from.
+    cue: Land with the hips behind or stacked over the front ankle, then push the floor away to recover.

@@ -1,0 +1,41 @@
+from __future__ import annotations
+
+from collections.abc import Iterator
+
+from sqlalchemy import create_engine, event
+from sqlalchemy.orm import Session, sessionmaker
+
+from app.config import get_settings
+
+settings = get_settings()
+engine = create_engine(
+    settings.database_url,
+    connect_args={"check_same_thread": False, "timeout": 30},
+    pool_pre_ping=True,
+)
+
+
+@event.listens_for(engine, "connect")
+def _set_sqlite_pragmas(dbapi_connection, _connection_record) -> None:
+    cursor = dbapi_connection.cursor()
+    cursor.execute("PRAGMA journal_mode=WAL")
+    cursor.execute("PRAGMA busy_timeout=5000")
+    cursor.execute("PRAGMA foreign_keys=ON")
+    cursor.close()
+
+
+SessionLocal = sessionmaker(bind=engine, expire_on_commit=False, class_=Session)
+
+
+def init_db() -> None:
+    from app.models import Base
+
+    Base.metadata.create_all(bind=engine)
+
+
+def get_db() -> Iterator[Session]:
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

@@ -1,0 +1,33 @@
+# dependencies
+node_modules/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# builds
+.next/
+out/
+dist/
+*.tsbuildinfo
+
+# runtime data and secrets
+.env
+.env.local
+data/
+data-demo/
+*.log
+
+# model weights
+*.pt
+*.onnx
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# test output
+playwright-report/
+test-results/

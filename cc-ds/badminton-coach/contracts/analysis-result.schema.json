@@ -1,0 +1,1133 @@
+{
+  "$defs": {
+    "Artifacts": {
+      "additionalProperties": false,
+      "properties": {
+        "annotated_video_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Annotated Video Url"
+        },
+        "thumbnail_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Thumbnail Url"
+        },
+        "pose_data_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pose Data Url"
+        }
+      },
+      "required": [
+        "annotated_video_url",
+        "thumbnail_url"
+      ],
+      "title": "Artifacts",
+      "type": "object"
+    },
+    "CameraView": {
+      "enum": [
+        "side",
+        "front"
+      ],
+      "title": "CameraView",
+      "type": "string"
+    },
+    "CaptureQuality": {
+      "additionalProperties": false,
+      "properties": {
+        "overall": {
+          "$ref": "#/$defs/QualityOverall"
+        },
+        "analyzable": {
+          "title": "Analyzable",
+          "type": "boolean"
+        },
+        "score": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Score",
+          "type": "integer"
+        },
+        "checks": {
+          "items": {
+            "$ref": "#/$defs/QualityCheck"
+          },
+          "title": "Checks",
+          "type": "array"
+        },
+        "subject": {
+          "$ref": "#/$defs/SubjectQuality"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "overall",
+        "analyzable",
+        "score",
+        "checks",
+        "subject",
+        "limitations"
+      ],
+      "title": "CaptureQuality",
+      "type": "object"
+    },
+    "CoachingReport": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/ReportStatus"
+        },
+        "provider": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReportProvider"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Model"
+        },
+        "generated_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Generated At"
+        },
+        "summary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Summary"
+        },
+        "strengths": {
+          "items": {
+            "$ref": "#/$defs/ReportStrength"
+          },
+          "title": "Strengths",
+          "type": "array"
+        },
+        "priorities": {
+          "items": {
+            "$ref": "#/$defs/ReportPriority"
+          },
+          "title": "Priorities",
+          "type": "array"
+        },
+        "coaching_cues": {
+          "items": {
+            "$ref": "#/$defs/ReportCue"
+          },
+          "title": "Coaching Cues",
+          "type": "array"
+        },
+        "exercise_plan": {
+          "items": {
+            "$ref": "#/$defs/ExercisePrescription"
+          },
+          "title": "Exercise Plan",
+          "type": "array"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "disclaimer": {
+          "title": "Disclaimer",
+          "type": "string"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReportError"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "status",
+        "provider",
+        "model",
+        "generated_at",
+        "summary",
+        "strengths",
+        "priorities",
+        "coaching_cues",
+        "exercise_plan",
+        "limitations",
+        "disclaimer"
+      ],
+      "title": "CoachingReport",
+      "type": "object"
+    },
+    "DominantHand": {
+      "enum": [
+        "left",
+        "right"
+      ],
+      "title": "DominantHand",
+      "type": "string"
+    },
+    "Episode": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/EpisodeType"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "start_s": {
+          "title": "Start S",
+          "type": "number"
+        },
+        "end_s": {
+          "title": "End S",
+          "type": "number"
+        },
+        "key_frame_s": {
+          "title": "Key Frame S",
+          "type": "number"
+        },
+        "start_frame": {
+          "title": "Start Frame",
+          "type": "integer"
+        },
+        "end_frame": {
+          "title": "End Frame",
+          "type": "integer"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "lead_side": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Lead Side"
+        },
+        "metrics": {
+          "items": {
+            "$ref": "#/$defs/Metric"
+          },
+          "title": "Metrics",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "label",
+        "start_s",
+        "end_s",
+        "key_frame_s",
+        "start_frame",
+        "end_frame",
+        "confidence",
+        "lead_side",
+        "metrics"
+      ],
+      "title": "Episode",
+      "type": "object"
+    },
+    "EpisodeType": {
+      "enum": [
+        "overhead_motion",
+        "lunge",
+        "ready_stance"
+      ],
+      "title": "EpisodeType",
+      "type": "string"
+    },
+    "ExercisePrescription": {
+      "additionalProperties": false,
+      "properties": {
+        "exercise_id": {
+          "title": "Exercise Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "focus": {
+          "title": "Focus",
+          "type": "string"
+        },
+        "dosage": {
+          "title": "Dosage",
+          "type": "string"
+        },
+        "equipment": {
+          "title": "Equipment",
+          "type": "string"
+        },
+        "instructions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Instructions",
+          "type": "array"
+        },
+        "safety_note": {
+          "title": "Safety Note",
+          "type": "string"
+        },
+        "related_fault_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Related Fault Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "exercise_id",
+        "name",
+        "focus",
+        "dosage",
+        "equipment",
+        "instructions",
+        "safety_note",
+        "related_fault_ids"
+      ],
+      "title": "ExercisePrescription",
+      "type": "object"
+    },
+    "Fault": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "code": {
+          "$ref": "#/$defs/FaultCode"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "reliability": {
+          "$ref": "#/$defs/Reliability"
+        },
+        "episode_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Episode Id"
+        },
+        "time_range": {
+          "$ref": "#/$defs/FaultTimeRange"
+        },
+        "evidence_frames": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Evidence Frames",
+          "type": "array"
+        },
+        "evidence": {
+          "$ref": "#/$defs/FaultEvidence"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "cue": {
+          "title": "Cue",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "code",
+        "title",
+        "category",
+        "severity",
+        "confidence",
+        "reliability",
+        "episode_id",
+        "time_range",
+        "evidence_frames",
+        "evidence",
+        "description",
+        "cue"
+      ],
+      "title": "Fault",
+      "type": "object"
+    },
+    "FaultCode": {
+      "enum": [
+        "READY_KNEES_TOO_STRAIGHT",
+        "READY_STANCE_NARROW",
+        "READY_STANCE_ASYMMETRIC",
+        "LUNGE_SHALLOW",
+        "LUNGE_TRUNK_LEAN_EXCESSIVE",
+        "LUNGE_KNEE_TRACKS_INWARD",
+        "OVERHEAD_LOW_REACH",
+        "OVERHEAD_ELBOW_BENT",
+        "BALANCE_OUTSIDE_BASE"
+      ],
+      "title": "FaultCode",
+      "type": "string"
+    },
+    "FaultEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "metric_key": {
+          "title": "Metric Key",
+          "type": "string"
+        },
+        "observed_value": {
+          "title": "Observed Value",
+          "type": "number"
+        },
+        "unit": {
+          "$ref": "#/$defs/MetricUnit"
+        },
+        "threshold_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Threshold Value"
+        },
+        "comparator": {
+          "title": "Comparator",
+          "type": "string"
+        },
+        "view_requirements": {
+          "items": {
+            "$ref": "#/$defs/CameraView"
+          },
+          "title": "View Requirements",
+          "type": "array"
+        },
+        "frame_count": {
+          "title": "Frame Count",
+          "type": "integer"
+        },
+        "min_keypoint_confidence": {
+          "title": "Min Keypoint Confidence",
+          "type": "number"
+        }
+      },
+      "required": [
+        "metric_key",
+        "observed_value",
+        "unit",
+        "threshold_value",
+        "comparator",
+        "view_requirements",
+        "frame_count",
+        "min_keypoint_confidence"
+      ],
+      "title": "FaultEvidence",
+      "type": "object"
+    },
+    "FaultTimeRange": {
+      "additionalProperties": false,
+      "properties": {
+        "start_s": {
+          "title": "Start S",
+          "type": "number"
+        },
+        "end_s": {
+          "title": "End S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "start_s",
+        "end_s"
+      ],
+      "title": "FaultTimeRange",
+      "type": "object"
+    },
+    "Metric": {
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "title": "Key",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Value"
+        },
+        "unit": {
+          "$ref": "#/$defs/MetricUnit"
+        },
+        "view": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CameraView"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "View"
+        },
+        "valid": {
+          "title": "Valid",
+          "type": "boolean"
+        },
+        "reliability": {
+          "$ref": "#/$defs/Reliability"
+        },
+        "n_frames": {
+          "title": "N Frames",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "key",
+        "label",
+        "value",
+        "unit",
+        "view",
+        "valid",
+        "reliability",
+        "n_frames"
+      ],
+      "title": "Metric",
+      "type": "object"
+    },
+    "MetricUnit": {
+      "enum": [
+        "deg",
+        "ratio",
+        "torso_len",
+        "torso_len_per_s",
+        "s",
+        "px",
+        "count"
+      ],
+      "title": "MetricUnit",
+      "type": "string"
+    },
+    "Observation": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/ObservationKind"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "episode_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Episode Id"
+        },
+        "fault_code": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FaultCode"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "title",
+        "detail"
+      ],
+      "title": "Observation",
+      "type": "object"
+    },
+    "ObservationKind": {
+      "enum": [
+        "strength",
+        "neutral"
+      ],
+      "title": "ObservationKind",
+      "type": "string"
+    },
+    "PipelineInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "title": "Version",
+          "type": "string"
+        },
+        "rules_version": {
+          "title": "Rules Version",
+          "type": "string"
+        },
+        "pose_backend": {
+          "title": "Pose Backend",
+          "type": "string"
+        },
+        "pose_model": {
+          "title": "Pose Model",
+          "type": "string"
+        },
+        "analysis_fps": {
+          "title": "Analysis Fps",
+          "type": "integer"
+        },
+        "device": {
+          "title": "Device",
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "rules_version",
+        "pose_backend",
+        "pose_model",
+        "analysis_fps",
+        "device"
+      ],
+      "title": "PipelineInfo",
+      "type": "object"
+    },
+    "QualityCheck": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/QualityStatus"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Value"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Unit"
+        },
+        "threshold": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Threshold"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "blocking": {
+          "default": false,
+          "title": "Blocking",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "status",
+        "value",
+        "unit",
+        "threshold",
+        "message"
+      ],
+      "title": "QualityCheck",
+      "type": "object"
+    },
+    "QualityOverall": {
+      "enum": [
+        "good",
+        "fair",
+        "poor",
+        "unusable"
+      ],
+      "title": "QualityOverall",
+      "type": "string"
+    },
+    "QualityStatus": {
+      "enum": [
+        "pass",
+        "warn",
+        "fail"
+      ],
+      "title": "QualityStatus",
+      "type": "string"
+    },
+    "Reliability": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "title": "Reliability",
+      "type": "string"
+    },
+    "ReportCue": {
+      "additionalProperties": false,
+      "properties": {
+        "cue": {
+          "title": "Cue",
+          "type": "string"
+        },
+        "when": {
+          "title": "When",
+          "type": "string"
+        },
+        "fault_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fault Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "cue",
+        "when",
+        "fault_ids"
+      ],
+      "title": "ReportCue",
+      "type": "object"
+    },
+    "ReportError": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "ReportError",
+      "type": "object"
+    },
+    "ReportPriority": {
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "fault_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fault Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "title",
+        "detail",
+        "fault_ids"
+      ],
+      "title": "ReportPriority",
+      "type": "object"
+    },
+    "ReportProvider": {
+      "enum": [
+        "anthropic",
+        "template"
+      ],
+      "title": "ReportProvider",
+      "type": "string"
+    },
+    "ReportStatus": {
+      "enum": [
+        "pending",
+        "generating",
+        "generated",
+        "template",
+        "failed",
+        "skipped"
+      ],
+      "title": "ReportStatus",
+      "type": "string"
+    },
+    "ReportStrength": {
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "observation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Observation Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "title",
+        "detail",
+        "observation_ids"
+      ],
+      "title": "ReportStrength",
+      "type": "object"
+    },
+    "Severity": {
+      "enum": [
+        "major",
+        "minor",
+        "info"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SourceInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "duration_s": {
+          "title": "Duration S",
+          "type": "number"
+        },
+        "width": {
+          "title": "Width",
+          "type": "integer"
+        },
+        "height": {
+          "title": "Height",
+          "type": "integer"
+        },
+        "fps_native": {
+          "title": "Fps Native",
+          "type": "number"
+        },
+        "fps_analysis": {
+          "title": "Fps Analysis",
+          "type": "integer"
+        },
+        "view": {
+          "$ref": "#/$defs/CameraView"
+        },
+        "view_source": {
+          "default": "user",
+          "title": "View Source",
+          "type": "string"
+        },
+        "view_estimate": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "View Estimate"
+        },
+        "dominant_hand": {
+          "$ref": "#/$defs/DominantHand"
+        },
+        "mirrored": {
+          "title": "Mirrored",
+          "type": "boolean"
+        },
+        "frame_count": {
+          "title": "Frame Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "duration_s",
+        "width",
+        "height",
+        "fps_native",
+        "fps_analysis",
+        "view",
+        "dominant_hand",
+        "mirrored",
+        "frame_count"
+      ],
+      "title": "SourceInfo",
+      "type": "object"
+    },
+    "SubjectQuality": {
+      "additionalProperties": false,
+      "properties": {
+        "track_id": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Track Id"
+        },
+        "detection_coverage": {
+          "title": "Detection Coverage",
+          "type": "number"
+        },
+        "mean_keypoint_confidence": {
+          "title": "Mean Keypoint Confidence",
+          "type": "number"
+        },
+        "bbox_height_ratio": {
+          "title": "Bbox Height Ratio",
+          "type": "number"
+        },
+        "multiple_people_detected": {
+          "title": "Multiple People Detected",
+          "type": "boolean"
+        },
+        "multiple_people_frame_ratio": {
+          "title": "Multiple People Frame Ratio",
+          "type": "number"
+        }
+      },
+      "required": [
+        "track_id",
+        "detection_coverage",
+        "mean_keypoint_confidence",
+        "bbox_height_ratio",
+        "multiple_people_detected",
+        "multiple_people_frame_ratio"
+      ],
+      "title": "SubjectQuality",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "analysis_id": {
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "created_at": {
+      "title": "Created At",
+      "type": "string"
+    },
+    "pipeline": {
+      "$ref": "#/$defs/PipelineInfo"
+    },
+    "source": {
+      "$ref": "#/$defs/SourceInfo"
+    },
+    "capture_quality": {
+      "$ref": "#/$defs/CaptureQuality"
+    },
+    "episodes": {
+      "items": {
+        "$ref": "#/$defs/Episode"
+      },
+      "title": "Episodes",
+      "type": "array"
+    },
+    "metrics": {
+      "items": {
+        "$ref": "#/$defs/Metric"
+      },
+      "title": "Metrics",
+      "type": "array"
+    },
+    "faults": {
+      "items": {
+        "$ref": "#/$defs/Fault"
+      },
+      "title": "Faults",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/Observation"
+      },
+      "title": "Observations",
+      "type": "array"
+    },
+    "artifacts": {
+      "$ref": "#/$defs/Artifacts"
+    },
+    "report": {
+      "$ref": "#/$defs/CoachingReport"
+    },
+    "disclaimer": {
+      "title": "Disclaimer",
+      "type": "string"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "created_at",
+    "pipeline",
+    "source",
+    "capture_quality",
+    "episodes",
+    "metrics",
+    "faults",
+    "observations",
+    "artifacts",
+    "report",
+    "disclaimer"
+  ],
+  "title": "AnalysisResult",
+  "type": "object"
+}

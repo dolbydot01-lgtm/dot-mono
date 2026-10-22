@@ -1,0 +1,167 @@
+[
+  {
+    "id": "split_step_ready_bounce",
+    "name": "Split-step ready bounce",
+    "focus": "Ready-stance posture and first-step reaction",
+    "dosage": "3 sets of 20 seconds, 30 seconds rest",
+    "equipment": "None",
+    "difficulty": "beginner",
+    "targets": ["READY_KNEES_TOO_STRAIGHT", "READY_STANCE_NARROW", "READY_STANCE_ASYMMETRIC"],
+    "instructions": [
+      "Stand with feet slightly wider than your shoulders and knees softly bent.",
+      "Stay on the balls of your feet and bounce lightly without locking your knees.",
+      "Every few seconds, add a small split-step landing before resetting."
+    ],
+    "safety_note": "Keep the bounce small and quiet. Stop if your knees or ankles feel painful."
+  },
+  {
+    "id": "wall_clock_lunges",
+    "name": "Wall-clock lunges",
+    "focus": "Lunge depth and knee tracking",
+    "dosage": "3 sets of 6 lunges per direction, 45 seconds rest",
+    "equipment": "None",
+    "difficulty": "intermediate",
+    "targets": ["LUNGE_SHALLOW", "LUNGE_KNEE_TRACKS_INWARD", "LUNGE_TRUNK_LEAN_EXCESSIVE"],
+    "instructions": [
+      "Imagine a clock on the floor around you and step toward 12, 3, 6, and 9 o'clock.",
+      "Reach the lead foot out and bend the lead knee over the middle of the foot.",
+      "Push through the lead foot to return to the center before the next direction."
+    ],
+    "safety_note": "Use a shorter reach if you cannot keep the heel and knee aligned comfortably. Hold a wall for balance if needed."
+  },
+  {
+    "id": "multi_directional_lunge",
+    "name": "Multi-directional lunge hold",
+    "focus": "Balance over the base of support",
+    "dosage": "3 sets of 4 holds per leg, 20 seconds per hold",
+    "equipment": "None",
+    "difficulty": "intermediate",
+    "targets": ["LUNGE_SHALLOW", "BALANCE_OUTSIDE_BASE", "LUNGE_KNEE_TRACKS_INWARD"],
+    "instructions": [
+      "Step into a comfortable forward or lateral lunge.",
+      "Pause with the hips stacked over or slightly behind the front ankle.",
+      "Hold the position while keeping the chest tall, then push back to center."
+    ],
+    "safety_note": "Do not force extra depth. Reduce the range if you feel pinching or loss of balance."
+  },
+  {
+    "id": "ankle_dorsiflexion_knee_to_wall",
+    "name": "Knee-to-wall ankle drill",
+    "focus": "Ankle mobility for deeper lunges",
+    "dosage": "2 sets of 10 repetitions per side",
+    "equipment": "Wall",
+    "difficulty": "beginner",
+    "targets": ["LUNGE_SHALLOW", "LUNGE_TRUNK_LEAN_EXCESSIVE"],
+    "instructions": [
+      "Stand facing a wall with the working foot a short step back.",
+      "Drive the knee forward toward the wall while keeping the heel down.",
+      "Return to the start and repeat without letting the foot turn out."
+    ],
+    "safety_note": "Keep the movement pain-free and avoid forcing the knee past a comfortable range."
+  },
+  {
+    "id": "hip_hinge_good_morning",
+    "name": "Bodyweight hip hinge",
+    "focus": "Hip control and torso position",
+    "dosage": "3 sets of 8 slow repetitions",
+    "equipment": "None",
+    "difficulty": "beginner",
+    "targets": ["LUNGE_TRUNK_LEAN_EXCESSIVE", "BALANCE_OUTSIDE_BASE"],
+    "instructions": [
+      "Stand tall with knees softly bent and hands across your chest.",
+      "Push your hips back while keeping a long spine.",
+      "Stop when you feel a stretch in the hamstrings, then squeeze the glutes to stand."
+    ],
+    "safety_note": "Keep the movement controlled. If your back rounds, reduce the range."
+  },
+  {
+    "id": "overhead_wall_slide",
+    "name": "Overhead wall slide",
+    "focus": "Overhead reach and shoulder control",
+    "dosage": "3 sets of 10 slow repetitions",
+    "equipment": "Wall",
+    "difficulty": "beginner",
+    "targets": ["OVERHEAD_LOW_REACH", "OVERHEAD_ELBOW_BENT"],
+    "instructions": [
+      "Stand with your back near a wall and forearms touching the wall.",
+      "Slide the arms upward while keeping the ribs down and elbows connected to the wall.",
+      "Reach as high as you can without arching your lower back, then return slowly."
+    ],
+    "safety_note": "Use a smaller range if the shoulders feel pinched. Do not force the arms overhead."
+  },
+  {
+    "id": "high_elbow_shadow_swing",
+    "name": "High-elbow shadow swing",
+    "focus": "High elbow and full extension at the top",
+    "dosage": "3 sets of 8 swings, 30 seconds rest",
+    "equipment": "Racket optional",
+    "difficulty": "intermediate",
+    "targets": ["OVERHEAD_ELBOW_BENT", "OVERHEAD_LOW_REACH"],
+    "instructions": [
+      "Start with the racket hand near the shoulder and the elbow high.",
+      "Reach upward and forward as if meeting the shuttle at a high contact point.",
+      "Finish tall with the arm extended, then reset slowly."
+    ],
+    "safety_note": "Swing at a controlled speed. Use a light racket or no racket if the shoulder feels uncomfortable."
+  },
+  {
+    "id": "band_pull_apart",
+    "name": "Band pull-apart",
+    "focus": "Upper-back support for overhead extension",
+    "dosage": "3 sets of 12 repetitions",
+    "equipment": "Light resistance band",
+    "difficulty": "beginner",
+    "targets": ["OVERHEAD_ELBOW_BENT", "OVERHEAD_LOW_REACH"],
+    "instructions": [
+      "Hold a light band at chest height with straight arms.",
+      "Pull the band apart by moving the shoulder blades back and down.",
+      "Return slowly while keeping the ribs stacked over the hips."
+    ],
+    "safety_note": "Use a light band and stop if the shoulders or elbows hurt."
+  },
+  {
+    "id": "scapular_wall_pushup",
+    "name": "Scapular wall push-up",
+    "focus": "Shoulder-blade control for overhead reach",
+    "dosage": "2 sets of 12 repetitions",
+    "equipment": "Wall",
+    "difficulty": "beginner",
+    "targets": ["OVERHEAD_LOW_REACH", "OVERHEAD_ELBOW_BENT"],
+    "instructions": [
+      "Place both hands on a wall at shoulder height.",
+      "Without bending the elbows much, let the shoulder blades glide together, then push the wall away.",
+      "Keep the neck long and the ribs down."
+    ],
+    "safety_note": "Keep the range small and pain-free."
+  },
+  {
+    "id": "single_leg_balance_reach",
+    "name": "Single-leg balance reach",
+    "focus": "Single-leg stability and symmetry",
+    "dosage": "3 sets of 5 reaches per leg",
+    "equipment": "None",
+    "difficulty": "beginner",
+    "targets": ["READY_STANCE_ASYMMETRIC", "BALANCE_OUTSIDE_BASE", "LUNGE_KNEE_TRACKS_INWARD"],
+    "instructions": [
+      "Balance on one leg with a soft knee.",
+      "Reach the free foot forward, out to the side, and back without touching down.",
+      "Return to the center between reaches and switch legs after the set."
+    ],
+    "safety_note": "Stand near a wall or chair for support. Keep the standing knee aligned with the foot."
+  },
+  {
+    "id": "lateral_shuffle_ready",
+    "name": "Lateral shuffle to ready stance",
+    "focus": "Wide base and repeatable ready position",
+    "dosage": "4 sets of 15 seconds, 30 seconds rest",
+    "equipment": "None",
+    "difficulty": "beginner",
+    "targets": ["READY_STANCE_NARROW", "READY_KNEES_TOO_STRAIGHT", "BALANCE_OUTSIDE_BASE"],
+    "instructions": [
+      "Shuffle two or three steps in one direction, staying low.",
+      "Land in a ready stance with feet wider than your shoulders.",
+      "Reset your balance before shuffling back."
+    ],
+    "safety_note": "Keep the steps short and stay on the balls of your feet. Stop if you lose control."
+  }
+]
