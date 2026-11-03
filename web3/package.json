@@ -1,0 +1,19 @@
+{
+  "name": "web3-course",
+  "version": "0.1.0",
+  "description": "Web 3.0 理论与实践课程：讲义、实验与习题",
+  "scripts": {
+    "m0:trace": "node modules/M00-intro/labs/trace-tx.mjs",
+    "m1:cpp": "cd modules/M01-cryptography/labs/cpp && c++ -std=c++17 -O2 -Wall main.cpp -o lab1 && ./lab1",
+    "m1:js": "cd modules/M01-cryptography/labs/js && for f in 0*.mjs; do echo \"\\n##### $f\"; node $f || exit 1; done"
+  },
+  "dependencies": {
+    "@noble/curves": "^2.4.0",
+    "@noble/hashes": "^2.4.0",
+    "@scure/bip32": "^2.4.0",
+    "@scure/bip39": "^2.4.0",
+    "viem": "^2.57.13"
+  },
+  "private": true,
+  "type": "module"
+}
