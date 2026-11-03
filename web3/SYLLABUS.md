@@ -1,7 +1,7 @@
 # Web 3.0：理论与实践 —— 课程教学大纲
 
-> 版本：v0.1（2026-10-31）· 定位：自学 / 小班研讨 · 视角：金融学 × 计算机工程
-> 本大纲是后续逐模块扩写的"骨架"，扩写进度见 [`README.md`](./README.md)。每个模块都按 **理论 → 关键公式 → 实践实验 → 阅读材料 → 检验标准** 组织。
+> 版本：v0.2（2026-11）· 定位：自学 / 小班研讨 · 视角：金融学 × 计算机工程
+> 本大纲是课程骨架；M2–M18 的讲义、习题与实验已按本大纲补齐，进度见 [`README.md`](./README.md)。每个模块都按 **理论 → 关键公式 → 实践实验 → 阅读材料 → 检验标准** 组织。
 
 ---
 
@@ -407,9 +407,9 @@ $$b_{t+1} = b_t\left(1 + \frac{1}{8}\cdot\frac{g_t - g^{*}}{g^{*}}\right)$$
 | 规范 | Ethereum Yellow Paper；EIPs（1559、4337、4844、7702 等）；ethereum.org 路线图 |
 | 练习 | Ethernaut、Damn Vulnerable DeFi、Cyfrin Updraft、Speedrun Ethereum |
 
-### B. 合约审计报告模板（待扩写）
-### C. Token Design Review 模板（待扩写）
-### D. 协议风险评估模板（待扩写）
+### B. [合约审计报告模板](./docs/audit-report-template.md)
+### C. [Token Design Review 模板](./docs/token-design-review-template.md)
+### D. [协议风险评估模板](./docs/risk-assessment-template.md)
 
 ### E. 后续扩写约定
 - 目录建议：`modules/M{nn}-{slug}/` 下分 `README.md`（讲义）、`labs/`（实验代码）、`exercises.md`（习题与答案）

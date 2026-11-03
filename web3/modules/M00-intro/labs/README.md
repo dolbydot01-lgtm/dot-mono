@@ -34,16 +34,16 @@ npm install          # 读取根目录 package.json：viem、@noble/*、@scure/*
 
 | 字段 | 你的值 | 含义（用自己的话写） |
 |---|---|---|
-| Transaction Hash | | |
-| Status | | |
-| Block / Position | | |
-| From / To | | |
-| Value | | |
-| Transaction Fee | | |
-| Gas Price（Base / Max / Max Priority） | | |
-| Burnt Fees | | |
-| Nonce | | |
-| Input Data（前 4 字节） | | |
+| Transaction Hash | 0xad88ed71a18e049c996d84a235599198f6e0f4af3190e02497d25c497eae01b5| transaction hash id |
+| Status | Success | success |
+| Block / Position | 12052912 | |
+| From / To | 0x80f326573D66dBbB750Fd04185859FdaA9f599Aa | |
+| Value | 0 ETH | |
+| Transaction Fee | 0.000000015004056088 ETH | |
+| Gas Price（Base / Max / Max Priority） | 0.001000017 Gwei    Base: 0.000000017 Gwei Max: 0.001000034 Gwei Max Priority: 0.001 Gwei| |
+| Burnt Fees | 0.000000000000255 ETH | |
+| Nonce | 7021 | |
+| Input Data（前 4 字节） | 0x | |
 
 3. 切到 **Logs** 标签页：数一数有几条日志，第一条的 `Topics[0]` 是什么？
 4. 切到 **State** 标签页：哪些地址的余额 / 存储发生了变化？
