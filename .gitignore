@@ -1,0 +1,6 @@
+.DS_Store
+
+# Runtime data / generated artifacts
+deep-tutor/data/
+deep-tutor/.venv/
+runs/
