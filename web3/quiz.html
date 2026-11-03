@@ -1,0 +1,2630 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Web3 课程自测</title>
+<style>
+:root {
+  --bg: #f2f4f0;
+  --surface: #fbfcf9;
+  --surface-2: #e8ece5;
+  --ink: #1b2420;
+  --muted: #5d6a62;
+  --line: #d4dad2;
+  --line-strong: #b9c2b9;
+  --accent: #2c5f56;
+  --accent-ink: #173f38;
+  --accent-soft: #dfeae5;
+  --on-accent: #ffffff;
+  --ok: #2d6a45;
+  --ok-soft: #e0eee3;
+  --bad: #a03a31;
+  --bad-soft: #f4e2df;
+  --warn: #83631e;
+  --warn-soft: #f2ead3;
+  --seal: #ad382c;
+  --shadow: 0 1px 2px rgba(27,36,32,.05), 0 10px 30px rgba(27,36,32,.07);
+  --radius: 10px;
+  --sans: "PingFang SC", "Noto Sans SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  --serif: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong", serif;
+  --mono: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131917;
+    --surface: #1b2320;
+    --surface-2: #242d28;
+    --ink: #e5eae4;
+    --muted: #a0aca4;
+    --line: #323d36;
+    --line-strong: #46534b;
+    --accent: #82baae;
+    --accent-ink: #cfe9e1;
+    --accent-soft: #1e322c;
+    --on-accent: #10201c;
+    --ok: #83c79a;
+    --ok-soft: #1c3023;
+    --bad: #e18c82;
+    --bad-soft: #33201d;
+    --warn: #d3b16a;
+    --warn-soft: #2f2717;
+    --seal: #e08a7c;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #131917;
+  --surface: #1b2320;
+  --surface-2: #242d28;
+  --ink: #e5eae4;
+  --muted: #a0aca4;
+  --line: #323d36;
+  --line-strong: #46534b;
+  --accent: #82baae;
+  --accent-ink: #cfe9e1;
+  --accent-soft: #1e322c;
+  --on-accent: #10201c;
+  --ok: #83c79a;
+  --ok-soft: #1c3023;
+  --bad: #e18c82;
+  --bad-soft: #33201d;
+  --warn: #d3b16a;
+  --warn-soft: #2f2717;
+  --seal: #e08a7c;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.35);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-padding-top: 92px; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+button, input, textarea, select { font: inherit; }
+a { color: var(--accent); }
+::selection { background: var(--accent-soft); color: var(--accent-ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.topbar::before {
+  content: "";
+  display: block;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--seal));
+}
+.topbar-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px max(18px, env(safe-area-inset-left, 0px)) 14px max(18px, env(safe-area-inset-right, 0px));
+}
+.brand { display: flex; align-items: baseline; gap: 12px; min-width: 0; }
+.brand-kicker {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.brand h1 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  white-space: nowrap;
+}
+.header-side { display: flex; align-items: center; gap: 16px; min-width: 0; }
+.global-progress { width: 220px; min-width: 0; }
+.gp-text {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 10px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 5px;
+  white-space: nowrap;
+}
+.gp-bar { height: 4px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+.gp-bar span { display: block; height: 100%; width: 0; background: var(--accent); transition: width .3s; }
+.theme-btn {
+  flex: none;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  cursor: pointer;
+}
+.theme-btn:hover { border-color: var(--line-strong); color: var(--ink); }
+
+.shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 48px;
+  padding-block: 30px 80px;
+  padding-left: max(18px, env(safe-area-inset-left, 0px));
+  padding-right: max(18px, env(safe-area-inset-right, 0px));
+}
+
+.sidebar {
+  position: sticky;
+  top: 92px;
+  align-self: start;
+  max-height: calc(100vh - 112px);
+  overflow: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+}
+.nav-group { margin-bottom: 18px; }
+.nav-group-label {
+  margin: 0 0 5px 10px;
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+.nav-item:hover { background: var(--surface-2); }
+.nav-item.is-active { background: var(--accent-soft); color: var(--accent-ink); }
+.nav-id { flex: none; width: 24px; font-family: var(--mono); font-size: 10px; color: var(--muted); }
+.nav-item.is-active .nav-id { color: var(--accent); }
+.nav-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 12.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nav-draft {
+  margin-left: 4px;
+  padding: 0 3px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  font-size: 8px;
+  color: var(--muted);
+  vertical-align: 1px;
+}
+.nav-status { flex: none; display: flex; align-items: center; }
+.dot { display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--line-strong); }
+.dot.is-progress { background: var(--warn); }
+.pill {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--surface-2);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+}
+.pill.good { background: var(--ok-soft); color: var(--ok); }
+.pill.mid { background: var(--warn-soft); color: var(--warn); }
+.pill.low { background: var(--bad-soft); color: var(--bad); }
+.sidebar-foot { margin-top: 10px; padding: 14px 10px 0; border-top: 1px solid var(--line); }
+.linkbtn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 11px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.linkbtn:hover { color: var(--bad); }
+.hint { margin: 8px 0 0; font-size: 10.5px; line-height: 1.55; color: var(--muted); }
+
+#main { min-width: 0; max-width: 800px; }
+.mobile-picker { display: none; align-items: center; gap: 10px; margin-bottom: 18px; }
+.mobile-picker label { font-size: 10px; letter-spacing: .1em; color: var(--muted); }
+.mobile-picker select {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.module-head { padding-bottom: 22px; border-bottom: 1px solid var(--line-strong); }
+.eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.eyebrow .sep { color: var(--line-strong); }
+.badge {
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 9.5px;
+  letter-spacing: .02em;
+  text-transform: none;
+}
+.badge.draft { background: var(--warn-soft); color: var(--warn); }
+.module-head h2 {
+  margin: 12px 0 8px;
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.18;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+.lede { margin: 0; max-width: 62ch; color: var(--muted); font-size: 14.5px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 7px 18px; margin-top: 15px; font-size: 11.5px; color: var(--muted); }
+.meta-row b { color: var(--ink); font-weight: 600; }
+.source-note { margin: 13px 0 0; font-size: 11.5px; color: var(--muted); }
+.source-note a { color: var(--accent); text-decoration: none; border-bottom: 1px dotted var(--accent); }
+
+.score-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 24px 0 6px;
+  padding: 20px 22px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  scroll-margin-top: 92px;
+}
+.score-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--seal);
+}
+.seal {
+  flex: none;
+  width: 62px;
+  height: 62px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--seal);
+  border-radius: 50%;
+  color: var(--seal);
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: .08em;
+  transform: rotate(-8deg);
+}
+.score-body { flex: 1; min-width: 0; }
+.score-line { display: flex; align-items: baseline; gap: 6px; }
+.score-num {
+  font-family: var(--serif);
+  font-size: 40px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.score-den { color: var(--muted); font-size: 12px; }
+.score-sub { margin: 6px 0 0; font-size: 11.5px; color: var(--muted); }
+.score-bar { height: 5px; margin-top: 11px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+.score-bar span { display: block; height: 100%; background: var(--seal); border-radius: 999px; transition: width .4s; }
+.score-note { margin: 7px 0 0; font-size: 10.5px; color: var(--muted); }
+
+.section { margin-top: 32px; }
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 2px;
+}
+.section-head h3 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.section-head span { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+
+.q {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 16px;
+  padding: 22px 0 24px;
+  border-bottom: 1px solid var(--line);
+}
+.q:last-child { border-bottom: 0; }
+.q-label { padding-top: 2px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.q-main { min-width: 0; }
+.q-meta { display: flex; align-items: center; gap: 9px; margin-bottom: 7px; }
+.stars { color: var(--warn); font-size: 11px; letter-spacing: .08em; }
+.type-tag {
+  padding: 1px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 9.5px;
+  color: var(--muted);
+}
+.q-prompt {
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.q-prompt code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--surface-2);
+  font-family: var(--mono);
+  font-size: .86em;
+}
+.formula {
+  display: block;
+  margin: 9px 0;
+  padding: 9px 12px;
+  border-left: 2px solid var(--line-strong);
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: normal;
+  overflow-x: auto;
+}
+.formula b { font-weight: 600; }
+
+.opts { display: flex; flex-direction: column; gap: 8px; margin: 13px 0 0; padding: 0; border: 0; min-width: 0; }
+.opt {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 13px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.opt:hover { border-color: var(--line-strong); background: var(--surface-2); }
+.opt input { position: absolute; opacity: 0; pointer-events: none; }
+.opt-letter {
+  flex: none;
+  width: 21px;
+  height: 21px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+}
+.opt-text { min-width: 0; font-size: 13.5px; line-height: 1.6; }
+.opt.is-selected { border-color: var(--accent); background: var(--accent-soft); }
+.opt.is-selected .opt-letter { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
+.opt.is-correct { border-color: var(--ok); background: var(--ok-soft); }
+.opt.is-correct .opt-letter { border-color: var(--ok); background: var(--ok); color: var(--on-accent); }
+.opt.is-wrong { border-color: var(--bad); background: var(--bad-soft); }
+.opt.is-wrong .opt-letter { border-color: var(--bad); background: var(--bad); color: var(--on-accent); }
+.opt-tag { margin-left: auto; padding-left: 8px; color: var(--ok); font-size: 10px; white-space: nowrap; }
+.opt:has(input:disabled) { cursor: default; }
+.opt:has(input:disabled):hover { border-color: var(--line); background: var(--surface); }
+.opt.is-correct:has(input:disabled):hover { border-color: var(--ok); background: var(--ok-soft); }
+.opt.is-wrong:has(input:disabled):hover { border-color: var(--bad); background: var(--bad-soft); }
+
+.blanks { display: grid; gap: 9px; margin-top: 13px; }
+.blank {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px 12px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.blank-label { flex: 1 1 180px; min-width: 0; color: var(--muted); font-size: 12.5px; }
+.blank-field { display: flex; align-items: center; gap: 6px; }
+.blank input {
+  width: 120px;
+  padding: 6px 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+.blank input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.blank input[readonly] { background: var(--surface-2); }
+.unit { color: var(--muted); font-size: 11px; }
+.blank.is-ok { border-color: var(--ok); }
+.blank.is-bad { border-color: var(--bad); }
+.blank-correct { flex-basis: 100%; color: var(--muted); font-family: var(--mono); font-size: 10.5px; }
+.blank-correct::before { content: "→ "; }
+
+.free {
+  width: 100%;
+  min-height: 128px;
+  margin-top: 13px;
+  padding: 11px 13px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 15px;
+  line-height: 1.75;
+  resize: vertical;
+}
+.free:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.free[readonly] { background: var(--surface-2); }
+
+.q-feedback { margin-top: 15px; padding-top: 13px; border-top: 1px dashed var(--line-strong); }
+.verdict {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 11px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.verdict.correct { background: var(--ok-soft); color: var(--ok); }
+.verdict.wrong { background: var(--bad-soft); color: var(--bad); }
+.verdict.blank { background: var(--surface-2); color: var(--muted); }
+.verdict.self { background: var(--accent-soft); color: var(--accent-ink); }
+.answer-block, .explain-block { margin-top: 11px; min-width: 0; }
+.answer-label {
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.answer-text { font-size: 13.5px; line-height: 1.75; overflow-wrap: anywhere; }
+.answer-block {
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  background: var(--surface);
+}
+.answer-block .answer-text { font-family: var(--serif); }
+.answer-text code {
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: var(--surface-2);
+  font-family: var(--mono);
+  font-size: .86em;
+}
+.explain-block { padding: 0 2px; }
+.explain-block .answer-text { color: var(--muted); }
+
+.selfgrade {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin-top: 13px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.sg-label { color: var(--muted); font-size: 11px; }
+.sg-btn {
+  padding: 4px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 11.5px;
+  cursor: pointer;
+}
+.sg-btn:hover { border-color: var(--accent); }
+.sg-btn.is-on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.sg-hint { color: var(--muted); font-size: 10.5px; }
+
+.module-foot { display: flex; justify-content: space-between; gap: 12px; margin-top: 26px; }
+.foot-link {
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 11.5px;
+  cursor: pointer;
+}
+.foot-link:hover { color: var(--accent); }
+
+.actionbar {
+  position: sticky;
+  bottom: 14px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 28px;
+  padding: 11px 15px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+.ab-progress { flex: 1; min-width: 0; }
+.ab-text {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 10.5px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.ab-bar { height: 4px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+.ab-bar span { display: block; height: 100%; width: 0; background: var(--accent); transition: width .25s; }
+.ab-actions { flex: none; display: flex; gap: 8px; }
+.btn {
+  padding: 8px 15px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn.primary { background: var(--accent); color: var(--on-accent); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.ghost { border-color: var(--line-strong); background: transparent; color: var(--ink); }
+.btn.ghost:hover { background: var(--surface-2); }
+.btn.is-warn { border-color: var(--bad); color: var(--bad); }
+.btn:disabled { opacity: .5; cursor: default; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: minmax(0, 1fr); gap: 0; padding-top: 20px; }
+  .sidebar { display: none; }
+  .mobile-picker { display: flex; }
+  #main { max-width: none; }
+  .header-side { gap: 10px; }
+  .global-progress { width: 150px; }
+}
+@media (max-width: 640px) {
+  .topbar-inner { gap: 12px; }
+  .brand { gap: 8px; }
+  .brand-kicker { display: none; }
+  .brand h1 { font-size: 18px; }
+  .global-progress { display: none; }
+  .module-head h2 { font-size: 30px; }
+  .q { grid-template-columns: minmax(0, 1fr); gap: 5px; padding: 20px 0; }
+  .q-label { padding-top: 0; }
+  .q-prompt { font-size: 15.5px; }
+  .score-card { padding: 16px; gap: 13px; }
+  .seal { width: 50px; height: 50px; font-size: 11px; }
+  .score-num { font-size: 32px; }
+  .blank input { width: 104px; }
+  .actionbar { flex-wrap: wrap; gap: 9px; bottom: 0; margin-left: calc(-1 * max(18px, env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(18px, env(safe-area-inset-right, 0px))); border-radius: 12px 12px 0 0; border-left: 0; border-right: 0; border-bottom: 0; padding-bottom: calc(11px + env(safe-area-inset-bottom, 0px)); }
+  .ab-progress { flex-basis: 100%; }
+  .ab-actions { flex: 1; }
+  .ab-actions .btn { flex: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-kicker">WEB3 · 2026</span>
+      <h1>Web3 课程自测</h1>
+    </div>
+    <div class="header-side">
+      <div class="global-progress" aria-label="总体进度">
+        <div class="gp-text"><span id="gp-count">0 / 19 模块已批改</span><span id="gp-pct">0%</span></div>
+        <div class="gp-bar"><span id="gp-fill"></span></div>
+      </div>
+      <button id="theme-btn" class="theme-btn" type="button" aria-label="切换主题">主题：自动</button>
+    </div>
+  </div>
+</header>
+<div class="shell">
+  <aside class="sidebar">
+    <nav id="module-nav" aria-label="模块导航"></nav>
+    <div class="sidebar-foot">
+      <button id="clear-all" class="linkbtn" type="button">清空全部记录</button>
+      <p class="hint">答案与进度只保存在本机浏览器。参考答案在提交后显示；简答题需要自评。先作答，再提交。</p>
+    </div>
+  </aside>
+  <main id="main">
+    <div class="mobile-picker">
+      <label for="module-select">模块</label>
+      <select id="module-select"></select>
+    </div>
+    <div id="module-view"></div>
+  </main>
+</div>
+<script>
+(() => {
+  "use strict";
+
+  const MODULES = [
+    {
+      id: "M0",
+      part: "Part 0 · 导论",
+      title: "从 Web1 到 Web3",
+      short: "Web 演进",
+      blurb: "价值互联网、双花问题与去中心化的度量。",
+      draft: false,
+      source: "modules/M00-intro/exercises.md",
+      sourceUrl: "modules/M00-intro/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m0-a1", label: "A1", type: "text", stars: 1,
+              prompt: "用一句话分别概括 Web1、Web2、Web3 的核心能力，并各举一个代表性产品。",
+              solution: "Web1 只读：门户网站、雅虎。Web2 读写：用户生成内容，但平台拥有数据与账号，如微信、抖音。Web3 读写 + 拥有：资产由用户私钥控制，如以太坊上的 ERC-20 代币与自托管钱包。"
+            },
+            {
+              id: "m0-a2", label: "A2", type: "text", stars: 1,
+              prompt: "什么是双花问题？为什么数字签名本身无法解决它？",
+              solution: "双花是同一份数字资产被花两次。签名只能证明某条消息由私钥持有者签署，不能证明他没有签署另一条冲突消息；两条冲突交易都可以有合法签名。要解决它，必须让全网对交易顺序达成共识，只承认先被确认的那一笔。"
+            },
+            {
+              id: "m0-a3", label: "A3", type: "text", stars: 2,
+              prompt: "区块链在“逻辑上”是中心化的还是去中心化的？为什么这一点对它的价值至关重要？",
+              solution: "逻辑上是中心化的：全网只认一本账、一个状态。正因为只有一本账，才能防止双花，并让任意合约相互组合；架构与政治上的去中心化则保证这本账不被单一主体控制。三者要分开看。"
+            },
+            {
+              id: "m0-a4", label: "A4", type: "text", stars: 2,
+              prompt: "举出两种“法律所有权”与“私钥控制权”发生分离的情形，并说明各自的后果。",
+              solution: "① 私钥被盗：法律上你仍是所有者，但资产已被转走，追回依赖交易所冻结或司法协助。② 交易所托管：你对交易所拥有债权，私钥在交易所手里；交易所破产（如 FTX）时你成为普通债权人。另一个常见情形是继承：继承人有法律权利却拿不到私钥，资产实际永久丢失。"
+            },
+            {
+              id: "m0-a5", label: "A5", type: "text", stars: 2,
+              prompt: "用 Catalini &amp; Gans 的框架解释：为什么“把连锁奶茶店的会员积分搬上公链”通常不划算，而“跨境稳定币转账”却有真实需求？",
+              solution: "积分系统所有参与方都信任同一个运营者，验证成本本来就低；上链只增加冗余计算与协调成本，所以 C_链上 &gt; C_中介。跨境汇款涉及多家代理行、外汇管制和高抽成，中介成本高、到账慢；链上稳定币显著降低验证与结算成本，因此存在 C_链上 &lt; C_中介 的区间（同时必须遵守各地外汇与反洗钱法规）。关键是比较“去中心化带来的验证成本下降”与“新增的共识与合规成本”。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算题",
+          questions: [
+            {
+              id: "m0-b1", label: "B1", type: "numeric", stars: 2,
+              prompt: "某 PoS 网络有 8 个质押实体，份额（%）为：25、18、14、12、10、9、7、5。按份额降序累加，计算：<span class=\"formula\">N(θ) = min{ k : s₁ + … + s_k &gt; θ }</span>",
+              blanks: [
+                { label: "N(θ = 1/3)", value: 2, tol: 0, unit: "个" },
+                { label: "N(θ = 1/2)", value: 3, tol: 0, unit: "个" },
+                { label: "HHI（份额按百分数计）", value: 1544, tol: 0, unit: "" }
+              ],
+              solution: "降序累加：25 → 43 → 57 → 69 → 79 → 88 → 95 → 100。θ=1/3 时，25 &lt; 33.3，25+18=43 &gt; 33.3，故 N=2。θ=1/2 时，25+18=43 &lt; 50，再加 14 得 57 &gt; 50，故 N=3。HHI = 25²+18²+14²+12²+10²+9²+7²+5² = 625+324+196+144+100+81+49+25 = 1544。"
+            },
+            {
+              id: "m0-b1c", label: "B1b", type: "mcq", stars: 1,
+              prompt: "承上题，HHI = 1544。按美国 2023 年《合并指南》，该市场属于？",
+              options: [
+                "非集中（HHI &lt; 1000）",
+                "中度集中（1000 ≤ HHI ≤ 1800）",
+                "高度集中（HHI &gt; 1800）",
+                "仅凭 HHI 无法判断"
+              ],
+              correct: 1,
+              solution: "1544 落在 1000–1800 区间，属于中度集中。注意 HHI 衡量整体集中度，而 Nakamoto 系数衡量攻破阈值所需的最小联盟，两者回答的问题不同。"
+            },
+            {
+              id: "m0-b2a", label: "B2a", type: "numeric", stars: 2,
+              prompt: "一笔 EIP-1559 交易：gasUsed = 52,000，区块 baseFee = 12 gwei，maxFeePerGas = 30 gwei，maxPriorityFeePerGas = 2 gwei。",
+              blanks: [
+                { label: "有效 gas 价格（gwei）", value: 14, tol: 0, unit: "gwei" },
+                { label: "总手续费（ETH）", value: 0.000728, tol: 1e-9, unit: "ETH" },
+                { label: "销毁部分（ETH）", value: 0.000624, tol: 1e-9, unit: "ETH" },
+                { label: "给出块者的小费（ETH）", value: 0.000104, tol: 1e-9, unit: "ETH" }
+              ],
+              solution: "有效价格 = min(maxFee, baseFee + maxPriority) = min(30, 14) = 14 gwei。总费 = 52,000 × 14 = 728,000 gwei = 0.000728 ETH。销毁 = 52,000 × 12 = 624,000 gwei = 0.000624 ETH。小费 = 52,000 × 2 = 104,000 gwei = 0.000104 ETH。"
+            },
+            {
+              id: "m0-b2b", label: "B2b", type: "numeric", stars: 2,
+              prompt: "同一笔交易，若区块 baseFee 涨到 29 gwei，而 maxFeePerGas = 30、maxPriorityFeePerGas = 2 不变。",
+              blanks: [
+                { label: "有效 gas 价格（gwei）", value: 30, tol: 0, unit: "gwei" },
+                { label: "实际小费（gwei）", value: 1, tol: 0, unit: "gwei" }
+              ],
+              solution: "有效价格 = min(30, 29+2) = 30 gwei。baseFee 占 29 gwei，实际小费被压缩到 30−29 = 1 gwei。maxFee 是硬上限。"
+            },
+            {
+              id: "m0-b3", label: "B3", type: "text", stars: 3,
+              prompt: "设一家跨境汇款中介收取 2% + 固定费 $5，链上转账成本为固定 $0.5 加上平均 0.1% 的出入金点差。汇款金额为 x 美元时，链上方案何时更便宜？求临界值。",
+              solution: "中介成本 C_m = 0.02x + 5；链上成本 C_c = 0.001x + 0.5。解 C_c &lt; C_m：0.001x + 0.5 &lt; 0.02x + 5，即 −4.5 &lt; 0.019x，对所有 x &gt; 0 恒成立。因此在这组参数下链上始终更便宜，没有正数临界值。若点差改为 3%，则 0.03x + 0.5 &lt; 0.02x + 5 给出 x &lt; 450：只在小额时链上更便宜。结论对参数假设非常敏感，这正是需要做敏感性分析的原因。"
+            }
+          ]
+        },
+        {
+          title: "C · 实践与讨论",
+          questions: [
+            {
+              id: "m0-c2", label: "C2", type: "text", stars: 2,
+              prompt: "修改 labs/trace-tx.mjs，增加一个输出：本交易的 gasUsed 占所在区块 gasUsed 的百分比。写出关键代码与一个注意事项。",
+              solution: "关键代码：<code>const pct = Number(receipt.gasUsed) / Number(block.gasUsed) * 100</code>。需要先拿到包含该交易的区块（<code>receipt.blockNumber</code>），再读取 <code>block.gasUsed</code>。注意 <code>block.gasUsed</code> 是区块内所有交易消耗的 gas 总和，百分比只对同一区块内的交易有意义；还要处理 BigInt 转换，避免直接对 BigInt 做除法得到整数截断。"
+            },
+            {
+              id: "m0-c3", label: "C3", type: "text", stars: 3,
+              prompt: "写脚本统计 Sepolia 最新 50 个区块中 type 分别为 legacy / eip1559 / eip4844 / eip7702 的交易数量。哪种占比最高？为什么 eip4844 交易会出现在 L1 上，它们通常是谁发的？",
+              solution: "循环读取 latest−i（i=0…49）的区块，使用 <code>includeTransactions: true</code>，按 <code>tx.type</code> 计数。当前通常 eip1559 占比最高；legacy 仍有少量，eip4844（blob）和 eip7702 数量取决于网络活动。blob 交易出现在 L1 上，是因为 L2 排序器/批次提交者把 L2 交易数据以 blob 形式发布到 L1，用于数据可用性，而不是在 L1 执行这些交易（M13 详述）。"
+            },
+            {
+              id: "m0-d1", label: "D1", type: "text", stars: 3,
+              prompt: "选一个你熟悉的 Web3 项目，用第 7 节的四个问题对它做一次批判性评估（300–500 字）。四个问题：需要区块链吗？价值从哪来？谁能拿走你的资产？监管在哪？",
+              solution: "这是一道开放题，按以下清单自评：① 是否所有参与方都信任同一运营者？如果是，数据库可能就够；② 收益来自真实费用/利差，还是代币增发与新进资金？③ 列出能改合约、冻结资产、升级代理、控制预言机的所有密钥与多签；④ 它是技术创新、金融创新，还是监管套利？合格的答案应引用具体机制与数据，而不是只给结论；能指出项目的薄弱环节（如可升级代理、中心化排序器、储备透明度）比罗列优点更重要。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M1",
+      part: "Part I · 底层基础",
+      title: "密码学基础",
+      short: "密码学",
+      blurb: "哈希、椭圆曲线、签名、Merkle 树与 HD 钱包。",
+      draft: false,
+      source: "modules/M01-cryptography/exercises.md",
+      sourceUrl: "modules/M01-cryptography/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m1-a1", label: "A1", type: "mcq", stars: 1,
+              prompt: "抗原像、抗第二原像、抗碰撞三者中，哪一个对 256 位哈希只提供 128 位安全性？为什么？",
+              options: [
+                "抗原像；攻击者需要约 2²⁵⁶ 次尝试",
+                "抗第二原像；攻击者需要约 2²⁵⁶ 次尝试",
+                "抗碰撞；生日悖论使攻击者约 2¹²⁸ 次即可找到任意一对碰撞",
+                "三者都只提供 128 位安全性"
+              ],
+              correct: 2,
+              solution: "抗碰撞受生日界约束：随机尝试 q 个值，碰撞概率约 q²/2^(n+1)，q ≈ 2^(n/2) 时达到常数概率，所以 256 位哈希只提供 128 位抗碰撞安全性。抗原像与抗第二原像针对特定目标，仍需要约 2²⁵⁶ 次。"
+            },
+            {
+              id: "m1-a2", label: "A2", type: "mcq", stars: 1,
+              prompt: "以太坊使用的 keccak256 与 NIST 标准 SHA3-256 是同一个函数吗？对一个空字符串，它们的输出相同吗？",
+              options: [
+                "是同一个函数；空字符串输出相同",
+                "不是；NIST 标准化时改了填充字节，空字符串输出不同",
+                "是同一个函数；但空字符串输出不同",
+                "不是；但空字符串输出相同"
+              ],
+              correct: 1,
+              solution: "以太坊用的是 Keccak 团队最初提交的版本；NIST 在 SHA-3 标准化时把填充字节从 0x01 改为 0x06。空串的 Keccak-256 是 c5d246…a470，SHA3-256 是 a7ffc6…f8434a，二者不同。"
+            },
+            {
+              id: "m1-a3", label: "A3", type: "mcq", stars: 2,
+              prompt: "为什么以太坊交易里不需要写 from 字段？节点是如何确定发送者的？",
+              options: [
+                "节点从 nonce 推断发送者",
+                "由签名 (v, r, s) 恢复公钥，再取 keccak256(pubkey)[12:] 得到地址",
+                "从 gas 价格推断",
+                "from 字段放在收据里"
+              ],
+              correct: 1,
+              solution: "交易带有签名 (v, r, s)。由 sR = zG + rQ 可解出 Q = r⁻¹(sR − zG)，其中 R 由 r 和恢复位 v 确定；恢复公钥后取 keccak256(Q) 的后 20 字节即地址。这样既省掉 20 字节交易数据，也避免了 from 与签名不一致。"
+            },
+            {
+              id: "m1-a4", label: "A4", type: "mcq", stars: 2,
+              prompt: "解释 ECDSA 签名可延展性。它为什么会成为问题？以太坊用什么规则消除它？",
+              options: [
+                "(r, s) 与 (r, n−s) 都有效；EIP-2 要求 s ≤ n/2（low-s）",
+                "签名可以重复使用；用 nonce 消除",
+                "公钥可以被替换；用 chainId 消除",
+                "签名长度可变；用 DER 编码消除"
+              ],
+              correct: 0,
+              solution: "若 (r, s) 有效，则 (r, n−s) 也有效。第三方无需私钥就能改写签名，从而改变交易哈希，干扰依赖 txid 追踪的系统。以太坊 EIP-2 要求 s ≤ n/2，拒绝高 s 形式。"
+            },
+            {
+              id: "m1-a5", label: "A5", type: "mcq", stars: 2,
+              prompt: "为什么 EIP-191 要在消息前加 0x19 和 Ethereum Signed Message 前缀？如果没有这个前缀，钓鱼网站可能做什么？",
+              options: [
+                "压缩签名，降低 gas",
+                "域分离：让被签名的字节串不可能是合法的 RLP 交易，防止把转账伪装成登录消息",
+                "加速验签",
+                "支持 BLS 聚合"
+              ],
+              correct: 1,
+              solution: "没有前缀时，钓鱼网站可以把一笔转账交易的哈希包装成“登录消息”，用户签名后攻击者直接广播该交易。EIP-191 的前缀 0x19 + Ethereum Signed Message 让消息签名的预映像不可能是合法交易编码。"
+            },
+            {
+              id: "m1-a6", label: "A6", type: "mcq", stars: 2,
+              prompt: "比较 Schnorr 与 BLS：各自凭什么性质支持聚合？以太坊共识层为什么选择 BLS 而不是 Schnorr？",
+              options: [
+                "BLS 签名更短",
+                "BLS 利用配对的双线性，可非交互地把同一消息的签名相加；Schnorr 的 MuSig2 需要多轮交互",
+                "Schnorr 完全不支持聚合",
+                "BLS 不需要椭圆曲线"
+              ],
+              correct: 1,
+              solution: "Schnorr 的签名方程 s = k + ed 对私钥线性，多个签名者可以协作聚合，但 MuSig2 需要多轮通信。BLS 的 σ = d·H(m) 本身是群元素，配对的双线性使不同验证者对同一消息的签名可以直接相加，适合数十万验证者的共识层。"
+            },
+            {
+              id: "m1-a7", label: "A7", type: "text", stars: 2,
+              prompt: "Merkle 树中，为什么叶子和内部节点要使用不同的前缀（0x00 / 0x01）？请构造一个不加前缀时的攻击场景。",
+              solution: "若不加前缀，内部节点 N = H(H₀ ‖ H₁) 与“内容恰好为 H₀ ‖ H₁（64 字节）的叶子”哈希相同。攻击者可以声称存在一棵只有两层的树，其中一个叶子是 64 字节数据 H₀ ‖ H₁；根相同，验证通过，于是能在依赖 Merkle 证明的系统中“证明”一个从未存在过的叶子。用 0x00 标记叶子、0x01 标记内部节点，把两类输入域分开，就能消除这种第二原像式攻击。"
+            },
+            {
+              id: "m1-a8", label: "A8", type: "text", stars: 3,
+              prompt: "一个交易所把某个账户的 xpub 发给了审计方；同时某位员工的电脑泄露了 m/44'/60'/0'/0/5 的私钥。攻击者能拿到什么？如果泄露的是 m/44'/60'/0' 的 xpub 和 m/44'/60'/1' 的子私钥呢？",
+              solution: "情形 1：m/44'/60'/0'/0/5 是 m/44'/60'/0'/0 的非硬化子节点。若审计方拿到的是该父节点的 xpub，攻击者可用 k_child 与 xpub 中的链码计算父私钥 k_parent = k_child − I_L，进而派生该账户下所有地址的私钥。情形 2：m/44'/60'/1' 是 m/44' 的硬化子节点，与 m/44'/60'/0' 的 xpub 没有代数关系；攻击者只能得到账户 1 本身，无法推出账户 0。结论：非硬化派生泄露 xpub 就等于泄露整个分支；硬化派生把泄露限制在单个账户。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算题",
+          questions: [
+            {
+              id: "m1-b1", label: "B1", type: "mcq", stars: 1,
+              prompt: "玩具曲线 E: y² = x³ + 7 over F₄₃，G = (2, 12)。验证 G 是否在曲线上。",
+              options: [
+                "在曲线上：12² ≡ 15，2³ + 7 ≡ 15 (mod 43)",
+                "不在曲线上",
+                "无法判断",
+                "只有在模 31 下才在曲线上"
+              ],
+              correct: 0,
+              solution: "12² = 144 = 3×43 + 15 ≡ 15；2³ + 7 = 15。两边相等，所以 G = (2, 12) 在曲线 y² = x³ + 7 mod 43 上。"
+            },
+            {
+              id: "m1-b2", label: "B2", type: "numeric", stars: 2,
+              prompt: "玩具曲线 E: y² = x³ + 7 over F₄₃，G = (2, 12)。手算 2G。提示：24⁻¹ ≡ 9 (mod 43)。",
+              blanks: [
+                { label: "2G 的 x 坐标", value: 7, tol: 0, unit: "" },
+                { label: "2G 的 y 坐标", value: 7, tol: 0, unit: "" }
+              ],
+              solution: "λ = (3·2²)/(2·12) = 12·24⁻¹ = 12·9 = 108 ≡ 22 (mod 43)。x₃ = λ² − 2x = 22² − 4 = 484 − 4 = 480 ≡ 7 (mod 43)。y₃ = λ(x − x₃) − y = 22(2−7) − 12 = −122 ≡ −122 + 3×43 = 7。所以 2G = (7, 7)。"
+            },
+            {
+              id: "m1-b3", label: "B3", type: "numeric", stars: 2,
+              prompt: "已知 5G = (12, 12)，私钥 d = 7，Q = 7G = (25, 18)，用 k = 5 对摘要 z = 10 做 ECDSA 签名，求 (r, s)。（r、s 在模 n = 31 下计算。）",
+              blanks: [
+                { label: "r", value: 12, tol: 0, unit: "" },
+                { label: "s", value: 25, tol: 0, unit: "" }
+              ],
+              solution: "R = 5G = (12, 12)，r = 12 mod 31 = 12。k⁻¹ = 5⁻¹ mod 31 = 25，因为 5×25 = 125 = 4×31 + 1。s = k⁻¹(z + r·d) = 25(10 + 12×7) = 25×94；94 ≡ 1 (mod 31)，所以 s = 25。签名 (r, s) = (12, 25)。注意若应用 low-s 规范化，s=25 &gt; n/2=15.5，会被改写为 6。"
+            },
+            {
+              id: "m1-b4", label: "B4", type: "numeric", stars: 2,
+              prompt: "用 B3 的签名 (r, s) = (12, 25) 验证：计算 w = s⁻¹ mod 31、u₁ = z·w mod 31、u₂ = r·w mod 31，并给出 u₁G + u₂Q 的 x 坐标。",
+              blanks: [
+                { label: "w = s⁻¹ mod 31", value: 5, tol: 0, unit: "" },
+                { label: "u₁ = z·w mod 31", value: 19, tol: 0, unit: "" },
+                { label: "u₂ = r·w mod 31", value: 29, tol: 0, unit: "" },
+                { label: "u₁G + u₂Q 的 x 坐标", value: 12, tol: 0, unit: "" }
+              ],
+              solution: "w = 25⁻¹ mod 31 = 5（25×5 = 125 ≡ 1）。u₁ = z·w = 10×5 = 50 ≡ 19。u₂ = r·w = 12×5 = 60 ≡ 29。u₁G + u₂Q = (u₁ + u₂d)G = (19 + 29×7)G = 222G；222 mod 31 = 5，所以等于 5G = (12, 12)，x 坐标 12 = r，验证通过。"
+            },
+            {
+              id: "m1-b5", label: "B5", type: "numeric", stars: 3,
+              prompt: "签名者又用同一个 k 对 z₂ = 20 签名，得到 s₂ = 27（r 同上，s₁ = 25）。只用公开信息恢复 k 和私钥 d。",
+              blanks: [
+                { label: "k", value: 5, tol: 0, unit: "" },
+                { label: "私钥 d", value: 7, tol: 0, unit: "" }
+              ],
+              solution: "k = (z₁ − z₂)/(s₁ − s₂) = (10 − 20)/(25 − 27) = (−10)/(−2) = 5。d = (s₁k − z₁)/r = (25×5 − 10)/12 = 115·12⁻¹；115 ≡ 22，12⁻¹ ≡ 13（12×13 = 156 = 5×31 + 1），d = 22×13 = 286 ≡ 7。私钥泄露。任何重复使用 k 的签名方案都会暴露私钥。"
+            },
+            {
+              id: "m1-b6", label: "B6", type: "mcq", stars: 2,
+              prompt: "以太坊地址是 160 位。随机生成地址时，大约生成多少个才可能出现两个相同的地址（任意碰撞）？攻击者想生成一个与某个特定地址相同的地址，需要多少次尝试？",
+              options: [
+                "任意碰撞约 2⁸⁰ 次；命中特定地址约 2¹⁶⁰ 次",
+                "任意碰撞约 2¹⁶⁰ 次；命中特定地址约 2⁸⁰ 次",
+                "两者都约 2⁸⁰ 次",
+                "任意碰撞约 2³²⁰ 次；命中特定地址约 2¹⁶⁰ 次"
+              ],
+              correct: 0,
+              solution: "160 位地址的生日界是 2⁸⁰；想命中某个特定地址则需要第二原像式的 2¹⁶⁰ 次尝试。普通用户随机生成地址相当于后者，概率可忽略；但如果攻击者能同时控制两边输入（例如一边枚举 CREATE2 合约地址、一边枚举 EOA），就变成 2⁸⁰ 级碰撞问题，安全余量被认为偏低。"
+            },
+            {
+              id: "m1-b7", label: "B7", type: "numeric", stars: 1,
+              prompt: "一棵 Merkle 树有 5000 个叶子。包含证明最多需要多少个哈希？若哈希为 32 字节，证明多大？",
+              blanks: [
+                { label: "最多哈希个数", value: 13, tol: 0, unit: "个" },
+                { label: "证明大小", value: 416, tol: 0, unit: "字节" }
+              ],
+              solution: "⌈log₂ 5000⌉ = 13（2¹² = 4096 &lt; 5000 ≤ 8192 = 2¹³），所以最多 13 个哈希；13×32 = 416 字节。"
+            },
+            {
+              id: "m1-b8", label: "B8", type: "numeric", stars: 2,
+              prompt: "BIP-39 的 24 词助记词：熵多少位、校验和多少位？随手改错一个词时，校验和未能发现错误的概率约为 1/____。",
+              blanks: [
+                { label: "熵（位）", value: 256, tol: 0, unit: "位" },
+                { label: "校验和（位）", value: 8, tol: 0, unit: "位" },
+                { label: "未发现概率约为 1/____", value: 256, tol: 0, unit: "" }
+              ],
+              solution: "24 词 = 264 位 = 256 位熵 + 8 位校验和。随机替换一个词后，新的熵与校验和恰好仍然匹配的概率约 2⁻⁸ = 1/256（12 词时为 2⁻⁴ = 1/16）。"
+            }
+          ]
+        },
+        {
+          title: "C · 实践题",
+          questions: [
+            {
+              id: "m1-c2", label: "C2", type: "text", stars: 2,
+              prompt: "修改 02-ecdsa-from-scratch.mjs，把曲线换成玩具曲线（p=43, a=0, b=7, G=(2,12), n=31），复现 B3–B5 的结果。需要注意什么？",
+              solution: "把 makeCurve 的参数换成题目给定值，签名与验证都按模 n=31 计算。注意脚本里的 low-s 规范化：本题 s=25 &gt; n/2=15，会被改成 n−s=6；要复现 B3 的原始签名需暂时关闭规范化，否则验证的 s 不同。还要确保所有标量运算都 mod 31，而不是 mod 43——点是模 p，标量是模 n。"
+            },
+            {
+              id: "m1-c3", label: "C3", type: "text", stars: 2,
+              prompt: "若 Merkle 树的叶子按键排序，如何证明某个键不在树中？",
+              solution: "对排好序的叶子 ℓᵢ &lt; x &lt; ℓᵢ₊₁，提供 ℓᵢ 与 ℓᵢ₊₁ 的包含证明，并证明二者在树中相邻（下标相差 1，可由证明路径推出下标）。如果 x 小于最小叶子或大于最大叶子，则给出边界叶子及“位于边界外”的证明。以太坊的 Sparse Merkle Tree / MPT 用类似思路证明某个存储槽为空。"
+            },
+            {
+              id: "m1-c4", label: "C4", type: "text", stars: 3,
+              prompt: "实现 RFC 6979 的确定性 k 生成（HMAC-DRBG），并验证你的签名与 @noble/curves 默认输出逐字节一致。关键步骤是什么？",
+              solution: "RFC 6979 用 HMAC-DRBG 以私钥、消息哈希和可选熵为输入，确定性地生成候选 k，再检查 1 ≤ k &lt; n 且 r ≠ 0；不满足则继续迭代。关键点：使用 HMAC-SHA256、正确初始化 K/V、按 bits2octets 处理哈希、每次重试更新 K/V。验证时对同一消息反复签名，输出应完全一致；与 @noble/curves 的 deterministic 模式逐字节比对。"
+            },
+            {
+              id: "m1-c5", label: "C5", type: "text", stars: 3,
+              prompt: "用 C++ 实现 Keccak-f[1600] 置换与 Keccak-256，验证 keccak256(\"\") = c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470。实现要点是什么？",
+              solution: "Keccak-f[1600] 是 24 轮置换，状态为 5×5 个 64 位 lane；每轮包含 θ、ρ、π、χ、ι 五步。Keccak-256 使用 1088 位速率、512 位容量和 0x01 填充（不是 SHA3 的 0x06），输出取前 256 位。常见错误：lane 字节序、ρ 旋转偏移表、ι 轮常数、填充长度，以及把 Keccak 与 SHA3-256 混淆。用空串测试向量可以快速定位这些错误。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M2",
+      part: "Part I · 底层基础",
+      title: "分布式系统与共识",
+      short: "分布式共识",
+      blurb: "BFT、中本聪共识、PoS 与博弈论。",
+      draft: false,
+      source: "modules/M02-consensus/exercises.md",
+      sourceUrl: "modules/M02-consensus/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m2-q1", label: "Q1", type: "mcq", stars: 1,
+              prompt: "FLP 不可能性（Fischer–Lynch–Paterson, 1985）的核心结论是？",
+              options: [
+                "在完全异步网络中，即使只有一个节点可能崩溃，也不存在同时保证安全性与活性的确定性共识算法。",
+                "只要拜占庭节点少于 1/3，任何共识算法都能保证终止。",
+                "工作量证明无法提供最终性，因此不算是共识。",
+                "CAP 定理说明区块链必须牺牲一致性。"
+              ],
+              correct: 0,
+              solution: "FLP 证明：在完全异步、消息延迟无界的网络中，即使只有一个节点可能崩溃，也不存在同时保证安全性与活性的确定性共识算法。实用协议通过部分同步假设、超时、随机化或经济激励绕过这一不可能性。"
+            },
+            {
+              id: "m2-q4", label: "Q4", type: "text", stars: 3,
+              prompt: "解释 PoS 中的无利害关系问题与长程攻击，以及弱主观性如何缓解它们。",
+              solution: "无利害关系：验证者在多条分叉上同时签名几乎没有边际成本（除了机会成本），可能导致分叉无法收敛；用罚没（slashing）和最终性检查点提高成本。长程攻击：攻击者用很久以前已不活跃的密钥从创世附近重建一条替代链，新节点难以判断哪条是真的；用弱主观性（新节点需要最近的可信检查点）和最终性来缓解。弱主观性意味着“同步”不仅需要当前数据，还需要一个最近的社会共识起点。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算题",
+          questions: [
+            {
+              id: "m2-q2", label: "Q2", type: "numeric", stars: 2,
+              prompt: "PBFT/Tendermint 类 BFT 共识的安全性要求 n ≥ 3f+1。",
+              blanks: [
+                { label: "f = 4 时最少节点数 n", value: 13, tol: 0, unit: "个" },
+                { label: "n = 100 时最多容忍的拜占庭节点 f", value: 33, tol: 0, unit: "个" }
+              ],
+              solution: "n ≥ 3f+1。f=4 时 n ≥ 13。n=100 时 f ≤ ⌊(100−1)/3⌋ = 33（3×33+1 = 100）。PBFT/Tendermint 的法定人数通常是 2f+1。"
+            },
+            {
+              id: "m2-q3", label: "Q3", type: "numeric", stars: 3,
+              prompt: "Eyal–Sirer 自私挖矿的收益阈值是 α &gt; (1−γ)/(3−2γ)，其中 γ 是诚实矿工在平局时选择攻击者链的比例。",
+              blanks: [
+                { label: "γ = 0 时阈值 α（%）", value: 33.33, tol: 0.1, unit: "%" },
+                { label: "γ = 0.5 时阈值 α（%）", value: 25, tol: 0.1, unit: "%" }
+              ],
+              solution: "γ=0 时 α &gt; 1/3 ≈ 33.3%；γ=0.5 时 α &gt; 0.5/(3−1) = 0.25 = 25%；γ=1 时阈值为 0。γ 越低，诚实矿工越不愿意在平局时选择攻击者的链，自私挖矿越难获利。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M3",
+      part: "Part I · 底层基础",
+      title: "比特币",
+      short: "比特币",
+      blurb: "UTXO、脚本、Taproot、货币政策与闪电网络。",
+      draft: false,
+      source: "modules/M03-bitcoin/exercises.md",
+      sourceUrl: "modules/M03-bitcoin/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m3-q1", label: "Q1", type: "mcq", stars: 1,
+              prompt: "以下哪项是 UTXO 模型的特征？",
+              options: [
+                "账户余额直接存放在全局状态中。",
+                "交易输入引用先前交易的输出（outpoint），余额由未花费输出累加得到。",
+                "每笔交易用 nonce 防止重放。",
+                "任意智能合约状态可以组合。"
+              ],
+              correct: 1,
+              solution: "比特币使用 UTXO：每笔交易的输入引用之前某笔输出的 outpoint，输出是新的可花费硬币，余额由钱包扫描未花费输出得到。以太坊使用账户模型，余额和 nonce 直接存放在全局状态中。"
+            },
+            {
+              id: "m3-q3", label: "Q3", type: "mcq", stars: 2,
+              prompt: "关于 SegWit 与 Taproot，哪项正确？",
+              options: [
+                "SegWit 把签名移出区块，因此区块不再包含签名。",
+                "SegWit 分离见证数据并修复交易延展性；Taproot 使用 Schnorr 签名和 MAST。",
+                "Taproot 取消了 Bitcoin Script。",
+                "SegWit 将区块大小固定为 1 MB。"
+              ],
+              correct: 1,
+              solution: "SegWit 把见证（签名）与交易本体分离，修复了交易延展性，并引入 weight 计量；Taproot 使用 Schnorr 签名与 MAST（默克尔化抽象语法树），让复杂脚本在未执行时看起来像普通支付，提升隐私与效率。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算与案例",
+          questions: [
+            {
+              id: "m3-q2", label: "Q2", type: "numeric", stars: 2,
+              prompt: "比特币每 210,000 个区块减半，初始区块补贴 50 BTC。",
+              blanks: [
+                { label: "第 4 次减半后的区块补贴（BTC）", value: 3.125, tol: 0.001, unit: "BTC" },
+                { label: "按 10 分钟/块，减半间隔约多少年", value: 4, tol: 0.05, unit: "年" }
+              ],
+              solution: "第 i 次减半后补贴为 50/2ⁱ；i=4 时为 50/16 = 3.125 BTC。210,000 × 10 分钟 = 2,100,000 分钟 ≈ 1,458.3 天 ≈ 3.99 年。"
+            },
+            {
+              id: "m3-q4", label: "Q4", type: "text", stars: 3,
+              prompt: "解释闪电网络中 HTLC 如何让一笔支付沿路径原子地完成。",
+              solution: "HTLC 同时锁定两件事：哈希锁（付款方给出 H = hash(preimage)，谁揭示 preimage 谁就能取走资金）和时间锁（到期未揭示则退回）。支付沿路径逐跳建立 HTLC，每一跳使用同一个哈希 H、但时间锁逐跳递减。最终收款人揭示 preimage 领取资金，这个 preimage 沿路径反向传播，让每一跳都能领取；如果中途失败，时间锁依次到期退款。原子性来自“同一个 preimage”与“递减的超时”，配合承诺交易的撤销惩罚，避免中间节点作恶。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M4",
+      part: "Part II · 以太坊与智能合约",
+      title: "以太坊架构",
+      short: "以太坊架构",
+      blurb: "EVM、状态树、交易生命周期、EIP-1559 与 blob。",
+      draft: false,
+      source: "modules/M04-ethereum/exercises.md",
+      sourceUrl: "modules/M04-ethereum/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m4-q2", label: "Q2", type: "mcq", stars: 1,
+              prompt: "关于 EVM 的 calldata、memory、storage，哪项正确？",
+              options: [
+                "storage 最便宜，memory 最贵。",
+                "calldata 只读且随交易提交；memory 临时可读写；storage 持久但最贵。",
+                "三者都能跨交易持久化。",
+                "memory 会被写入磁盘。"
+              ],
+              correct: 1,
+              solution: "calldata 是交易输入，只读且随交易提交；memory 是单次调用内的临时可读写空间，调用结束即丢弃；storage 是合约的持久状态，读写最贵（尤其是首次写入）。"
+            },
+            {
+              id: "m4-q3", label: "Q3", type: "mcq", stars: 2,
+              prompt: "EIP-4844 blob 交易的主要目的是？",
+              options: [
+                "降低 L1 合约执行的 gas 成本。",
+                "为 L2 提供更便宜的数据可用性，并使用独立的 blob 费用市场。",
+                "把 L2 状态直接写入 L1 执行层。",
+                "取代 EIP-1559。"
+              ],
+              correct: 1,
+              solution: "blob 交易携带大块数据，但 EVM 不能直接执行这些数据；它们为 L2 提供便宜的数据可用性，并采用独立的 blob gas 费用市场，避免与普通交易的 gas 竞争。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算与案例",
+          questions: [
+            {
+              id: "m4-q1", label: "Q1", type: "numeric", stars: 2,
+              prompt: "EIP-1559 基础费调整：<span class=\"formula\">b<sub>t+1</sub> = b<sub>t</sub> × (1 + 1/8 × (g<sub>t</sub> − g*)/g*)</span>目标 gas g* = 15,000,000。",
+              blanks: [
+                { label: "b_t = 12 gwei，g_t = 30,000,000 时，b_{t+1}", value: 13.5, tol: 0.01, unit: "gwei" },
+                { label: "b_t = 12 gwei，g_t = 0 时，b_{t+1}", value: 10.5, tol: 0.01, unit: "gwei" }
+              ],
+              solution: "g=30M 时，(30−15)/15 = 1，b_{t+1} = 12 × (1 + 1/8) = 13.5 gwei。g=0 时，(0−15)/15 = −1，b_{t+1} = 12 × (1 − 1/8) = 10.5 gwei。单个区块基础费最多变化 ±12.5%。"
+            },
+            {
+              id: "m4-q4", label: "Q4", type: "text", stars: 2,
+              prompt: "从签名到收据，描述一笔以太坊交易的生命周期。",
+              solution: "用户构造交易并签名 (v, r, s)，以 RLP/typed transaction 编码后通过 JSON-RPC 广播；节点验证签名、nonce、余额与 gas，进入 mempool 并 gossip。区块生产者（或 builder）选择交易打包，EVM 按 nonce 顺序执行并扣除 gas，状态转换为新状态根；执行结果生成收据（status、gasUsed、logs、bloom）。合并后执行层通过 Engine API 与共识层交互，区块经 Casper FFG 检查点最终化。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M5",
+      part: "Part II · 以太坊与智能合约",
+      title: "Solidity 智能合约工程",
+      short: "Solidity 工程",
+      blurb: "ABI、代理、代币标准、gas 与测试。",
+      draft: false,
+      source: "modules/M05-solidity/exercises.md",
+      sourceUrl: "modules/M05-solidity/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m5-q1", label: "Q1", type: "mcq", stars: 1,
+              prompt: "以下哪个不是 ERC-20 标准要求的函数？",
+              options: ["transfer", "approve", "transferFrom", "permit"],
+              correct: 3,
+              solution: "ERC-20 的必需接口包括 totalSupply、balanceOf、transfer、allowance、approve、transferFrom，以及 Transfer/Approval 事件。permit 是 ERC-2612 的扩展，用链下签名授权，不是 ERC-20 的必需函数。"
+            },
+            {
+              id: "m5-q3", label: "Q3", type: "mcq", stars: 2,
+              prompt: "UUPS 代理模式把升级逻辑放在哪里？",
+              options: ["代理合约", "实现合约", "Beacon 合约", "独立 registry"],
+              correct: 1,
+              solution: "UUPS 把 upgradeTo/upgradeToAndCall 放在实现合约（通过继承 UUPSUpgradeable），代理只负责 delegatecall。Transparent 代理把升级逻辑放在代理合约并由 ProxyAdmin 管理。UUPS 更省部署 gas，但如果新实现忘记继承升级接口，代理会永久失去升级能力。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算与案例",
+          questions: [
+            {
+              id: "m5-q2", label: "Q2", type: "numeric", stars: 2,
+              prompt: "Solidity 状态变量按 32 字节 slot 打包。以下声明按顺序排列：<span class=\"formula\">uint128 a; uint64 b; uint64 c; uint64 d;</span>",
+              blanks: [
+                { label: "a、b、c 共占几个 slot", value: 1, tol: 0, unit: "个" },
+                { label: "加上 d 后共占几个 slot", value: 2, tol: 0, unit: "个" }
+              ],
+              solution: "a 占 128 位，b 占 64 位，c 占 64 位，合计 256 位，正好占满第 1 个 slot。d 再占 64 位，需要第 2 个 slot。调整声明顺序（例如把两个 uint64 与 uint128 组合）可以减少 slot 数。"
+            },
+            {
+              id: "m5-q4", label: "Q4", type: "text", stars: 3,
+              prompt: "为什么 ERC-20 的不变量 totalSupply == Σ balances 适合用 Foundry 的不变量测试（invariant test）而不是只写单元测试？",
+              solution: "单元测试只检查若干固定输入；不变量测试会随机调用 mint/transfer/burn 等函数，构成任意交易序列，并在每次调用后检查 totalSupply == Σ balances。它能覆盖状态依赖、边界值和组合路径，发现单元测试漏掉的会计错误。实践上需要写 handler、限制输入范围、定义初始状态，并让 fuzzer 运行足够多的 sequence；不变量应选择真正必须永远成立的性质。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M6",
+      part: "Part II · 以太坊与智能合约",
+      title: "智能合约安全",
+      short: "合约安全",
+      blurb: "漏洞分类、经典事件与安全开发生命周期。",
+      draft: false,
+      source: "modules/M06-security/exercises.md",
+      sourceUrl: "modules/M06-security/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m6-q1", label: "Q1", type: "mcq", stars: 1,
+              prompt: "防止重入攻击最直接、最常用的两条措施是？",
+              options: [
+                "使用 transfer 发送 ETH，并关闭编译器优化。",
+                "遵循 checks-effects-interactions，并加 reentrancy guard（或在外部调用前更新状态）。",
+                "把所有函数设为 external。",
+                "使用 delegatecall。"
+              ],
+              correct: 1,
+              solution: "先改状态、再做外部调用（checks-effects-interactions），并加 nonReentrant 守卫，是最常用的两层防护。仅仅使用 transfer 并不够，因为重入也可能发生在 ERC-721/ERC-1155 的回调中。"
+            },
+            {
+              id: "m6-q2", label: "Q2", type: "mcq", stars: 2,
+              prompt: "链下签名在链上被重放，最有效的防护是？",
+              options: [
+                "把签名长度固定为 65 字节。",
+                "在签名内容中加入 nonce、chainId 和 verifyingContract（EIP-712 域分离），并在链上校验/消耗 nonce。",
+                "使用 keccak256 而不是 SHA-256。",
+                "把 v 固定为 27。"
+              ],
+              correct: 1,
+              solution: "签名必须绑定到具体的链、合约和一次性 nonce，才能防止跨链、跨合约和重复重放。EIP-712 的 domain separator 提供域分离，链上还要记录已用 nonce 或使用递增 nonce。"
+            },
+            {
+              id: "m6-q3", label: "Q3", type: "mcq", stars: 2,
+              prompt: "2023 年 Euler Finance 攻击主要属于哪类问题？",
+              options: [
+                "重入攻击",
+                "价格预言机操纵",
+                "清算与会计逻辑缺陷（通过捐赠储备影响健康度计算）",
+                "私钥泄露"
+              ],
+              correct: 2,
+              solution: "Euler 攻击者利用 donateToReserves 等机制改变账户健康度的会计计算，制造出可借出的虚假头寸，造成约 1.97 亿美元损失；攻击者后来归还了大部分资金。它不是单纯的重入或预言机操纵，而是清算/会计逻辑的组合缺陷。"
+            }
+          ]
+        },
+        {
+          title: "B · 案例与流程",
+          questions: [
+            {
+              id: "m6-q4", label: "Q4", type: "text", stars: 2,
+              prompt: "写出智能合约安全开发生命周期的五个阶段，并说明每个阶段的一个具体工具或做法。",
+              solution: "① 威胁建模：画数据流图、列出资产与信任边界；② 静态分析：Slither、Semgrep 检查已知模式；③ 模糊测试/不变量测试：Foundry fuzz 与 invariant；④ 审计与漏洞赏金：独立审计、Immunefi；⑤ 监控与应急：Tenderly/Forta 告警、暂停 guardian、多签 + 时间锁、事件响应预案。关键是每一阶段都有可执行的产出，而不是只做一次审计。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M7",
+      part: "Part III · 加密金融学",
+      title: "货币理论与稳定币",
+      short: "稳定币",
+      blurb: "货币职能、CDP、算法稳定币与挤兑。",
+      draft: false,
+      source: "modules/M07-money/exercises.md",
+      sourceUrl: "modules/M07-money/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m7-q2", label: "Q2", type: "mcq", stars: 1,
+              prompt: "以下稳定币与机制的对应，哪项正确？",
+              options: [
+                "USDT — 法币抵押；DAI — 超额加密抵押；USDe — Delta 中性合成；UST — 算法稳定币",
+                "USDT — 算法；DAI — 法币抵押；USDe — 超额抵押；UST — Delta 中性",
+                "USDT — 超额抵押；DAI — 算法；USDe — 法币抵押；UST — 超额抵押",
+                "四者都是法币抵押"
+              ],
+              correct: 0,
+              solution: "USDT/USDC 是法币（或短期国债）抵押；DAI/USDS 是超额加密抵押的 CDP；Ethena 的 USDe 用现货多 + 永续空的 Delta 中性头寸合成；UST 是依赖 LUNA 铸销的算法稳定币。"
+            },
+            {
+              id: "m7-q4", label: "Q4", type: "mcq", stars: 2,
+              prompt: "Diamond–Dybvig 模型对稳定币监管的核心启示是？",
+              options: [
+                "稳定币不需要储备。",
+                "期限转换与先到先得赎回会产生自我实现的挤兑均衡，因此需要储备透明度、赎回规则和最后贷款人/保险等安排。",
+                "只要抵押率大于 100% 就不会挤兑。",
+                "算法稳定币天然没有挤兑风险。"
+              ],
+              correct: 1,
+              solution: "银行与稳定币发行方都做期限/流动性转换：资产较长久期，负债可随时赎回。即使资产长期价值足够，先到先得的赎回也可能触发自我实现的挤兑。透明度、资产质量、赎回顺序、资本缓冲与紧急流动性安排都能降低挤兑概率。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算与案例",
+          questions: [
+            {
+              id: "m7-q1", label: "Q1", type: "numeric", stars: 2,
+              prompt: "一个 CDP 稳定币：抵押 1 ETH，债务 1,000 USDC，最低抵押率 150%，ETH 初始价格 $2,000。",
+              blanks: [
+                { label: "初始抵押率 CR（%）", value: 200, tol: 0.1, unit: "%" },
+                { label: "触发清算的 ETH 价格（USD）", value: 1500, tol: 1, unit: "USD" }
+              ],
+              solution: "CR = 抵押品价值 / 债务 = 2,000 / 1,000 = 200%。清算发生在抵押品价值 = 债务 × CR_min = 1,000 × 1.5 = 1,500 美元时，即 ETH 价格 = 1,500 美元（抵押 1 ETH）。"
+            },
+            {
+              id: "m7-q3", label: "Q3", type: "text", stars: 3,
+              prompt: "用反射性（reflexivity）解释 UST 在 2022 年的死亡螺旋。",
+              solution: "UST 依赖 LUNA 的铸销套利维持锚定：UST 低于 1 美元时，套利者销毁 UST 铸造 LUNA 并卖出 LUNA。这个机制在正常时期有效，但当大量 UST 被赎回时，会铸造并抛售更多 LUNA，压低 LUNA 价格；LUNA 市值下降又削弱市场对 UST 能兑付的信心，引发更多赎回。Anchor 的高息补贴吸引了大量热钱，一旦收益率和信心动摇，赎回加速。反射性在于：价格下跌 → 更多铸造 LUNA → LUNA 更跌 → 信心更弱，最终 LUNA 市值低于 UST 负债，系统资不抵债。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M8",
+      part: "Part III · 加密金融学",
+      title: "代币经济学",
+      short: "Tokenomics",
+      blurb: "估值、供给、激励与治理设计。",
+      draft: false,
+      source: "modules/M08-tokenomics/exercises.md",
+      sourceUrl: "modules/M08-tokenomics/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m8-q3", label: "Q3", type: "mcq", stars: 1,
+              prompt: "veCRV 类模型的核心机制是？",
+              options: [
+                "锁仓代币获得投票权和流动性挖矿加成，锁仓越久权重越大。",
+                "锁仓代币获得固定利息。",
+                "代币可以随时无成本赎回。",
+                "锁仓只影响转账速度。"
+              ],
+              correct: 0,
+              solution: "ve 模型把代币锁仓转换为不可转让的投票权（ve），锁仓时间越长权重越大；它把治理权与长期利益绑定，并常用于引导流动性（例如 veCRV 的 boost）。代价是流动性丧失与治理集中。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算与案例",
+          questions: [
+            {
+              id: "m8-q1", label: "Q1", type: "numeric", stars: 1,
+              prompt: "某代币总供给 1,000,000,000 枚，当前流通 200,000,000 枚；下月解锁 100,000,000 枚。",
+              blanks: [
+                { label: "解锁后流通量增加（%）", value: 50, tol: 0.1, unit: "%" },
+                { label: "解锁后流通量占总供给（%）", value: 30, tol: 0.1, unit: "%" }
+              ],
+              solution: "流通量从 200M 增加到 300M，增加 100M/200M = 50%。300M/1,000M = 30%。评估解锁压力时，除了占总供给比例，还要看新增流通相对现有流通的比例，以及解锁后的持有者结构。"
+            },
+            {
+              id: "m8-q2", label: "Q2", type: "numeric", stars: 2,
+              prompt: "货币流通速度模型 V = PQ / M。某代币网络年交易额 PQ = $10B，流通速度 V = 5。",
+              blanks: [
+                { label: "按该模型估算的网络价值 M（$B）", value: 2, tol: 0.01, unit: "$B" }
+              ],
+              solution: "M = PQ / V = 10 / 5 = 2（$B）。这个模型的问题在于：V 不是常数、难以观测；代币可能被囤积或质押而不是用于支付；PQ 只统计某类交易；代币价格还受治理权、抵押需求和投机影响。因此它只能作为粗估，不能当作估值定理。"
+            },
+            {
+              id: "m8-q4", label: "Q4", type: "text", stars: 2,
+              prompt: "流动性挖矿中的“雇佣资本”问题是什么？如何缓解？",
+              solution: "高排放会吸引只追逐收益的流动性；一旦奖励下降，资本立刻迁移，TVL 和交易深度骤降，留下被抛售的代币与受损的长期持有人。缓解：延长锁仓/ve 模型、把排放与实际使用量绑定、发展协议自有流动性、用真实费用收入而非增发支付、设置退出成本与反女巫规则。核心是让流动性留下是因为产品有用，而不是因为补贴最高。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M9",
+      part: "Part III · 加密金融学",
+      title: "DEX 与自动做市商",
+      short: "AMM",
+      blurb: "恒定乘积、集中流动性、无常损失与 LVR。",
+      draft: false,
+      source: "modules/M09-amm/exercises.md",
+      sourceUrl: "modules/M09-amm/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m9-q4", label: "Q4", type: "mcq", stars: 1,
+              prompt: "Uniswap v3 的 tick 与价格关系，哪项正确？",
+              options: [
+                "价格 = 1.0001^tick，每个 tick 约 1 个基点；流动性可以集中在价格区间内。",
+                "价格 = tick²，每个 tick 是 1%。",
+                "v3 取消了恒定乘积公式。",
+                "v3 的 LP 头寸是不可替代的 ERC-20。"
+              ],
+              correct: 0,
+              solution: "v3 用 tick 离散化价格，price = 1.0001^tick，每个 tick ≈ 1 bp；LP 可以选择价格区间集中提供流动性，头寸以 NFT 表示。区间内的虚拟储备满足 L = √(xy)，价格超出区间后头寸变成单一资产。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算题",
+          questions: [
+            {
+              id: "m9-q1", label: "Q1", type: "numeric", stars: 2,
+              prompt: "Uniswap v2 池：100 ETH 与 200,000 USDC，手续费 φ = 0.3%。你用 10 ETH 换取 USDC。<span class=\"formula\">Δy = y(1−φ)Δx / (x + (1−φ)Δx)</span>",
+              blanks: [
+                { label: "获得 USDC 数量（约）", value: 18132.2, tol: 1, unit: "USDC" },
+                { label: "交易后池内隐含价格（约）", value: 1653.3, tol: 1, unit: "USDC/ETH" }
+              ],
+              solution: "1−φ = 0.997。Δy = 200,000 × 0.997 × 10 / (100 + 0.997×10) = 1,994,000 / 109.97 ≈ 18,132.2 USDC。交易后池内 x=110 ETH，y=200,000−18,132.2=181,867.8 USDC，隐含价格 ≈ 1,653.3 USDC/ETH。"
+            },
+            {
+              id: "m9-q2", label: "Q2", type: "numeric", stars: 2,
+              prompt: "恒定乘积 AMM 的无常损失：<span class=\"formula\">IL(r) = 2√r / (1+r) − 1，其中 r = P₁/P₀</span>",
+              blanks: [
+                { label: "r = 4 时的损失幅度（%，填正数）", value: 20, tol: 0.1, unit: "%" },
+                { label: "r = 9 时的损失幅度（%，填正数）", value: 40, tol: 0.1, unit: "%" }
+              ],
+              solution: "r=4：2√4/(1+4) − 1 = 4/5 − 1 = −20%，损失 20%。r=9：2×3/10 − 1 = 0.6 − 1 = −40%，损失 40%。价格向任一方向变动都会产生无常损失，且损失随价格偏离非线性增大。"
+            },
+            {
+              id: "m9-q3", label: "Q3", type: "numeric", stars: 3,
+              prompt: "恒定乘积池的瞬时 LVR 速率 ℓ(σ,P) = σ²/8 · V(P)。某池价值 V = $2,000,000，年化波动率 σ = 0.6。",
+              blanks: [
+                { label: "年化 LVR（千美元，约）", value: 90, tol: 1, unit: "$k" }
+              ],
+              solution: "σ² = 0.36；0.36/8 = 0.045；0.045 × 2,000,000 = 90,000 美元/年 = 90（千美元）。LVR 衡量 LP 因套利者以更优价格交易而损失的相对再平衡组合的价值，是比无常损失更完整的 LP 成本视角。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M10",
+      part: "Part III · 加密金融学",
+      title: "去中心化借贷与信用",
+      short: "借贷",
+      blurb: "利率模型、清算、健康因子与闪电贷。",
+      draft: false,
+      source: "modules/M10-lending/exercises.md",
+      sourceUrl: "modules/M10-lending/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m10-q3", label: "Q3", type: "mcq", stars: 1,
+              prompt: "闪电贷的本质是？",
+              options: [
+                "无需抵押，但必须在同一笔交易内借出并归还；否则整笔交易回滚。",
+                "长期无抵押贷款。",
+                "由清算人提供的贷款。",
+                "只能用于治理投票。"
+              ],
+              correct: 0,
+              solution: "闪电贷利用 EVM 交易的原子性：借出、使用、归还在同一笔交易中完成；如果归还失败，整个交易 revert，贷款从未发生。它常用于套利、清算和抵押品置换，也常被攻击者用于放大价格操纵。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算与案例",
+          questions: [
+            {
+              id: "m10-q1", label: "Q1", type: "numeric", stars: 2,
+              prompt: "借贷池存款 100M，借款 80M。利率模型：<span class=\"formula\">r_b(U) = r₀ + (U/U*)s₁，U ≤ U*<br>r_b(U) = r₀ + s₁ + (U−U*)/(1−U*)s₂，U &gt; U*</span>其中 r₀ = 0，U* = 80%，s₁ = 4%，s₂ = 50%。",
+              blanks: [
+                { label: "利用率 U（%）", value: 80, tol: 0.1, unit: "%" },
+                { label: "U = 90% 时的借款利率（%）", value: 29, tol: 0.1, unit: "%" }
+              ],
+              solution: "U = 借款/存款 = 80/100 = 80%。U=90% &gt; U*：r_b = 0 + 4% + (0.9−0.8)/(1−0.8) × 50% = 4% + 0.5×50% = 29%。拐点之上利率陡升，用来抑制过度借贷并保护存款人。"
+            },
+            {
+              id: "m10-q2", label: "Q2", type: "numeric", stars: 2,
+              prompt: "抵押 10 ETH，ETH 价格 $2,000，清算阈值 LT = 80%，债务 $12,000。<span class=\"formula\">HF = Σ C_i P_i LT_i / Σ D_j</span>",
+              blanks: [
+                { label: "当前健康因子 HF", value: 1.3333, tol: 0.01, unit: "" },
+                { label: "HF = 1 时的 ETH 清算价格（USD）", value: 1500, tol: 1, unit: "USD" }
+              ],
+              solution: "抵押品价值 = 10×2,000 = $20,000；风险调整后 = 20,000×0.8 = $16,000；HF = 16,000/12,000 = 1.3333。令 HF=1：10×P×0.8 = 12,000，得 P = 1,500 美元。"
+            },
+            {
+              id: "m10-q4", label: "Q4", type: "text", stars: 2,
+              prompt: "为什么清算激励不足或清算不及时会导致借贷协议产生坏账？",
+              solution: "当抵押品价格快速下跌时，清算人需要及时平仓。如果清算奖励太低、gas 太高、预言机更新滞后或市场流动性不足，HF &lt; 1 的头寸可能无人清算；抵押品价值跌破债务后，缺口变成池子的坏账，由存款人承担。缓解：足够的清算奖励、荷兰式拍卖/动态激励、可靠的预言机、供应上限、隔离市场与紧急暂停。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M11",
+      part: "Part III · 加密金融学",
+      title: "衍生品、质押与收益",
+      short: "衍生品",
+      blurb: "永续、期权、LST/LRT 与收益分解。",
+      draft: false,
+      source: "modules/M11-derivatives/exercises.md",
+      sourceUrl: "modules/M11-derivatives/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m11-q3", label: "Q3", type: "mcq", stars: 2,
+              prompt: "现货做多 + 永续做空的 Delta 中性策略，主要收益来源与主要风险是？",
+              options: [
+                "赚取正资金费率；风险是资金费率转负、基差与清算。",
+                "赚取质押利息；风险是价格下跌。",
+                "赚取期权权利金；风险是波动率下降。",
+                "赚取 MEV；风险是区块重组。"
+              ],
+              correct: 0,
+              solution: "现货多 + 永续空对冲了价格方向，主要收益是永续多头支付给空头的正资金费率（当永续溢价时）。风险包括资金费率转负、基差波动、交易所/托管风险、保证金与清算风险。Ethena 的 USDe 就是这类结构的规模化版本。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算与案例",
+          questions: [
+            {
+              id: "m11-q1", label: "Q1", type: "numeric", stars: 1,
+              prompt: "永续合约资金费率的基础溢价为 Premium = (P_perp − P_index)/P_index。",
+              blanks: [
+                { label: "P_perp = 1,010，P_index = 1,000 时 Premium（%）", value: 1, tol: 0.01, unit: "%" },
+                { label: "P_perp = 990，P_index = 1,000 时 Premium（%）", value: -1, tol: 0.01, unit: "%" }
+              ],
+              solution: "Premium = (1,010−1,000)/1,000 = 1%；P_perp=990 时为 −1%。正溢价通常意味着多头向空头支付资金费，负溢价则相反；实际资金费率还会加上利率项并做 clamp。"
+            },
+            {
+              id: "m11-q2", label: "Q2", type: "numeric", stars: 2,
+              prompt: "某 PoS 网络每日发行 800 ETH，优先费与 MEV 合计 200 ETH/日，总质押 30,000,000 ETH。<span class=\"formula\">APR_staking ≈ (发行 + 优先费 + MEV) / 总质押 × 365</span>",
+              blanks: [
+                { label: "质押 APR（%）", value: 1.22, tol: 0.02, unit: "%" }
+              ],
+              solution: "每日总收益 = 800 + 200 = 1,000 ETH；年收益 = 365,000 ETH；APR = 365,000 / 30,000,000 ≈ 1.2167% ≈ 1.22%。质押收益不是固定利率：它随质押总量、网络活动和 MEV 变化。"
+            },
+            {
+              id: "m11-q4", label: "Q4", type: "text", stars: 3,
+              prompt: "把 DeFi 的“高 APY”拆解为至少四类收益来源，并各举一个例子。",
+              solution: "① 借贷利差：Aave/Compound 存款人获得的利息；② 交易手续费：Uniswap LP 的手续费分成；③ 代币增发/补贴：流动性挖矿、积分与空投预期；④ 风险溢价：LRT/再质押承担的额外罚没风险、跨链桥风险、长尾资产风险；⑤ 验证者收益：发行、优先费与 MEV。分析 APY 时必须问：扣除风险与无常损失后还剩多少，收益是否来自真实经济活动。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M12",
+      part: "Part III · 加密金融学",
+      title: "MEV、预言机与市场微观结构",
+      short: "MEV 与预言机",
+      blurb: "MEV 供应链、PBS、TWAP 与操纵成本。",
+      draft: false,
+      source: "modules/M12-mev-oracles/exercises.md",
+      sourceUrl: "modules/M12-mev-oracles/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m12-q2", label: "Q2", type: "mcq", stars: 1,
+              prompt: "三明治攻击的利润主要来自？",
+              options: [
+                "受害者交易造成的价格滑点：攻击者先买入，再让受害者成交，最后卖出。",
+                "区块奖励。",
+                "验证者罚没。",
+                "预言机报价错误。"
+              ],
+              correct: 0,
+              solution: "攻击者看到受害者的买入交易后，先以更低价格买入（front-run），让受害者以更差价格成交，再卖出（back-run），利润来自受害者造成的价格冲击减去 gas 与手续费。私有内存池、批量拍卖与意图系统可以降低这类攻击面。"
+            },
+            {
+              id: "m12-q3", label: "Q3", type: "mcq", stars: 2,
+              prompt: "使用 DEX 现货价格作为借贷协议预言机时，操纵成本主要与什么相关？",
+              options: [
+                "池子流动性 × 价格操纵持续的时间窗口",
+                "代币总供给",
+                "区块时间",
+                "验证者数量"
+              ],
+              correct: 0,
+              solution: "操纵现货价格需要吃掉池子的流动性，并把价格维持到协议读取的那一刻；成本随流动性深度和时间窗口上升。使用 TWAP、多源预言机、Chainlink/Pyth 等可以显著提高操纵成本，但无法完全消除。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算与案例",
+          questions: [
+            {
+              id: "m12-q1", label: "Q1", type: "numeric", stars: 1,
+              prompt: "TWAP = Σ P_i Δt_i / Σ Δt_i。价格在 2 分钟内为 100，随后 3 分钟为 130，最后 5 分钟为 160。",
+              blanks: [
+                { label: "TWAP（约）", value: 139, tol: 0.1, unit: "" }
+              ],
+              solution: "TWAP = (100×2 + 130×3 + 160×5) / (2+3+5) = (200 + 390 + 800)/10 = 1,390/10 = 139。窗口越长，单点操纵对 TWAP 的影响越小，但价格对真实变化的反应也越慢。"
+            },
+            {
+              id: "m12-q4", label: "Q4", type: "text", stars: 3,
+              prompt: "解释 PBS（proposer–builder separation）以及它带来的 MEV 风险与缓解方向。",
+              solution: "PBS 把区块构建与提议分离：builder 竞争构造包含 MEV 的区块，relay 在 builder 与 proposer 之间传递区块头和出价，proposer 选择最高出价。风险：relay 中心化与信任、builder 市场集中、审查与 MEV 提取集中、proposer 依赖 relay 的可用性。缓解方向：ePBS/en-Shrining 把 PBS 写入协议、降低 relay 信任、MEV 再分配（MEV-Share、MEV 税）、多 relay 与竞拍透明度。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M13",
+      part: "Part IV · 扩容与互操作",
+      title: "Layer 2 与模块化区块链",
+      short: "Layer 2",
+      blurb: "Rollup、数据可用性、排序器与 L2 经济学。",
+      draft: false,
+      source: "modules/M13-layer2/exercises.md",
+      sourceUrl: "modules/M13-layer2/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m13-q1", label: "Q1", type: "mcq", stars: 1,
+              prompt: "Optimistic Rollup 如何保证状态正确性？",
+              options: [
+                "每笔交易都附有效性证明。",
+                "默认乐观接受，任何人可在挑战期内提交欺诈证明，否则提款延迟后生效。",
+                "由 L1 验证者重新执行所有交易。",
+                "依赖中心化排序器签名。"
+              ],
+              correct: 1,
+              solution: "Optimistic Rollup 假设状态转换正确，给验证者一个挑战窗口提交欺诈证明；如果没有挑战，提款在延迟后生效。它的成本低，但提款慢，且安全性依赖至少有一个诚实的验证者持续监控。"
+            },
+            {
+              id: "m13-q3", label: "Q3", type: "mcq", stars: 2,
+              prompt: "PeerDAS 主要解决什么问题？",
+              options: [
+                "通过数据可用性采样降低节点验证 blob 数据的带宽需求，从而支持更多 blob。",
+                "提高 EVM 执行速度。",
+                "消除 L2 排序器。",
+                "把交易压缩成 SNARK。"
+              ],
+              correct: 0,
+              solution: "PeerDAS（Peer Data Availability Sampling）让节点只下载并验证部分 blob 数据，通过纠删码与随机采样获得高概率的可用性保证，降低全节点带宽压力，使网络可以承载更多 blob，从而降低 L2 数据成本。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算与案例",
+          questions: [
+            {
+              id: "m13-q2", label: "Q2", type: "numeric", stars: 2,
+              prompt: "某 L2 一个月用户费用 $1,200,000，L1 数据成本 $500,000，排序器运营成本 $200,000。讲义口径：L2 收入 = 用户费用 − L1 数据成本。",
+              blanks: [
+                { label: "按讲义口径的 L2 收入（$k）", value: 700, tol: 1, unit: "$k" },
+                { label: "再扣除运营成本后的利润（$k）", value: 500, tol: 1, unit: "$k" }
+              ],
+              solution: "L2 收入 = 1,200 − 500 = 700（千美元）。再扣除 200 的运营成本，利润 = 500（千美元）。实际还要考虑证明成本、桥接成本、代币激励与排序器去中心化带来的成本。"
+            },
+            {
+              id: "m13-q4", label: "Q4", type: "text", stars: 2,
+              prompt: "L2BEAT 的 Stage 0/1/2 主要衡量什么？请各用一句话说明。",
+              solution: "Stage 0：中心化程度高，可能没有可用的欺诈/有效性证明，或升级由中心化主体控制；Stage 1：有可用的证明系统，但安全委员会仍可在紧急情况下覆盖，去中心化程度有限；Stage 2：证明系统与治理足够去中心化，安全委员会无法单方面覆盖，且退出窗口等保障到位。它衡量的是 rollup 的安全与治理去中心化程度，不是性能。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M14",
+      part: "Part IV · 扩容与互操作",
+      title: "零知识证明",
+      short: "零知识证明",
+      blurb: "R1CS、SNARK/STARK、zkVM 与隐私监管。",
+      draft: false,
+      source: "modules/M14-zk/exercises.md",
+      sourceUrl: "modules/M14-zk/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m14-q1", label: "Q1", type: "mcq", stars: 1,
+              prompt: "关于交互式证明的三个性质，哪项正确？",
+              options: [
+                "完备性：真命题可被证明；可靠性：假命题无法被证明；零知识：不泄露陈述之外的信息。",
+                "完备性：假命题也可被证明；可靠性：真命题一定被接受；零知识：证明必须公开。",
+                "三者都是关于性能的指标。",
+                "零知识意味着证明者不需要知道秘密。"
+              ],
+              correct: 0,
+              solution: "完备性（completeness）：真陈述存在证明且验证者会接受；可靠性（soundness）：假陈述无法让验证者以不可忽略概率接受；零知识性（zero-knowledge）：证明不泄露除“陈述为真”之外的任何信息。证明者当然需要知道见证（秘密），只是不把它透露给验证者。"
+            },
+            {
+              id: "m14-q3", label: "Q3", type: "mcq", stars: 2,
+              prompt: "与 SNARK 相比，STARK 的主要特点是？",
+              options: [
+                "无需可信设置、基于哈希（抗量子）、证明通常更大。",
+                "必须可信设置，证明更小。",
+                "只能证明哈希原像。",
+                "不能递归。"
+              ],
+              correct: 0,
+              solution: "STARK 使用哈希与 FRI 等透明设置，不需要可信 ceremony，因而没有“有毒废料”风险，并具有抗量子潜力；代价是证明尺寸通常更大、验证成本更高。SNARK（Groth16/PLONK）证明小、验证便宜，但依赖可信设置或更复杂的密码学假设。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算与案例",
+          questions: [
+            {
+              id: "m14-q2", label: "Q2", type: "numeric", stars: 2,
+              prompt: "Schwartz–Zippel 引理：对次数 d 的非零多项式，随机取 r ∈ F，Pr[P(r)=0] ≤ d/|F|。取 d = 10，|F| = 101。",
+              blanks: [
+                { label: "错误概率上限（%）", value: 9.9, tol: 0.1, unit: "%" }
+              ],
+              solution: "Pr ≤ 10/101 ≈ 0.0990 = 9.9%。在有限域上做多项式恒等检验时，域越大、多项式次数越低，随机点误判的概率越小；实际协议通常重复多次或使用大得多的域。"
+            },
+            {
+              id: "m14-q4", label: "Q4", type: "text", stars: 3,
+              prompt: "Tornado Cash 体现了零知识隐私与监管之间的什么张力？",
+              solution: "Tornado 用零知识证明切断存款与取款之间的链上关联，保护合法用户的金融隐私；但同样的不可关联性也为洗钱、制裁规避和黑客资金转移提供了空间。监管因此可能制裁协议合约或相关地址，而开发者主张代码是言论、隐私是基本权利。张力在于：强匿名性与反洗钱/制裁合规难以同时满足；可能的折中是选择性披露、查看密钥、合规友好的隐私池与链下审计，但这些会削弱“无需许可的强隐私”。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M15",
+      part: "Part IV · 扩容与互操作",
+      title: "账户抽象、钱包与跨链",
+      short: "账户抽象",
+      blurb: "ERC-4337、EIP-7702、智能钱包与桥。",
+      draft: false,
+      source: "modules/M15-account-abstraction/exercises.md",
+      sourceUrl: "modules/M15-account-abstraction/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m15-q1", label: "Q1", type: "mcq", stars: 1,
+              prompt: "ERC-4337 中，负责代用户支付 gas 的组件是？",
+              options: ["EntryPoint", "Bundler", "Paymaster", "UserOperation"],
+              correct: 2,
+              solution: "UserOperation 描述用户意图；Bundler 收集 UserOperation 并提交给 EntryPoint；EntryPoint 负责验证与执行；Paymaster 可以代付 gas 或允许用 ERC-20 支付 gas。"
+            },
+            {
+              id: "m15-q2", label: "Q2", type: "mcq", stars: 1,
+              prompt: "EIP-7702 允许 EOA 做什么？",
+              options: [
+                "把 EOA 的私钥交给合约。",
+                "设置一段委托代码，使 EOA 在交易中临时具备智能合约逻辑（如批量操作、赞助 gas）。",
+                "把 EOA 转换成 UTXO。",
+                "取消签名。"
+              ],
+              correct: 1,
+              solution: "EIP-7702 允许 EOA 签署一个授权，把委托代码地址写入其账户；之后该 EOA 的交易可以执行这段代码，从而获得批量交易、会话密钥、赞助 gas 等能力，而不必迁移资产。私钥仍然控制账户；委托可以被撤销或替换。"
+            },
+            {
+              id: "m15-q3", label: "Q3", type: "mcq", stars: 2,
+              prompt: "锁定-铸造（lock-and-mint）跨链桥的主要信任假设是？",
+              options: [
+                "源链共识和 L1 验证者。",
+                "托管方/多签或验证者委员会诚实，且验证的消息不可伪造。",
+                "目标链的 gas 价格。",
+                "用户必须运行全节点。"
+              ],
+              correct: 1,
+              solution: "锁定-铸造桥在源链锁定资产，在目标链铸造代表资产。安全性取决于谁有权签发铸币消息：托管多签、验证者委员会或轻客户端。前者引入托管/合谋风险，后者依赖源链共识证明。Ronin、Wormhole 等事故多与验证者私钥或签名验证被攻破有关。"
+            }
+          ]
+        },
+        {
+          title: "B · 案例与比较",
+          questions: [
+            {
+              id: "m15-q4", label: "Q4", type: "text", stars: 2,
+              prompt: "比较 ERC-4337 与 EIP-7702：它们分别如何让账户具备可编程能力？",
+              solution: "ERC-4337 引入智能合约账户：用户的意图写成 UserOperation，由 Bundler 打包，EntryPoint 验证并执行，Paymaster 可代付 gas。EOA 与账户分离，需要迁移或使用新账户。EIP-7702 让普通 EOA 通过授权把委托代码写入账户，交易时执行该代码，从而获得批量、会话密钥、赞助等功能，资产无需迁移，私钥仍是控制权。4337 工具链成熟但架构复杂；7702 更轻量，但委托代码的安全、撤销和钱包兼容性需要谨慎设计。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M16",
+      part: "Part V · 应用与治理",
+      title: "NFT、DAO、身份与现实资产",
+      short: "NFT / DAO / RWA",
+      blurb: "版税、治理攻击、DID 与合规代币。",
+      draft: false,
+      source: "modules/M16-nft-dao/exercises.md",
+      sourceUrl: "modules/M16-nft-dao/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m16-q3", label: "Q3", type: "mcq", stars: 1,
+              prompt: "闪电贷治理攻击通常如何奏效？",
+              options: [
+                "借入大量治理代币，在投票权按实时余额计算的系统中投票或提交提案，然后归还贷款。",
+                "通过重入攻击修改投票结果。",
+                "贿赂验证者。",
+                "利用预言机价格操纵 NFT。"
+              ],
+              correct: 0,
+              solution: "如果治理合约按投票时的实时代币余额计算权重，攻击者可以闪贷大量代币，在单笔交易中投票或达到提案门槛，再归还贷款。使用快照（如 Snapshot 的区块快照）、时间锁、委托与提案门槛可以提高攻击成本。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算与案例",
+          questions: [
+            {
+              id: "m16-q1", label: "Q1", type: "numeric", stars: 1,
+              prompt: "二次方投票的成本为 v²（v 为票数）。",
+              blanks: [
+                { label: "投 5 票的成本", value: 25, tol: 0, unit: "" },
+                { label: "投 10 票的成本", value: 100, tol: 0, unit: "" }
+              ],
+              solution: "成本 = v²：5 票为 25，10 票为 100。边际成本随票数线性上升，使“ intensity ”更强的小群体可以为偏好付费，同时抑制大户无限投票。"
+            },
+            {
+              id: "m16-q2", label: "Q2", type: "numeric", stars: 2,
+              prompt: "二次方资助匹配额：<span class=\"formula\">M_p = (Σ √c_i)² − Σ c_i</span>某项目收到 4、9、16 三笔贡献。",
+              blanks: [
+                { label: "匹配额", value: 52, tol: 0, unit: "" }
+              ],
+              solution: "Σ√c_i = √4 + √9 + √16 = 2 + 3 + 4 = 9；平方为 81；Σc_i = 4 + 9 + 16 = 29；匹配额 = 81 − 29 = 52。二次方资助让小额贡献者的“人数”权重更高，但也容易受到女巫攻击，需要身份/防女巫机制。"
+            },
+            {
+              id: "m16-q4", label: "Q4", type: "text", stars: 2,
+              prompt: "NFT 版税在链上难以强制执行的根因是什么？给出两种缓解思路。",
+              solution: "ERC-721 的 transfer 不要求经过发行方，NFT 可以在任意市场或钱包之间点对点转移；版税只是市场在成交时自愿支付的约定，不是协议级强制。缓解：① 使用 operator filter / 允许列表，让不支持版税的市场无法转移（有争议，可能损害可组合性）；② 在合约层实现转移钩子或托管式转移，或通过 ERC-2981 声明版税并依赖市场合作；③ 法律合同与品牌生态约束。根因是“无需许可的转移”与“发行方持续抽成”之间的张力。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M17",
+      part: "Part VI · 研究与风控",
+      title: "链上数据分析",
+      short: "链上数据",
+      blurb: "TVL、HHI、地址聚类与实证方法。",
+      draft: false,
+      source: "modules/M17-data/exercises.md",
+      sourceUrl: "modules/M17-data/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m17-q2", label: "Q2", type: "mcq", stars: 1,
+              prompt: "为什么 TVL 可能高估去中心化金融的真实规模？",
+              options: [
+                "同一资产通过再质押、借贷循环或多协议重复计入，且价格波动会影响 TVL。",
+                "TVL 只统计手续费。",
+                "TVL 不包括稳定币。",
+                "TVL 由验证者数量决定。"
+              ],
+              correct: 0,
+              solution: "TVL 通常按锁仓资产的美元价格加总；同一美元资产可以在多个协议中重复计算（例如存入借贷池后再作为抵押借出、再存入另一个池），价格上涨也会机械抬高 TVL。它也不区分资产是否真正活跃、是否有对应负债。"
+            },
+            {
+              id: "m17-q3", label: "Q3", type: "mcq", stars: 1,
+              prompt: "基尼系数 G = 0 表示？",
+              options: ["完全平等", "完全不平等", "中等集中", "数据缺失"],
+              correct: 0,
+              solution: "基尼系数衡量分布不平等：0 表示完全平等（每个人持有相同数量），1 表示完全不平等（一人持有全部）。在链上常用来观察代币持币集中度，但需要先做地址聚类，否则交易所/托管地址会造成误判。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算与案例",
+          questions: [
+            {
+              id: "m17-q1", label: "Q1", type: "numeric", stars: 1,
+              prompt: "某市场四个实体的份额为 40%、30%、20%、10%。<span class=\"formula\">HHI = Σ s_i²（份额以百分数计）</span>",
+              blanks: [
+                { label: "HHI", value: 3000, tol: 0, unit: "" }
+              ],
+              solution: "HHI = 40² + 30² + 20² + 10² = 1,600 + 900 + 400 + 100 = 3,000。按 2023 年《合并指南》，HHI &gt; 1800 属于高度集中；但这是市场集中度指标，不能直接等同于链上攻击难度。"
+            },
+            {
+              id: "m17-q4", label: "Q4", type: "text", stars: 3,
+              prompt: "设计一个评估空投后 90 天用户留存的研究方案：说明数据、对照组和处理组、以及一个主要偏差。",
+              solution: "数据：钱包地址、交易/交互记录、协议使用事件、持有与治理行为；处理组为符合空投条件的地址，对照组可用未达门槛但特征相近的地址（或阈值附近的断点回归）。指标：90 天内是否仍有交互、交易次数、留存曲线、真实费用贡献。主要偏差：女巫/刷量地址、空投前的选择性行为、市场整体行情、地址聚类错误；可用 DID/事件研究、排除已知女巫、比较 pre-trends、设置安慰剂检验来缓解。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "M18",
+      part: "Part VI · 研究与风控",
+      title: "风险管理与监管",
+      short: "风险与监管",
+      blurb: "VaR/CVaR、传染、Howey 测试与全球监管。",
+      draft: false,
+      source: "modules/M18-risk-regulation/exercises.md",
+      sourceUrl: "modules/M18-risk-regulation/exercises.md",
+      sections: [
+        {
+          title: "A · 概念题",
+          questions: [
+            {
+              id: "m18-q2", label: "Q2", type: "mcq", stars: 1,
+              prompt: "“95% VaR = $10M”的正确含义是？",
+              options: [
+                "最大可能损失是 $10M。",
+                "在给定期间内，有 5% 的概率损失超过 $10M；它不说明超过后的损失有多大。",
+                "有 95% 的概率损失超过 $10M。",
+                "损失一定不超过 $10M。"
+              ],
+              correct: 1,
+              solution: "VaR 是分位数：在给定置信水平与持有期下，损失超过该值的概率为 1−α。它不告诉我们尾部有多厚，也不满足次可加性；CVaR/Expected Shortfall 衡量超过 VaR 的条件平均损失，是更保守的尾部指标。"
+            },
+            {
+              id: "m18-q3", label: "Q3", type: "mcq", stars: 2,
+              prompt: "美国 SEC 的 Howey 测试判断某资产是否为证券，通常考察哪组要件？",
+              options: [
+                "资金投入、共同事业、期待利润、利润来自他人努力。",
+                "是否上链、是否有代币、是否开源、是否有 DAO。",
+                "市值、交易量、波动率、流动性。",
+                "是否有审计、是否多签、是否有白皮书、是否 KYC。"
+              ],
+              correct: 0,
+              solution: "Howey 测试的四要件：① 投入资金；② 投入共同事业；③ 期待利润；④ 利润主要来自发起人或第三方的努力。技术形式（是否上链、是否有代币）不决定证券属性；去中心化程度、营销方式与利润来源才是关键。"
+            }
+          ]
+        },
+        {
+          title: "B · 计算与案例",
+          questions: [
+            {
+              id: "m18-q1", label: "Q1", type: "numeric", stars: 2,
+              prompt: "损失分布：2% 的概率损失 $60M，3% 的概率损失 $10M，95% 的概率损失 $0。",
+              blanks: [
+                { label: "期望损失（$M）", value: 1.5, tol: 0.01, unit: "$M" },
+                { label: "最坏 5% 尾部的平均损失 CVaR（$M）", value: 30, tol: 0.1, unit: "$M" }
+              ],
+              solution: "期望损失 = 0.02×60 + 0.03×10 + 0.95×0 = 1.2 + 0.3 = 1.5（$M）。最坏 5% 尾部由 2% 的 $60M 与 3% 的 $10M 组成，条件平均 = (0.02×60 + 0.03×10)/0.05 = (1.2+0.3)/0.05 = 30（$M）。CVaR 明显高于 VaR，能反映尾部严重性。"
+            },
+            {
+              id: "m18-q4", label: "Q4", type: "text", stars: 3,
+              prompt: "用“货币乐高”解释 DeFi 的可组合性如何放大系统性风险，并给出一个具体传染链条。",
+              solution: "可组合性让协议互相持有对方的代币与头寸，形成杠杆与相互依赖。传染链条示例：ETH 价格下跌 → 借贷协议抵押品价值下降 → 触发清算 → 清算人在 DEX 大量卖出 ETH → DEX 价格进一步下跌/滑点 → 预言机更新 → 更多头寸触及清算线；同时稳定币脱锚会让以稳定币计价的抵押品缩水，造成借贷池坏账与 LP 损失，引发挤兑。缓解：抵押品上限、隔离市场、断路器、压力测试、稳健预言机与跨协议风险监控。"
+            }
+          ]
+        }
+      ]
+    }
+  ];
+
+  const STORAGE_KEY = "web3-quiz-v1";
+  const THEME_KEY = "web3-quiz-theme";
+  const view = document.getElementById("module-view");
+  const nav = document.getElementById("module-nav");
+  const select = document.getElementById("module-select");
+
+  let state = loadState();
+  let currentId = initialId();
+  let themeMode = loadTheme();
+
+  function loadState() {
+    const empty = { last: "M0", modules: {} };
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return empty;
+      const parsed = JSON.parse(raw);
+      return {
+        last: typeof parsed.last === "string" ? parsed.last : "M0",
+        modules: parsed.modules && typeof parsed.modules === "object" ? parsed.modules : {}
+      };
+    } catch (e) {
+      return empty;
+    }
+  }
+
+  function save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      /* 本地存储不可用时，页面仍可在内存中正常工作 */
+    }
+  }
+
+  function loadTheme() {
+    try {
+      const t = localStorage.getItem(THEME_KEY);
+      return t === "light" || t === "dark" ? t : "auto";
+    } catch (e) {
+      return "auto";
+    }
+  }
+
+  function applyTheme() {
+    if (themeMode === "auto") document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.setAttribute("data-theme", themeMode);
+    const btn = document.getElementById("theme-btn");
+    if (btn) {
+      btn.textContent = themeMode === "auto" ? "主题：自动" : themeMode === "light" ? "主题：浅色" : "主题：深色";
+    }
+    try { localStorage.setItem(THEME_KEY, themeMode); } catch (e) {}
+  }
+
+  function moduleById(id) {
+    return MODULES.find(m => m.id === id);
+  }
+
+  function initialId() {
+    const h = (location.hash || "").replace(/^#/, "");
+    if (moduleById(h)) return h;
+    if (moduleById(state.last)) return state.last;
+    return MODULES[0].id;
+  }
+
+  function ms(id) {
+    if (!state.modules[id]) state.modules[id] = { answers: {}, submitted: false, grades: {} };
+    const st = state.modules[id];
+    if (!st.answers || typeof st.answers !== "object") st.answers = {};
+    if (!st.grades || typeof st.grades !== "object") st.grades = {};
+    return st;
+  }
+
+  function allQuestions(m) {
+    return m.sections.flatMap(s => s.questions);
+  }
+
+  function escText(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[c]));
+  }
+
+  function hasAnswer(q, a) {
+    if (a === undefined || a === null) return false;
+    if (q.type === "text") return String(a).trim().length > 0;
+    if (q.type === "mcq") return Number.isInteger(a);
+    if (q.type === "multi") return Array.isArray(a) && a.length > 0;
+    if (q.type === "numeric") return Array.isArray(a) && a.some(v => String(v).trim() !== "");
+    return false;
+  }
+
+  function num(v) {
+    if (v === null || v === undefined) return NaN;
+    let s = String(v).trim();
+    s = s.replace(/[０-９]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0));
+    s = s.replace(/[．，]/g, m => (m === "．" ? "." : ","));
+    s = s.replace(/[,，\s%％＄$]/g, "");
+    if (!s) return NaN;
+    const n = Number(s);
+    return Number.isFinite(n) ? n : NaN;
+  }
+
+  function numericOK(q, ans) {
+    return q.blanks.every((b, i) => {
+      const v = num(ans ? ans[i] : undefined);
+      return Number.isFinite(v) && Math.abs(v - b.value) <= (b.tol || 0);
+    });
+  }
+
+  function autoVerdict(q, ans) {
+    if (q.type === "text") return null;
+    if (!hasAnswer(q, ans)) return "blank";
+    if (q.type === "mcq") return ans === q.correct ? "correct" : "wrong";
+    if (q.type === "multi") {
+      const a = Array.isArray(ans) ? ans.slice().sort().join(",") : "";
+      const b = q.correct.slice().sort().join(",");
+      return a === b ? "correct" : "wrong";
+    }
+    if (q.type === "numeric") return numericOK(q, ans) ? "correct" : "wrong";
+    return "blank";
+  }
+
+  function typeName(t) {
+    return { mcq: "单选", multi: "多选", numeric: "计算", text: "简答" }[t] || t;
+  }
+
+  function letter(i) {
+    return String.fromCharCode(65 + i);
+  }
+
+  function fmt(n) {
+    if (!Number.isFinite(n)) return String(n);
+    return String(Math.round(n * 1e6) / 1e6);
+  }
+
+  function scoreModule(m, st) {
+    let earned = 0, total = 0, autoTotal = 0, autoCorrect = 0;
+    let full = 0, half = 0, none = 0, ungraded = 0, blankAuto = 0;
+    for (const q of allQuestions(m)) {
+      total++;
+      if (q.type === "text") {
+        const g = st.grades[q.id];
+        if (g === "full") { earned += 1; full++; }
+        else if (g === "half") { earned += 0.5; half++; }
+        else if (g === "none") { none++; }
+        else ungraded++;
+      } else {
+        autoTotal++;
+        const v = autoVerdict(q, st.answers[q.id]);
+        if (v === "correct") { earned += 1; autoCorrect++; }
+        if (v === "blank") blankAuto++;
+      }
+    }
+    return {
+      pct: total ? Math.round((earned / total) * 100) : 0,
+      earned, total, autoTotal, autoCorrect, full, half, none, ungraded, blankAuto,
+      textTotal: total - autoTotal
+    };
+  }
+
+  function statusHTML(m) {
+    const st = state.modules[m.id];
+    if (!st || !st.submitted) {
+      const hasAny = st && allQuestions(m).some(q => hasAnswer(q, st.answers[q.id]));
+      return hasAny
+        ? '<span class="dot is-progress" title="进行中"></span>'
+        : '<span class="dot" title="未开始"></span>';
+    }
+    const s = scoreModule(m, st);
+    const cls = s.pct >= 80 ? "good" : s.pct >= 60 ? "mid" : "low";
+    return `<span class="pill ${cls}" title="本模块得分">${s.pct}</span>`;
+  }
+
+  function renderSidebar() {
+    const parts = [];
+    let lastPart = null;
+    for (const m of MODULES) {
+      if (m.part !== lastPart) {
+        if (lastPart !== null) parts.push("</div>");
+        parts.push(`<div class="nav-group"><div class="nav-group-label">${m.part}</div>`);
+        lastPart = m.part;
+      }
+      parts.push(`<button class="nav-item ${m.id === currentId ? "is-active" : ""}" data-module-id="${m.id}" type="button"${m.id === currentId ? ' aria-current="page"' : ""}>
+        <span class="nav-id">${m.id}</span>
+        <span class="nav-title">${m.short}${m.draft ? '<span class="nav-draft">预</span>' : ""}</span>
+        <span class="nav-status">${statusHTML(m)}</span>
+      </button>`);
+    }
+    if (lastPart !== null) parts.push("</div>");
+    nav.innerHTML = parts.join("");
+  }
+
+  function updateMobileSelect() {
+    if (!select) return;
+    const parts = [];
+    let lastPart = null;
+    for (const m of MODULES) {
+      if (m.part !== lastPart) {
+        if (lastPart !== null) parts.push("</optgroup>");
+        parts.push(`<optgroup label="${m.part}">`);
+        lastPart = m.part;
+      }
+      parts.push(`<option value="${m.id}">${m.id} · ${m.title}${m.draft ? "（预习题）" : ""}</option>`);
+    }
+    if (lastPart !== null) parts.push("</optgroup>");
+    select.innerHTML = parts.join("");
+    select.value = currentId;
+  }
+
+  function updateGlobalProgress() {
+    const done = MODULES.filter(m => state.modules[m.id] && state.modules[m.id].submitted).length;
+    const pct = Math.round((done / MODULES.length) * 100);
+    const count = document.getElementById("gp-count");
+    const pctEl = document.getElementById("gp-pct");
+    const fill = document.getElementById("gp-fill");
+    if (count) count.textContent = `${done} / ${MODULES.length} 模块已批改`;
+    if (pctEl) pctEl.textContent = `${pct}%`;
+    if (fill) fill.style.width = `${pct}%`;
+  }
+
+  function updateNavStatus(id) {
+    const m = moduleById(id);
+    const el = document.querySelector(`.nav-item[data-module-id="${id}"] .nav-status`);
+    if (m && el) el.innerHTML = statusHTML(m);
+  }
+
+  function moduleHeaderHTML(m) {
+    const st = state.modules[m.id];
+    const qs = allQuestions(m);
+    const stars = [1, 2, 3]
+      .map(s => ({ s, n: qs.filter(q => q.stars === s).length }))
+      .filter(x => x.n)
+      .map(x => `${"★".repeat(x.s)} ${x.n}`)
+      .join(" · ");
+    const status = st && st.submitted ? `已批改 · ${scoreModule(m, st).pct} 分` : "未提交";
+    const source = m.draft
+      ? `基于 <a href="SYLLABUS.md" target="_blank" rel="noopener">SYLLABUS.md</a> 的预习题；本模块讲义尚未编写，答案用于预习与自测。`
+      : `部分题目改编自 <a href="${m.sourceUrl}" target="_blank" rel="noopener">${m.source}</a>，提交后显示参考答案与解析。`;
+    return `<header class="module-head">
+      <div class="eyebrow">
+        <span>${m.id}</span><span class="sep">·</span><span>${m.part}</span>
+        ${m.draft ? '<span class="badge draft">预习题 · 讲义待写</span>' : '<span class="badge">配套习题</span>'}
+      </div>
+      <h2>${m.title}</h2>
+      <p class="lede">${m.blurb}</p>
+      <div class="meta-row">
+        <span><b>${qs.length}</b> 题</span>
+        <span>${stars}</span>
+        <span id="module-status">${status}</span>
+      </div>
+      <p class="source-note">${source}</p>
+    </header>`;
+  }
+
+  function scoreCardHTML(m, st) {
+    const s = scoreModule(m, st);
+    const textBits = s.textTotal
+      ? ` · 简答自评：${s.full} 对 / ${s.half} 部分 / ${s.none} 未对${s.ungraded ? ` / ${s.ungraded} 待自评` : ""}`
+      : "";
+    const blankBit = s.blankAuto ? ` · ${s.blankAuto} 道自动题未作答` : "";
+    return `<section class="score-card" id="score-card" aria-live="polite">
+      <div class="seal" aria-hidden="true">已批改</div>
+      <div class="score-body">
+        <div class="score-line"><span class="score-num">${s.pct}</span><span class="score-den">/ 100</span></div>
+        <p class="score-sub">自动题 ${s.autoCorrect}/${s.autoTotal} 答对${textBits}${blankBit}</p>
+        <div class="score-bar"><span style="width:${s.pct}%"></span></div>
+        <p class="score-note">${s.textTotal ? "简答题按自评计分；点击题目下的“答对 / 部分 / 未答对”可调整。" : "本模块全部为自动判分题。"}</p>
+      </div>
+    </section>`;
+  }
+
+  function optionHTML(q, i, st) {
+    const ans = st.answers[q.id];
+    const selected = q.type === "mcq" ? ans === i : (Array.isArray(ans) && ans.includes(i));
+    const isCorrect = q.type === "mcq" ? q.correct === i : q.correct.includes(i);
+    let cls = "opt";
+    if (selected) cls += " is-selected";
+    if (st.submitted && isCorrect) cls += " is-correct";
+    if (st.submitted && selected && !isCorrect) cls += " is-wrong";
+    const inputType = q.type === "mcq" ? "radio" : "checkbox";
+    return `<label class="${cls}">
+      <input type="${inputType}" name="${q.id}" value="${i}" ${selected ? "checked" : ""} ${st.submitted ? "disabled" : ""}>
+      <span class="opt-letter">${letter(i)}</span>
+      <span class="opt-text">${q.options[i]}</span>
+      ${st.submitted && isCorrect ? '<span class="opt-tag">正确</span>' : ""}
+    </label>`;
+  }
+
+  function numericAnswerHTML(q) {
+    return q.blanks.map(b => `<div>${b.label} = <b>${fmt(b.value)}</b>${b.unit ? " " + b.unit : ""}</div>`).join("");
+  }
+
+  function mcqAnswerHTML(q) {
+    return `<b>${letter(q.correct)}</b>．${q.options[q.correct]}`;
+  }
+
+  function multiAnswerHTML(q) {
+    return q.correct.map(i => `<div><b>${letter(i)}</b>．${q.options[i]}</div>`).join("");
+  }
+
+  function selfGradeHTML(q, st) {
+    const g = st.grades[q.id];
+    const hint = g ? "" : '<span class="sg-hint">选择一项以计入得分</span>';
+    return `<div class="selfgrade" data-qid="${q.id}">
+      <span class="sg-label">自评</span>
+      <button class="sg-btn ${g === "full" ? "is-on" : ""}" data-grade="full" type="button">答对</button>
+      <button class="sg-btn ${g === "half" ? "is-on" : ""}" data-grade="half" type="button">部分</button>
+      <button class="sg-btn ${g === "none" ? "is-on" : ""}" data-grade="none" type="button">未答对</button>
+      ${hint}
+    </div>`;
+  }
+
+  function feedbackHTML(q, st) {
+    const ans = st.answers[q.id];
+    let verdict;
+    if (q.type === "text") {
+      const g = st.grades[q.id];
+      const label = g === "full" ? "自评：答对" : g === "half" ? "自评：部分" : g === "none" ? "自评：未答对" : "待自评";
+      verdict = `<div class="verdict self">${label}</div>`;
+    } else {
+      const v = autoVerdict(q, ans);
+      const map = {
+        correct: ['correct', '✓ 答对'],
+        wrong: ['wrong', '✗ 答错'],
+        blank: ['blank', '— 未作答']
+      };
+      const [cls, text] = map[v] || map.blank;
+      verdict = `<div class="verdict ${cls}">${text}</div>`;
+    }
+    let solution;
+    if (q.type === "numeric") solution = numericAnswerHTML(q);
+    else if (q.type === "mcq") solution = mcqAnswerHTML(q);
+    else if (q.type === "multi") solution = multiAnswerHTML(q);
+    else solution = q.solution;
+    const answerBlock = `<div class="answer-block"><div class="answer-label">参考答案</div><div class="answer-text">${solution}</div></div>`;
+    const explainBlock = q.type !== "text" && q.solution
+      ? `<div class="explain-block"><div class="answer-label">解析</div><div class="answer-text">${q.solution}</div></div>`
+      : "";
+    const sg = q.type === "text" ? selfGradeHTML(q, st) : "";
+    return `<div class="q-feedback">${verdict}${answerBlock}${explainBlock}${sg}</div>`;
+  }
+
+  function questionHTML(q, st) {
+    let input = "";
+    if (q.type === "mcq" || q.type === "multi") {
+      input = `<fieldset class="opts"><legend class="sr-only">${q.type === "multi" ? "选择所有正确项" : "选择一项"}</legend>${q.options.map((_, i) => optionHTML(q, i, st)).join("")}</fieldset>`;
+    } else if (q.type === "numeric") {
+      input = `<div class="blanks">${q.blanks.map((b, i) => {
+        const val = Array.isArray(st.answers[q.id]) ? st.answers[q.id][i] : "";
+        const v = num(val);
+        const ok = Number.isFinite(v) && Math.abs(v - b.value) <= (b.tol || 0);
+        const stateCls = st.submitted ? (ok ? "is-ok" : "is-bad") : "";
+        return `<label class="blank ${stateCls}">
+          <span class="blank-label">${b.label}</span>
+          <span class="blank-field">
+            <input type="text" inputmode="decimal" data-blank="${i}" data-qid="${q.id}" value="${escText(val)}" placeholder="—" ${st.submitted ? "readonly" : ""}>
+            <span class="unit">${b.unit || ""}</span>
+          </span>
+          ${st.submitted ? `<span class="blank-correct">正确：${fmt(b.value)}${b.unit ? " " + b.unit : ""}</span>` : ""}
+        </label>`;
+      }).join("")}</div>`;
+    } else {
+      input = `<textarea class="free" data-qid="${q.id}" rows="5" placeholder="写下你的答案，提交后可对照参考答案自评。" ${st.submitted ? "readonly" : ""}>${escText(st.answers[q.id] || "")}</textarea>`;
+    }
+    return `<article class="q" id="q-${q.id}" data-qid="${q.id}">
+      <div class="q-label">${q.label}</div>
+      <div class="q-main">
+        <div class="q-meta">
+          <span class="stars" aria-label="难度 ${q.stars} 星">${"★".repeat(q.stars)}</span>
+          <span class="type-tag">${typeName(q.type)}</span>
+        </div>
+        <div class="q-prompt">${q.prompt}</div>
+        ${input}
+        ${st.submitted ? feedbackHTML(q, st) : ""}
+      </div>
+    </article>`;
+  }
+
+  function actionBarHTML(m, st, answered, total) {
+    const resetLabel = st.submitted ? "重新作答" : "重置";
+    return `<div class="actionbar" id="actionbar">
+      <div class="ab-progress">
+        <div class="ab-text"><span><span id="ans-count">${answered} / ${total}</span> 已作答</span><span>${st.submitted ? "已批改" : "提交后显示答案"}</span></div>
+        <div class="ab-bar"><span id="ans-fill" style="width:${total ? (answered / total) * 100 : 0}%"></span></div>
+      </div>
+      <div class="ab-actions">
+        <button class="btn ghost" id="reset-btn" type="button">${resetLabel}</button>
+        <button class="btn primary" id="submit-btn" type="button" ${st.submitted ? "disabled" : ""}>${st.submitted ? "已提交" : "提交本模块"}</button>
+      </div>
+    </div>`;
+  }
+
+  function moduleFootHTML(m) {
+    const idx = MODULES.findIndex(x => x.id === m.id);
+    const prev = MODULES[idx - 1];
+    const next = MODULES[idx + 1];
+    return `<div class="module-foot">
+      ${prev ? `<button class="foot-link" data-go="${prev.id}" type="button">← ${prev.id} ${prev.short}</button>` : "<span></span>"}
+      ${next ? `<button class="foot-link" data-go="${next.id}" type="button">${next.id} ${next.short} →</button>` : "<span></span>"}
+    </div>`;
+  }
+
+  function renderModule(id, opts = {}) {
+    const m = moduleById(id);
+    if (!m) return;
+    currentId = id;
+    state.last = id;
+    save();
+    const st = ms(id);
+    const qs = allQuestions(m);
+    const answered = qs.filter(q => hasAnswer(q, st.answers[q.id])).length;
+    view.innerHTML = moduleHeaderHTML(m)
+      + (st.submitted ? scoreCardHTML(m, st) : "")
+      + m.sections.map(sec => `<section class="section">
+          <div class="section-head"><h3>${sec.title}</h3><span>${sec.questions.length} 题</span></div>
+          ${sec.questions.map(q => questionHTML(q, st)).join("")}
+        </section>`).join("")
+      + moduleFootHTML(m)
+      + actionBarHTML(m, st, answered, qs.length);
+    renderSidebar();
+    updateMobileSelect();
+    updateGlobalProgress();
+    try { history.replaceState(null, "", "#" + id); } catch (e) { /* file:// 可能拒绝改 URL */ }
+    if (opts.scroll === "top") scrollTop();
+    if (opts.scroll === "score") {
+      const card = document.getElementById("score-card");
+      if (card) card.scrollIntoView({ behavior: reduceMotion() ? "auto" : "smooth", block: "start" });
+    }
+  }
+
+  function reduceMotion() {
+    return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function scrollTop() {
+    window.scrollTo({ top: 0, behavior: reduceMotion() ? "auto" : "smooth" });
+  }
+
+  function go(id) {
+    if (!moduleById(id)) return;
+    if (id === currentId) { scrollTop(); return; }
+    currentId = id;
+    state.last = id;
+    save();
+    renderModule(id, { scroll: "top" });
+  }
+
+  function submitModule() {
+    const st = ms(currentId);
+    if (st.submitted) return;
+    st.submitted = true;
+    save();
+    renderModule(currentId, { scroll: "score" });
+  }
+
+  function updateAnswerProgress() {
+    const m = moduleById(currentId);
+    const st = ms(currentId);
+    const qs = allQuestions(m);
+    const n = qs.filter(q => hasAnswer(q, st.answers[q.id])).length;
+    const count = document.getElementById("ans-count");
+    const fill = document.getElementById("ans-fill");
+    if (count) count.textContent = `${n} / ${qs.length}`;
+    if (fill) fill.style.width = `${qs.length ? (n / qs.length) * 100 : 0}%`;
+  }
+
+  function updateScoreCard() {
+    const card = document.getElementById("score-card");
+    if (!card) return;
+    card.outerHTML = scoreCardHTML(moduleById(currentId), ms(currentId));
+  }
+
+  function handleInput(e) {
+    const t = e.target;
+    if (!t || !t.matches) return;
+    const st = ms(currentId);
+    if (t.matches("textarea[data-qid]")) {
+      st.answers[t.dataset.qid] = t.value;
+    } else if (t.matches("input[data-blank]")) {
+      const qid = t.dataset.qid;
+      const arr = Array.isArray(st.answers[qid]) ? st.answers[qid].slice() : [];
+      arr[Number(t.dataset.blank)] = t.value;
+      st.answers[qid] = arr;
+    } else if (t.matches('input[type="radio"]')) {
+      st.answers[t.name] = Number(t.value);
+    } else if (t.matches('input[type="checkbox"]')) {
+      const checked = [...view.querySelectorAll(`input[name="${CSS.escape(t.name)}"]:checked`)].map(x => Number(x.value));
+      st.answers[t.name] = checked;
+    } else {
+      return;
+    }
+    save();
+    updateAnswerProgress();
+    updateNavStatus(currentId);
+  }
+
+  function handleReset(btn) {
+    if (btn.dataset.armed !== "1") {
+      btn.dataset.armed = "1";
+      btn.dataset.original = btn.textContent;
+      btn.textContent = "确认重新作答？";
+      btn.classList.add("is-warn");
+      setTimeout(() => {
+        if (btn.isConnected) {
+          btn.dataset.armed = "0";
+          btn.textContent = btn.dataset.original;
+          btn.classList.remove("is-warn");
+        }
+      }, 3200);
+      return;
+    }
+    delete state.modules[currentId];
+    save();
+    renderModule(currentId, { scroll: "top" });
+  }
+
+  function handleSelfGrade(btn) {
+    const st = ms(currentId);
+    const group = btn.closest(".selfgrade");
+    if (!group) return;
+    const qid = group.dataset.qid;
+    const grade = btn.dataset.grade;
+    if (st.grades[qid] === grade) delete st.grades[qid];
+    else st.grades[qid] = grade;
+    save();
+    group.querySelectorAll(".sg-btn").forEach(b => {
+      b.classList.toggle("is-on", st.grades[qid] === b.dataset.grade);
+    });
+    const qEl = document.getElementById("q-" + qid);
+    const verdict = qEl ? qEl.querySelector(".q-feedback .verdict") : null;
+    if (verdict) {
+      verdict.textContent = st.grades[qid] === "full" ? "自评：答对"
+        : st.grades[qid] === "half" ? "自评：部分"
+        : st.grades[qid] === "none" ? "自评：未答对"
+        : "待自评";
+    }
+    const hint = group.querySelector(".sg-hint");
+    if (st.grades[qid]) {
+      if (hint) hint.remove();
+    } else if (!hint) {
+      const span = document.createElement("span");
+      span.className = "sg-hint";
+      span.textContent = "选择一项以计入得分";
+      group.appendChild(span);
+    }
+    updateScoreCard();
+    updateNavStatus(currentId);
+    updateGlobalProgress();
+  }
+
+  nav.addEventListener("click", e => {
+    const btn = e.target.closest(".nav-item");
+    if (btn && btn.dataset.moduleId) go(btn.dataset.moduleId);
+  });
+
+  view.addEventListener("click", e => {
+    if (e.target.closest("#submit-btn")) { submitModule(); return; }
+    if (e.target.closest("#reset-btn")) { handleReset(e.target.closest("#reset-btn")); return; }
+    if (e.target.closest(".sg-btn")) { handleSelfGrade(e.target.closest(".sg-btn")); return; }
+    const goBtn = e.target.closest("[data-go]");
+    if (goBtn) go(goBtn.dataset.go);
+  });
+
+  view.addEventListener("input", handleInput);
+  view.addEventListener("change", handleInput);
+
+  select.addEventListener("change", e => go(e.target.value));
+
+  document.getElementById("theme-btn").addEventListener("click", () => {
+    themeMode = themeMode === "auto" ? "light" : themeMode === "light" ? "dark" : "auto";
+    applyTheme();
+  });
+
+  document.getElementById("clear-all").addEventListener("click", function () {
+    if (this.dataset.armed !== "1") {
+      this.dataset.armed = "1";
+      this.dataset.original = this.textContent;
+      this.textContent = "确认清空全部记录？";
+      setTimeout(() => {
+        if (this.isConnected) {
+          this.dataset.armed = "0";
+          this.textContent = this.dataset.original;
+        }
+      }, 3200);
+      return;
+    }
+    this.dataset.armed = "0";
+    this.textContent = this.dataset.original;
+    state = { last: "M0", modules: {} };
+    save();
+    renderModule("M0", { scroll: "top" });
+  });
+
+  window.addEventListener("hashchange", () => {
+    const h = (location.hash || "").replace(/^#/, "");
+    if (moduleById(h) && h !== currentId) renderModule(h, { scroll: "top" });
+  });
+
+  applyTheme();
+  renderModule(initialId(), { scroll: "top" });
+})();
+</script>
+</body>
+</html>
