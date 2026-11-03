@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>钱是怎么流动的</title>
+<style>
+  :root{--bg:#070a12;--fg:#eef1f7;--muted:#8d97ad;--accent:#f3c14b}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei",sans-serif}
+  #stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  #wrap{position:relative;width:min(100vw,calc(100vh*16/9));aspect-ratio:16/9}
+  canvas{width:100%;height:100%;display:block}
+  #ctl{position:absolute;left:0;right:0;bottom:0;display:flex;gap:12px;align-items:center;padding:10px 16px;
+       background:linear-gradient(transparent,rgba(0,0,0,.65));opacity:0;transition:opacity .25s}
+  #wrap:hover #ctl,#ctl.show{opacity:1}
+  #ctl button{background:var(--accent);color:#1a1300;border:0;border-radius:999px;width:38px;height:38px;font-size:16px;cursor:pointer}
+  #seek{flex:1;accent-color:var(--accent)}
+  #tm{font-variant-numeric:tabular-nums;font-size:13px;color:var(--muted);min-width:92px;text-align:right}
+  #start{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(7,10,18,.55);cursor:pointer}
+  #start span{background:var(--accent);color:#1a1300;font-weight:700;padding:14px 26px;border-radius:999px;font-size:18px}
+  body.capture #ctl,body.capture #start{display:none}
+</style>
+</head>
+<body>
+<div id="stage"><div id="wrap">
+  <canvas id="cv"></canvas>
+  <div id="start"><span>▶ 点击播放（普通话配音）</span></div>
+  <div id="ctl"><button id="pp">▶</button><input id="seek" type="range" min="0" max="1000" value="0"><span id="tm">0:00 / 0:00</span></div>
+</div></div>
+<audio id="au" src="narration.mp3" preload="auto"></audio>
+<script>
+const TL = /*TIMELINE*/null;
+const W=1280,H=720;
+const FONT='"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Source Han Sans SC","Microsoft YaHei",sans-serif';
+const C={bg0:'#0b1020',bg1:'#141c31',panel:'#1a2338',line:'#2a3550',text:'#eef1f7',muted:'#8d97ad',
+  gold:'#f3c14b',goldD:'#a87a22',us:'#4f8dff',cn:'#f0503f',teal:'#38c2b0'};
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+const CAPTURE=/capture/.test(location.search);
+if(CAPTURE) document.body.classList.add('capture');
+
+/* ---------- utils ---------- */
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const lerp=(a,b,u)=>a+(b-a)*u;
+const ease=u=>u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;
+const easeOut=u=>1-Math.pow(1-u,3);
+const back=u=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(u-1,3)+c1*Math.pow(u-1,2);};
+const ap=(t,at,d=.6)=>easeOut(clamp((t-at)/d));
+const win=(t,a,b,f=.5)=>Math.min(ap(t,a,f),1-easeOut(clamp((t-(b-f))/f)));
+function A(a,fn){if(a<=.002)return;ctx.save();ctx.globalAlpha*=Math.min(1,a);fn();ctx.restore();}
+function txt(s,x,y,o={}){const{size=20,color=C.text,align='center',weight=500,base='middle'}=o;
+  ctx.font=`${weight} ${size}px ${FONT}`;ctx.fillStyle=color;ctx.textAlign=align;ctx.textBaseline=base;ctx.fillText(s,x,y);}
+function rr(x,y,w,h,r){ctx.beginPath();ctx.roundRect(x,y,w,h,r);}
+function pill(s,x,y,o={}){const{size=15,color=C.text,bg='rgba(11,16,32,.88)',border=null,padX=11}=o;
+  ctx.font=`600 ${size}px ${FONT}`;const w=ctx.measureText(s).width+padX*2,h=size+13;
+  rr(x-w/2,y-h/2,w,h,h/2);ctx.fillStyle=bg;ctx.fill();if(border){ctx.strokeStyle=border;ctx.lineWidth=1.5;ctx.stroke();}
+  txt(s,x,y+1,{size,color,weight:600});return w;}
+function coin(x,y,r){ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fillStyle=C.gold;ctx.fill();
+  ctx.lineWidth=Math.max(1,r*.24);ctx.strokeStyle=C.goldD;ctx.stroke();
+  ctx.beginPath();ctx.arc(x-r*.32,y-r*.32,r*.3,0,7);ctx.fillStyle='rgba(255,255,255,.6)';ctx.fill();}
+function bez(p0,c,p1,s){const u=1-s;return[u*u*p0[0]+2*u*s*c[0]+s*s*p1[0],u*u*p0[1]+2*u*s*c[1]+s*s*p1[1]];}
+
+/* pipe with flowing coins: n0,n1 = {x,y,r} */
+function pipe(t,n0,n1,o={}){
+  const show=o.show??1; if(show<=0.001) return;
+  const bend=o.bend||0, w=o.w??6, col=o.color||C.gold, spd=o.speed??1;
+  const dx=n1.x-n0.x,dy=n1.y-n0.y,L=Math.hypot(dx,dy),nx=-dy/L,ny=dx/L;
+  const mx=(n0.x+n1.x)/2+nx*bend,my=(n0.y+n1.y)/2+ny*bend;
+  const r0=(n0.r||0)+8,r1=(n1.r||0)+14;
+  const d0=Math.hypot(mx-n0.x,my-n0.y),d1=Math.hypot(mx-n1.x,my-n1.y);
+  const p0=[n0.x+(mx-n0.x)/d0*r0,n0.y+(my-n0.y)/d0*r0],p1=[n1.x+(mx-n1.x)/d1*r1,n1.y+(my-n1.y)/d1*r1],c=[mx,my];
+  let len=0,pv=p0;for(let i=1;i<=24;i++){const q=bez(p0,c,p1,i/24);len+=Math.hypot(q[0]-pv[0],q[1]-pv[1]);pv=q;}
+  const N=48,path=()=>{ctx.beginPath();for(let i=0;i<=Math.ceil(N*show);i++){const q=bez(p0,c,p1,Math.min(show,i/N));i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]);}};
+  ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
+  path();ctx.strokeStyle=col;ctx.globalAlpha*=.16;ctx.lineWidth=w+10;ctx.stroke();ctx.restore();
+  ctx.save();ctx.lineCap='round';path();ctx.strokeStyle=col;ctx.globalAlpha*=.42;ctx.lineWidth=w;ctx.stroke();ctx.restore();
+  // arrow head
+  if(show>.98){const a=bez(p0,c,p1,.97),ang=Math.atan2(p1[1]-a[1],p1[0]-a[0]),s=Math.max(9,w*.75);
+    ctx.save();ctx.translate(p1[0],p1[1]);ctx.rotate(ang);ctx.beginPath();ctx.moveTo(4,0);ctx.lineTo(-s,-s*.75);ctx.lineTo(-s,s*.75);ctx.closePath();
+    ctx.fillStyle=col;ctx.globalAlpha*=.85;ctx.fill();ctx.restore();}
+  // coins
+  const spacing=clamp(64-w*2.2,24,64),n=Math.max(2,Math.floor(len/spacing)),cr=clamp(w*.5,3.5,10);
+  const ph=(o.phase??t)*spd*95/len;
+  for(let k=0;k<n;k++){const s=((ph+k/n)%1+1)%1;if(s>show)continue;
+    const q=bez(p0,c,p1,s),fa=clamp(Math.min(s/.07,(1-s)/.07));A(fa,()=>coin(q[0],q[1],cr));}
+  if(o.label&&show>.5){const q=bez(p0,c,p1,o.lp??.5);
+    A(clamp((show-.5)*2),()=>pill(o.label,q[0]+(o.lx||0),q[1]+(o.ly||0),{size:o.ls||14,border:col}));}
+}
+
+/* ---------- icons (unit ~ ±20) ---------- */
+let BG=C.panel;
+const IC={
+  house(){ctx.beginPath();ctx.moveTo(-21,-1);ctx.lineTo(0,-20);ctx.lineTo(21,-1);ctx.closePath();ctx.fill();ctx.fillRect(-15,-2,30,21);ctx.fillStyle=BG;ctx.fillRect(-4,7,8,12);},
+  factory(){ctx.beginPath();[[-21,19],[-21,-2],[-9,6],[-9,-2],[3,6],[3,-19],[11,-19],[11,6],[21,6],[21,19]].forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.closePath();ctx.fill();
+    ctx.fillStyle=BG;for(const x of[-16,-6,4,14])ctx.fillRect(x,11,4,5);},
+  gov(){ctx.beginPath();ctx.arc(0,-6,11,Math.PI,0);ctx.fill();ctx.fillRect(-19,-6,38,4);for(const x of[-16,-7,3,12])ctx.fillRect(x,-1,4,15);ctx.fillRect(-21,14,42,4);ctx.fillRect(-1,-22,2,6);},
+  bank(){ctx.beginPath();ctx.moveTo(-21,-7);ctx.lineTo(0,-20);ctx.lineTo(21,-7);ctx.closePath();ctx.fill();for(const x of[-16,-7,3,12])ctx.fillRect(x,-4,4,17);ctx.fillRect(-21,14,42,4);
+    ctx.fillStyle=BG;ctx.beginPath();ctx.arc(0,-11,3.4,0,7);ctx.fill();},
+  globe(c){ctx.strokeStyle=c;ctx.lineWidth=2.6;ctx.beginPath();ctx.arc(0,0,18,0,7);ctx.stroke();ctx.beginPath();ctx.ellipse(0,0,8,18,0,0,7);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(-18,0);ctx.lineTo(18,0);ctx.moveTo(-15,-9);ctx.lineTo(15,-9);ctx.moveTo(-15,9);ctx.lineTo(15,9);ctx.stroke();},
+  market(c){ctx.strokeStyle=c;ctx.lineWidth=2.6;ctx.beginPath();ctx.moveTo(-20,-18);ctx.lineTo(-20,18);ctx.lineTo(20,18);ctx.stroke();
+    for(const [x,y0,h] of[[-12,4,10],[-3,-2,12],[6,-8,10],[15,-14,12]])ctx.fillRect(x-2.5,y0,5,h);
+    ctx.beginPath();ctx.moveTo(-16,10);ctx.lineTo(-6,2);ctx.lineTo(3,-3);ctx.lineTo(18,-17);ctx.stroke();},
+  train(){rr(-21,-14,42,24,9);ctx.fill();ctx.fillStyle=BG;for(const x of[-14,-3,8])ctx.fillRect(x,-8,7,7);ctx.beginPath();ctx.arc(-11,14,4,0,7);ctx.arc(11,14,4,0,7);ctx.fill();ctx.fillRect(-22,19,44,2);},
+  building(){ctx.fillRect(-13,-21,26,40);ctx.fillStyle=BG;for(let y=-16;y<12;y+=8)for(const x of[-8,2])ctx.fillRect(x,y,5,5);},
+  wallet(){rr(-21,-13,42,28,6);ctx.fill();ctx.fillStyle=BG;rr(6,-4,15,10,3);ctx.fill();},
+  store(){ctx.fillRect(-18,-2,36,20);for(let i=0;i<5;i++){ctx.beginPath();ctx.moveTo(-20+i*8,-16);ctx.lineTo(-12+i*8,-16);ctx.lineTo(-12+i*8,-4);ctx.arc(-16+i*8,-4,4,0,Math.PI);ctx.closePath();ctx.fill();}
+    ctx.fillStyle=BG;ctx.fillRect(-5,6,10,12);},
+  press(){ctx.fillRect(-20,2,40,16);ctx.beginPath();ctx.arc(-8,-8,8,0,7);ctx.arc(9,-8,8,0,7);ctx.fill();ctx.fillStyle=BG;ctx.beginPath();ctx.arc(-8,-8,3,0,7);ctx.arc(9,-8,3,0,7);ctx.fill();}
+};
+function node(n,o={}){const{a=1,color=C.muted,label,sub,icon,glow=0}=o;if(a<=0)return;
+  const s=back(clamp(a));
+  ctx.save();ctx.globalAlpha*=clamp(a*1.4);ctx.translate(n.x,n.y);ctx.scale(s,s);
+  if(glow>0){const g=ctx.createRadialGradient(0,0,n.r*.6,0,0,n.r*1.9);g.addColorStop(0,color+'55');g.addColorStop(1,color+'00');ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,n.r*1.9,0,7);ctx.globalAlpha*=glow;ctx.fill();ctx.globalAlpha/=glow;}
+  ctx.beginPath();ctx.arc(0,0,n.r,0,7);ctx.fillStyle=C.panel;ctx.fill();ctx.lineWidth=2.6;ctx.strokeStyle=color;ctx.stroke();
+  if(icon){ctx.save();const k=n.r/46;ctx.scale(k,k);ctx.fillStyle=color;BG=C.panel;IC[icon](color);ctx.restore();}
+  if(label)txt(label,0,n.r+19,{size:Math.max(14,n.r*.34),weight:700});
+  if(sub)txt(sub,0,n.r+40,{size:13,color:C.muted});
+  ctx.restore();}
+function card(x,y,w,h,a,fn){A(a,()=>{rr(x,y,w,h,12);ctx.fillStyle='rgba(20,28,49,.92)';ctx.fill();ctx.strokeStyle=C.line;ctx.lineWidth=1.2;ctx.stroke();fn();});}
+function bar(x,y,w,h,frac,color,label,val,o={}){rr(x,y,w,h,h/2);ctx.fillStyle='rgba(255,255,255,.07)';ctx.fill();
+  if(frac>0){rr(x,y,Math.max(h,w*frac),h,h/2);ctx.fillStyle=color;ctx.fill();}
+  if(label)txt(label,x,y-13,{size:14,color:C.muted,align:'left'});
+  if(val)txt(val,x+w,y-13,{size:o.vs||16,color:o.vc||color,align:'right',weight:700});}
+function banknote(x,y,s,color){ctx.save();ctx.translate(x,y);ctx.scale(s,s);
+  const g=ctx.createLinearGradient(-190,-90,190,90);g.addColorStop(0,color);g.addColorStop(1,'#7a1e1a');
+  rr(-190,-88,380,176,14);ctx.fillStyle=g;ctx.fill();rr(-176,-74,352,148,9);ctx.strokeStyle='rgba(255,230,200,.45)';ctx.lineWidth=2;ctx.stroke();
+  ctx.beginPath();ctx.arc(-100,0,46,0,7);ctx.strokeStyle='rgba(255,230,200,.5)';ctx.stroke();
+  txt('¥',-100,2,{size:52,weight:800,color:'rgba(255,240,220,.9)'});
+  txt('100',70,4,{size:78,weight:800,color:'rgba(255,240,220,.95)'});
+  txt('一百块钱',70,54,{size:17,color:'rgba(255,240,220,.7)'});ctx.restore();}
+function arrow(x0,y0,x1,y1,col,w=3){const a=Math.atan2(y1-y0,x1-x0);ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=w;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1-Math.cos(a)*8,y1-Math.sin(a)*8);ctx.stroke();
+  ctx.save();ctx.translate(x1,y1);ctx.rotate(a);ctx.beginPath();ctx.moveTo(2,0);ctx.lineTo(-12,-8);ctx.lineTo(-12,8);ctx.closePath();ctx.fill();ctx.restore();}
+function countUp(t,at,dur,to){return to*easeOut(clamp((t-at)/dur));}
+
+/* ---------- scenes ---------- */
+function sIntro(t,S){const L=S.L;
+  const lift=ease(clamp((t-L[1])/1.4)),bx=640,by=lerp(345,330,lift)+Math.sin(t*1.3)*5,sc=lerp(1,.62,lift);
+  const a0=ap(t,.2,.9);
+  for(let k=0;k<12;k++){const an=t*.55+k*Math.PI/6,rx=lerp(250,330,lift),ry=lerp(110,90,lift);
+    A(a0*.9,()=>coin(bx+Math.cos(an)*rx,by+Math.sin(an)*ry,8+3*Math.sin(an)));}
+  A(a0,()=>banknote(bx,by,sc,C.cn));
+  A(win(t,L[0]+.4,L[1]+.3),()=>{txt('从哪里来？',230,345,{size:32,weight:800,color:C.gold});txt('流向哪里？',1050,345,{size:32,weight:800,color:C.gold});
+    arrow(330,345,410,345,C.gold);arrow(870,345,950,345,C.gold);});
+  const a1=ap(t,L[1]-.2,.9);
+  A(a1,()=>{txt('钱，是怎么流动的？',640,140,{size:58,weight:800});txt('中国 · 美国　｜　5 分钟看懂社会里的“资金管道”',640,200,{size:20,color:C.muted});});
+  A(ap(t,L[1]+1.2),()=>{const a={x:420,y:500,r:24},b={x:860,y:500,r:24};
+    pipe(t,a,b,{bend:-50,w:5,show:ap(t,L[1]+1.4,1)});pipe(t,b,a,{bend:-50,w:5,show:ap(t,L[1]+1.4,1)});
+    pill('中国',420,500,{size:22,bg:C.cn,color:'#fff',padX:18});pill('美国',860,500,{size:22,bg:C.us,color:'#fff',padX:18});});
+}
+function sCreate(t,S){const L=S.L;
+  // phase A: cash vs deposits
+  A(win(t,S.start,L[1]+.2),()=>{
+    node({x:360,y:270,r:56},{a:ap(t,L[0]),color:C.muted,icon:'press',label:'印出来的现金'});
+    node({x:920,y:270,r:56},{a:ap(t,L[0]+.6),color:C.gold,icon:'bank',label:'银行账户里的存款',glow:1});
+    A(ap(t,L[0]+1.6),()=>{const x=240,w=800,y=440,h=34,f=easeOut(clamp((t-L[0]-1.6)/1.6));
+      txt('以中国的广义货币 M2（约 360 万亿元）为例',640,400,{size:16,color:C.muted});
+      rr(x,y,w,h,8);ctx.fillStyle='rgba(255,255,255,.06)';ctx.fill();
+      rr(x,y,w*f,h,8);ctx.fillStyle=C.gold;ctx.fill();rr(x,y,w*.04,h,8);ctx.fillStyle='#8a93a8';ctx.fill();
+      txt('现金 <5%',x,y+h+20,{size:15,color:C.muted,align:'left'});txt('其余都是“存款”——账户里的数字',x+w,y+h+20,{size:15,color:C.gold,align:'right',weight:700});});
+  });
+  // phase B: loan creates deposit
+  A(win(t,L[1],L[3]+.3),()=>{const bk={x:360,y:250,r:56},fi={x:920,y:250,r:56};
+    node(bk,{a:ap(t,L[1]),color:C.gold,icon:'bank',label:'银行'});
+    node(fi,{a:ap(t,L[1]+.3),color:C.teal,icon:'factory',label:'企业'});
+    pipe(t,bk,fi,{w:10,show:ap(t,L[1]+1,1.2),label:'贷款 100 万'});
+    card(380,370,520,150,ap(t,L[1]+2),()=>{txt('银行的账本',640,395,{size:16,color:C.muted,weight:700});
+      ctx.fillStyle=C.line;ctx.fillRect(640,415,1.5,90);ctx.fillRect(400,415,480,1.5);
+      txt('资产',510,436,{size:15,color:C.muted});txt('负债',770,436,{size:15,color:C.muted});
+      A(ap(t,L[1]+3),()=>txt('贷款  +100 万',510,476,{size:24,weight:800,color:C.gold}));
+      A(ap(t,L[1]+5),()=>txt('企业存款  +100 万',770,476,{size:24,weight:800,color:C.teal}));});
+    A(ap(t,L[2]+.2),()=>{const p=.5+.5*Math.sin(t*4);txt('一笔贷款 ＝ 凭空多出一笔存款',640,120,{size:30,weight:800,color:C.gold});
+      txt('信用创造货币',640,160,{size:18,color:C.muted});ctx.strokeStyle=C.gold;ctx.globalAlpha*=.3+.4*p;ctx.lineWidth=2;rr(376,366,528,158,14);ctx.stroke();});
+  });
+  // phase C: central bank
+  A(ap(t,L[3]),()=>{const cb={x:640,y:165,r:58},bks=[{x:380,y:430,r:40},{x:640,y:430,r:40},{x:900,y:430,r:40}];
+    const vs=ap(t,L[4]+.3), sp=1+vs*.85*Math.sin((t-L[4])*1.6);
+    const ph=t+vs*.85*(1-Math.cos(Math.max(0,t-L[4])*1.6))/1.6;
+    bks.forEach((b,i)=>{pipe(t,cb,b,{w:7,show:ap(t,L[3]+.8+i*.2,1),phase:ph});node(b,{a:ap(t,L[3]+.4+i*.15),color:C.gold,icon:'bank',label:'商业银行'});});
+    node(cb,{a:ap(t,L[3]),color:C.gold,icon:'bank',label:'中央银行',glow:1});
+    A(ap(t,L[3]+2.2),()=>{pill('美国：美联储 Fed',330,165,{size:18,bg:C.us,color:'#fff',padX:16});pill('中国：中国人民银行',955,165,{size:18,bg:C.cn,color:'#fff',padX:16});});
+    A(vs,()=>{ // dial
+      const x=1110,y=330;ctx.beginPath();ctx.arc(x,y,48,Math.PI,0);ctx.strokeStyle=C.line;ctx.lineWidth=10;ctx.stroke();
+      const g=ctx.createLinearGradient(x-48,0,x+48,0);g.addColorStop(0,C.teal);g.addColorStop(1,C.cn);ctx.strokeStyle=g;ctx.lineWidth=6;ctx.beginPath();ctx.arc(x,y,48,Math.PI,0);ctx.stroke();
+      const an=Math.PI+Math.PI*clamp((sp-0.15)/1.7);ctx.strokeStyle=C.text;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+Math.cos(an)*40,y+Math.sin(an)*40);ctx.stroke();
+      txt('放水快慢',x,y+24,{size:15,weight:700});pill('利率',x-40,y+60,{size:14,border:C.gold});pill('准备金',x+40,y+60,{size:14,border:C.gold});});
+  });
+}
+function econBase(){return{HH:{x:240,y:330,r:52},FI:{x:1040,y:330,r:52},MID:{x:640,y:330,r:50},GV:{x:640,y:135,r:46},FO:{x:1040,y:540,r:42},CB:{x:240,y:540,r:42}};}
+function sLoop(t,S){const L=S.L,N=econBase();
+  const HH=N.HH,FI=N.FI,GV=N.GV,FO={x:640,y:520,r:42};
+  const pulse=t>L[3]+1?1+.6*Math.sin((t-L[3])*3):1;
+  pipe(t,HH,FI,{bend:-150,w:8*pulse,show:ap(t,L[1]+.3,1),label:'消费'});
+  pipe(t,FI,HH,{bend:-150,w:8*(t>L[3]+1?1+.6*Math.sin((t-L[3])*3+2):1),show:ap(t,L[1]+2.2,1),label:'工资'});
+  pipe(t,HH,GV,{bend:35,w:5,show:ap(t,L[2]+.2,1),label:'税',lp:.45});
+  pipe(t,FI,GV,{bend:-35,w:5,show:ap(t,L[2]+.5,1),label:'税',lp:.45});
+  pipe(t,GV,HH,{bend:35,w:6,show:ap(t,L[2]+1.6,1),label:'公共服务·社保',lp:.55});
+  pipe(t,FI,FO,{bend:-40,w:6,show:ap(t,L[0]+3.6,1),label:'进口'});
+  pipe(t,FO,FI,{bend:-40,w:6,show:ap(t,L[0]+3.9,1),label:'出口'});
+  node(HH,{a:ap(t,L[0]+1.2),color:C.gold,icon:'house',label:'家庭'});
+  node(FI,{a:ap(t,L[0]+1.8),color:C.teal,icon:'factory',label:'企业'});
+  node(GV,{a:ap(t,L[0]+2.5),color:C.muted,icon:'gov',label:'政府'});
+  node(FO,{a:ap(t,L[0]+3.2),color:C.muted,icon:'globe',label:'海外'});
+  A(ap(t,L[3]+1.4),()=>{txt('哪条管道',640,312,{size:26,weight:800,color:C.gold});txt('最粗？',640,348,{size:26,weight:800,color:C.gold});});
+}
+function sUS(t,S){const L=S.L,N=econBase(),col=C.us;const{HH,FI,MID:MK,GV,FO,CB:FED}=N;
+  const fedOn=ap(t,L[6]+.5),om=1.3,dt=Math.max(0,t-L[6]-.5);
+  const ph=t+fedOn*.8*(1-Math.cos(dt*om))/om, sp=1+fedOn*.8*Math.sin(dt*om);
+  const o=(x)=>Object.assign({phase:ph},x);
+  pill('美国',1210,40,{size:18,bg:col,color:'#fff',padX:16});
+  pipe(t,HH,FI,o({bend:-160,w:lerp(8,20,ap(t,L[0]+1.5,1.5)),show:ap(t,L[0]+.6,1),label:'消费（主引擎）',color:C.gold}));
+  pipe(t,FI,HH,o({bend:-160,w:9,show:ap(t,L[0]+.9,1),label:'工资',lp:.25}));
+  pipe(t,HH,MK,o({w:7,show:ap(t,L[2]+.8,1),label:'股票·401k',lp:.45}));
+  pipe(t,MK,FI,o({w:13,show:ap(t,L[3]+.3,1),label:'发股票·债券',lp:.55}));
+  pipe(t,HH,GV,o({bend:35,w:5,show:ap(t,L[4]),label:'税',lp:.4}));
+  pipe(t,FI,GV,o({bend:-35,w:5,show:ap(t,L[4]+.2)}));
+  pipe(t,GV,HH,o({bend:35,w:11,show:ap(t,L[4]+1.6,1),label:'社保·医保',lp:.6}));
+  pipe(t,FI,FO,o({bend:-35,w:10,show:ap(t,L[5]+.6,1),label:'进口：美元流出',lx:12}));
+  pipe(t,FO,GV,o({bend:200,w:10,show:ap(t,L[5]+3.6,1.4),label:'买美国国债',lp:.5}));
+  node(HH,{a:ap(t,S.start+.2),color:C.gold,icon:'house',label:'家庭'});
+  node(FI,{a:ap(t,S.start+.4),color:C.teal,icon:'factory',label:'企业'});
+  node(MK,{a:ap(t,L[2]+.3),color:col,icon:'market',label:'资本市场',glow:1});
+  node(GV,{a:ap(t,L[4]-.4),color:C.muted,icon:'gov',label:'联邦政府'});
+  node(FO,{a:ap(t,L[5]),color:C.muted,icon:'globe',label:'海外'});
+  node(FED,{a:ap(t,L[6]),color:col,icon:'bank',label:'美联储',glow:fedOn});
+  A(fedOn,()=>{const x=390,y=545;txt('刹车',x-58,y+2,{size:14,color:C.teal,weight:700});txt('油门',x+58,y+2,{size:14,color:C.cn,weight:700});
+    ctx.beginPath();ctx.arc(x,y+10,36,Math.PI,0);ctx.strokeStyle=C.line;ctx.lineWidth=8;ctx.stroke();
+    const an=Math.PI+Math.PI*clamp((sp-.2)/1.6);ctx.strokeStyle=C.text;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x,y+10);ctx.lineTo(x+Math.cos(an)*30,y+10+Math.sin(an)*30);ctx.stroke();
+    txt('调利率',x,y+30,{size:13,color:C.muted});});
+  const cardA=win(t,L[0]+1,L[4]-.1);
+  card(30,72,300,150,cardA,()=>{const f=easeOut(clamp((t-L[0]-1.6)/1.5));
+    bar(52,118,256,14,.68*f,col,'居民消费 / GDP',Math.round(68*f)+'%',{vs:20});
+    A(ap(t,L[1]),()=>{const g=easeOut(clamp((t-L[1]-.4)/1.2));bar(52,185,256,14,.045*g,C.gold,'家庭储蓄率','约 4–5%',{vs:18,vc:C.gold});});});
+}
+function sCN(t,S){const L=S.L,N=econBase(),col=C.cn;const{HH,FI,MID:BK,GV,FO,CB:PBC}=N;
+  pill('中国',1210,40,{size:18,bg:col,color:'#fff',padX:16});
+  pipe(t,HH,FI,{bend:-160,w:9,show:ap(t,S.start+.6,1),label:'消费'});
+  pipe(t,FI,HH,{bend:-160,w:10,show:ap(t,S.start+.9,1),label:'工资',lp:.25});
+  pipe(t,HH,BK,{w:lerp(6,19,ap(t,L[1]+.3,1.4)),show:ap(t,L[1],1),label:'存款',lp:.45});
+  pipe(t,BK,FI,{w:lerp(6,21,ap(t,L[1]+2,1.4)),show:ap(t,L[1]+1.6,1),label:'贷款',lp:.55});
+  const land=lerp(17,6,ease(clamp((t-L[4]-.5)/3)));
+  pipe(t,FI,GV,{bend:-60,w:land,show:ap(t,L[3]+3,1.2),label:'土地出让金',lp:.5});
+  pipe(t,FO,FI,{bend:-35,w:14,show:ap(t,L[5]+.6,1),label:'出口收入',lx:-14});
+  pipe(t,PBC,BK,{bend:-40,w:9,show:ap(t,L[6]+1,1),label:'',lp:.5});
+  node(HH,{a:ap(t,S.start+.2),color:C.gold,icon:'house',label:'家庭'});
+  node(FI,{a:ap(t,S.start+.4),color:C.teal,icon:'factory',label:'企业·基建'});
+  node(BK,{a:ap(t,L[1]-.2),color:col,icon:'bank',label:'银行',glow:ap(t,L[1])});
+  node(GV,{a:ap(t,L[3]+1.5),color:C.muted,icon:'gov',label:'地方政府'});
+  node(FO,{a:ap(t,L[5]),color:C.muted,icon:'globe',label:'海外'});
+  node(PBC,{a:ap(t,L[6]),color:col,icon:'bank',label:'中国人民银行',glow:ap(t,L[6])});
+  [['factory','工厂',1165,232],['train','高铁',1195,330],['building','住房',1165,428]].forEach(([ic,lb,x,y],i)=>
+    node({x,y,r:24},{a:ap(t,L[2]+1.5+i*.5),color:C.teal,icon:ic,label:lb}));
+  A(ap(t,L[5]+2.5),()=>pill('外汇储备 ↑',1160,600,{size:15,border:C.gold,color:C.gold}));
+  A(ap(t,L[6]+3),()=>{['利率','降准','定向贷款'].forEach((s,i)=>A(ap(t,L[6]+3+i*.6),()=>pill(s,[150,228,330][i],455,{size:14,border:col})));});
+  A(ap(t,L[6]+6),()=>{['科技','制造','小微'].forEach((s,i)=>A(ap(t,L[6]+6+i*.35),()=>pill(s,730+i*64,440,{size:13,bg:col+'33',border:col})));});
+  // cards
+  card(30,72,300,160,win(t,L[0]+.6,L[3]+.2),()=>{const f=easeOut(clamp((t-L[0]-1.2)/1.5)),g=easeOut(clamp((t-L[0]-3.5)/1.5));
+    bar(52,118,256,14,.32*f,col,'家庭储蓄率','约 30%+',{vs:18});ctx.globalAlpha*=.8;
+    txt('美国 约 4–5%',308,142,{size:12,color:C.muted,align:'right'});ctx.globalAlpha/=.8;
+    bar(52,190,256,14,.39*g,C.gold,'居民消费 / GDP','约 39%',{vs:18,vc:C.gold});
+    txt('美国 约 68%',308,214,{size:12,color:C.muted,align:'right'});});
+  card(950,72,240,96,win(t,L[1]+2.5,L[3]+3),()=>{txt('人民币贷款余额',1070,98,{size:14,color:C.muted});
+    txt(Math.round(countUp(t,L[1]+2.8,2.2,283))+' 万亿元',1070,136,{size:30,weight:800,color:col});});
+  card(30,72,300,190,win(t,L[3]+.6,L[5]+.6),()=>{txt('土地出让收入',52,96,{size:15,color:C.muted,align:'left',weight:700});
+    const base=242,hmax=110,f=easeOut(clamp((t-L[3]-4)/1.2)),g=easeOut(clamp((t-L[4]-.3)/1.4));
+    rr(90,base-hmax*f,70,hmax*f,6);ctx.fillStyle=C.gold;ctx.fill();
+    A(f,()=>{txt('2021',125,base+12,{size:13,color:C.muted});txt('约 8.7 万亿',125,base-hmax*f-14,{size:15,weight:700,color:C.gold});});
+    const h2=hmax*4.15/8.7*g;rr(200,base-h2,70,h2,6);ctx.fillStyle=col;ctx.fill();
+    A(g,()=>{txt('2025',235,base+12,{size:13,color:C.muted});txt('约 4.15 万亿',235,base-h2-14,{size:15,weight:700,color:col});});});
+}
+function sCompare(t,S){const L=S.L;
+  ctx.fillStyle=C.line;ctx.fillRect(639,80,2,ap(t,S.start+.2)*390);
+  // US river
+  A(ap(t,L[0]),()=>{txt('美国 · 消费之河',320,105,{size:28,weight:800,color:C.us});
+    const yb=290,x0=150,x1=500,f=(x)=>yb+Math.sin(x/38+t*1.4)*14;
+    ctx.beginPath();for(let x=x0;x<=x1;x+=6)x===x0?ctx.moveTo(x,f(x)):ctx.lineTo(x,f(x));
+    ctx.strokeStyle=C.us;ctx.globalAlpha*=.35;ctx.lineWidth=44;ctx.lineCap='round';ctx.stroke();ctx.globalAlpha/=.35;
+    for(let k=0;k<12;k++){const u=((t*.32+k/12)%1),x=lerp(x0,x1,u);A(clamp(Math.min(u,1-u)/.08),()=>coin(x,f(x)+((k%3)-1)*11,7));}
+    node({x:100,y:290,r:40},{color:C.gold,icon:'wallet',label:'家庭钱包'});node({x:550,y:290,r:40},{color:C.teal,icon:'store',label:'商店·企业'});
+    A(ap(t,L[0]+3.2),()=>{pipe(t,{x:550,y:290,r:40},{x:320,y:410,r:30},{bend:-30,w:6});node({x:320,y:410,r:30},{color:C.us,icon:'market'});txt('资本市场分配',405,410,{size:15,color:C.muted,align:'left'});});});
+  // China reservoir
+  A(ap(t,L[1]),()=>{txt('中国 · 储蓄水库',960,105,{size:28,weight:800,color:C.cn});
+    const lv=easeOut(clamp((t-L[1])/3)),top=200,bot=380,x0=740,x1=1040,wl=lerp(bot-10,top+30,lv)+Math.sin(t*2)*3;
+    ctx.beginPath();ctx.moveTo(x0,top);ctx.lineTo(x0+30,bot);ctx.lineTo(x1,bot);ctx.lineTo(x1,top);ctx.strokeStyle=C.muted;ctx.lineWidth=3;ctx.stroke();
+    ctx.beginPath();ctx.moveTo(x0+30*(wl-top)/(bot-top),wl);for(let x=x0+10;x<=x1;x+=8)ctx.lineTo(x,wl+Math.sin(x/20+t*2)*2.5);ctx.lineTo(x1,bot);ctx.lineTo(x0+30,bot);ctx.closePath();
+    ctx.fillStyle='rgba(56,194,176,.35)';ctx.fill();
+    for(let k=0;k<5;k++){const u=((t*.5+k/5)%1);A(1-u,()=>coin(780+k*55,lerp(140,wl,u),7));}
+    txt('家庭储蓄',890,150,{size:15,color:C.muted});
+    ctx.fillStyle=C.cn;ctx.fillRect(x1,top-10,14,bot-top+10);txt('银行闸门',x1+7,bot+22,{size:14,color:C.cn,weight:700});
+    const go=ap(t,L[1]+2.5,1.2);
+    [[1170,240,'factory'],[1180,320,'train'],[1170,400,'building']].forEach(([x,y,ic],i)=>{pipe(t,{x:x1+14,y:bot-40,r:0},{x,y,r:24},{w:6,show:go,bend:i===0?30:i===2?-30:0});node({x,y,r:24},{a:go,color:C.teal,icon:ic});});});
+  A(ap(t,L[2]+.3),()=>{pill('代价：负债偏高 · 储蓄不足',320,480,{size:16,border:C.us,color:C.text});});
+  A(ap(t,L[2]+3),()=>{pill('代价：投资过剩 · 消费偏弱',960,480,{size:16,border:C.cn,color:C.text});});
+  A(ap(t,L[3]+.5),()=>{ctx.save();ctx.lineWidth=3;
+    const s=easeOut(clamp((t-L[3]-.5)/1.2));
+    ctx.strokeStyle=C.us;ctx.beginPath();ctx.moveTo(420,535);ctx.quadraticCurveTo(640,575,lerp(420,860,s),535);ctx.stroke();
+    ctx.strokeStyle=C.cn;ctx.beginPath();ctx.moveTo(860,555);ctx.quadraticCurveTo(640,515,lerp(860,420,s),555);ctx.stroke();ctx.restore();
+    pill('美国：推动制造业回流',250,545,{size:15,bg:C.us+'30',border:C.us});pill('中国：努力提振消费',1030,545,{size:15,bg:C.cn+'30',border:C.cn});
+    A(ap(t,L[3]+3.5),()=>pill('互相借鉴',640,545,{size:17,bg:C.gold,color:'#1a1300'}));});
+}
+function sOutro(t,S){const L=S.L;
+  const a=ap(t,L[0]-.3),bx=640,by=250;
+  const ends=[[160,140],[1120,120],[180,470],[1110,480],[400,520],[880,520],[640,80]];
+  A(a,()=>{ends.forEach(([x,y],i)=>pipe(t,{x:bx,y:by,r:70},{x,y,r:6},{bend:(i%2?1:-1)*60,w:4,show:ap(t,L[0]+i*.25,1.4),speed:1.3}));
+    banknote(bx,by+Math.sin(t*1.3)*4,.5,C.cn);});
+  A(ap(t,L[0]+2.2),()=>txt('它会流向哪里？',640,400,{size:36,weight:800,color:C.gold}));
+  A(ap(t,S.lines[0].end+.6),()=>{ctx.fillStyle='rgba(11,16,32,.82)';ctx.fillRect(0,0,W,H);
+    txt('钱，是怎么流动的？',640,300,{size:46,weight:800});
+    txt('美国：消费之河 · 资本市场分配　｜　中国：储蓄水库 · 银行引导投资',640,360,{size:18,color:C.muted});
+    txt('数据：中国人民银行、财政部、国家统计局、美国经济分析局（BEA）等；均为近似值，仅作科普',640,440,{size:14,color:C.muted});});
+}
+const SCENES={intro:sIntro,create:sCreate,loop:sLoop,us:sUS,cn:sCN,compare:sCompare,outro:sOutro};
+
+/* ---------- frame ---------- */
+function wrap2(s,maxW,size){ctx.font=`500 ${size}px ${FONT}`;if(ctx.measureText(s).width<=maxW)return[s];
+  const P='，。：；、？！';let best=-1,bd=1e9;
+  for(let i=0;i<s.length-1;i++)if(P.includes(s[i])){const a=s.slice(0,i+1),b=s.slice(i+1);
+    if(ctx.measureText(a).width<=maxW&&ctx.measureText(b).width<=maxW){const d=Math.abs(i-s.length/2);if(d<bd){bd=d;best=i;}}}
+  if(best>=0)return[s.slice(0,best+1),s.slice(best+1)];
+  let a='';for(const ch of s){if(ctx.measureText(a+ch).width>maxW)break;a+=ch;}return[a,s.slice(a.length)];}
+function render(t){
+  const k=cv.width/W;ctx.setTransform(k,0,0,k,0,0);
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,C.bg1);g.addColorStop(1,C.bg0);ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.025)';for(let x=40;x<W;x+=40)for(let y=40;y<H;y+=40)ctx.fillRect(x,y,1.5,1.5);
+  for(const S of TL.scenes){if(t<S.start-.05||t>S.end+.05)continue;
+    const a=Math.min(ap(t,S.start,.5),1-easeOut(clamp((t-(S.end-.5))/.5)));
+    if(S.id==='outro')A(ap(t,S.start,.5),()=>SCENES[S.id](t,S));else A(a,()=>SCENES[S.id](t,S));
+    if(S.id!=='intro'&&S.id!=='outro')A(a,()=>{pill(S.title,30+ctx.measureText(S.title).width/2,40,{size:17,bg:'rgba(243,193,75,.14)',border:C.gold,color:C.gold,padX:14});});
+    // subtitles
+    for(const l of S.lines){if(t<l.start-.15||t>l.end+.35)continue;
+      const sa=Math.min(ap(t,l.start-.15,.2),1-clamp((t-l.end-.15)/.2));
+      A(sa,()=>{const ls=wrap2(l.text,1060,25),lh=36,bh=ls.length*lh+20,y0=H-26-bh;
+        ctx.font=`500 25px ${FONT}`;const bw=Math.max(...ls.map(s=>ctx.measureText(s).width))+44;
+        rr(640-bw/2,y0,bw,bh,12);ctx.fillStyle='rgba(5,8,16,.78)';ctx.fill();
+        ls.forEach((s,i)=>txt(s,640,y0+10+lh/2+i*lh,{size:25,weight:500}));});}
+  }
+  ctx.fillStyle=C.gold;ctx.globalAlpha=.7;ctx.fillRect(0,H-3,W*clamp(t/TL.total),3);ctx.globalAlpha=1;
+  const fin=clamp((t-(TL.total-1.2))/1.2);if(fin>0){ctx.fillStyle=`rgba(0,0,0,${fin})`;ctx.fillRect(0,0,W,H);}
+}
+TL.scenes.forEach(S=>S.L=S.lines.map(l=>l.start));
+
+/* ---------- player ---------- */
+function size(){const r=cv.getBoundingClientRect(),d=CAPTURE?1:Math.min(2,devicePixelRatio||1);
+  cv.width=CAPTURE?1920:Math.round(r.width*d);cv.height=CAPTURE?1080:Math.round(r.height*d);}
+window.renderAt=(t)=>render(t);
+window.grab=(t0,n,fps,q)=>{const out=[];for(let i=0;i<n;i++){render(t0+i/fps);out.push(cv.toDataURL('image/jpeg',q));}return out;};
+window.TOTAL=TL.total;
+size();addEventListener('resize',()=>{size();render(cur());});
+const au=document.getElementById('au'),pp=document.getElementById('pp'),seek=document.getElementById('seek'),tm=document.getElementById('tm'),st=document.getElementById('start');
+let fakeT=0,fakeStart=null;const cur=()=>au.readyState>0&&!au.error?au.currentTime:fakeT;
+const fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+function play(){st.style.display='none';au.play().catch(()=>{fakeStart=performance.now()-fakeT*1000;});pp.textContent='❚❚';}
+function pause(){au.pause();fakeStart=null;pp.textContent='▶';}
+st.onclick=play;pp.onclick=()=>(au.paused&&fakeStart===null)?play():pause();
+seek.oninput=()=>{const v=seek.value/1000*TL.total;au.currentTime=v;fakeT=v;if(fakeStart!==null)fakeStart=performance.now()-v*1000;};
+au.onended=pause;
+addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();pp.click();}});
+function loop(){if(fakeStart!==null){fakeT=(performance.now()-fakeStart)/1000;if(fakeT>=TL.total){fakeT=TL.total;pause();}}
+  const t=cur();render(t);if(document.activeElement!==seek)seek.value=t/TL.total*1000;tm.textContent=fmt(t)+' / '+fmt(TL.total);
+  if(!CAPTURE)requestAnimationFrame(loop);}
+document.fonts.ready.then(()=>{render(0);if(!CAPTURE)loop();});
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>钱是怎么流动的</title>
+<style>
+  :root{--bg:#070a12;--fg:#eef1f7;--muted:#8d97ad;--accent:#f3c14b}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei",sans-serif}
+  #stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  #wrap{position:relative;width:min(100vw,calc(100vh*16/9));aspect-ratio:16/9}
+  canvas{width:100%;height:100%;display:block}
+  #ctl{position:absolute;left:0;right:0;bottom:0;display:flex;gap:12px;align-items:center;padding:10px 16px;
+       background:linear-gradient(transparent,rgba(0,0,0,.65));opacity:0;transition:opacity .25s}
+  #wrap:hover #ctl,#ctl.show{opacity:1}
+  #ctl button{background:var(--accent);color:#1a1300;border:0;border-radius:999px;width:38px;height:38px;font-size:16px;cursor:pointer}
+  #seek{flex:1;accent-color:var(--accent)}
+  #tm{font-variant-numeric:tabular-nums;font-size:13px;color:var(--muted);min-width:92px;text-align:right}
+  #start{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(7,10,18,.55);cursor:pointer}
+  #start span{background:var(--accent);color:#1a1300;font-weight:700;padding:14px 26px;border-radius:999px;font-size:18px}
+  body.capture #ctl,body.capture #start{display:none}
+</style>
+</head>
+<body>
+<div id="stage"><div id="wrap">
+  <canvas id="cv"></canvas>
+  <div id="start"><span>▶ 点击播放（普通话配音）</span></div>
+  <div id="ctl"><button id="pp">▶</button><input id="seek" type="range" min="0" max="1000" value="0"><span id="tm">0:00 / 0:00</span></div>
+</div></div>
+<audio id="au" src="narration.mp3" preload="auto"></audio>
+<script>
+const TL = /*TIMELINE*/null;
+const W=1280,H=720;
+const FONT='"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Source Han Sans SC","Microsoft YaHei",sans-serif';
+const C={bg0:'#0b1020',bg1:'#141c31',panel:'#1a2338',line:'#2a3550',text:'#eef1f7',muted:'#8d97ad',
+  gold:'#f3c14b',goldD:'#a87a22',us:'#4f8dff',cn:'#f0503f',teal:'#38c2b0',violet:'#a07cf0',green:'#4fcf7a'};
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+const CAPTURE=/capture/.test(location.search);
+if(CAPTURE) document.body.classList.add('capture');
+
+/* ---------- utils ---------- */
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const lerp=(a,b,u)=>a+(b-a)*u;
+const ease=u=>u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;
+const easeOut=u=>1-Math.pow(1-u,3);
+const back=u=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(u-1,3)+c1*Math.pow(u-1,2);};
+const ap=(t,at,d=.6)=>easeOut(clamp((t-at)/d));
+const win=(t,a,b,f=.5)=>Math.min(ap(t,a,f),1-easeOut(clamp((t-(b-f))/f)));
+function A(a,fn){if(a<=.002)return;ctx.save();ctx.globalAlpha*=Math.min(1,a);fn();ctx.restore();}
+function txt(s,x,y,o={}){const{size=20,color=C.text,align='center',weight=500,base='middle'}=o;
+  ctx.font=`${weight} ${size}px ${FONT}`;ctx.fillStyle=color;ctx.textAlign=align;ctx.textBaseline=base;ctx.fillText(s,x,y);}
+function rr(x,y,w,h,r){ctx.beginPath();ctx.roundRect(x,y,w,h,r);}
+function pill(s,x,y,o={}){const{size=15,color=C.text,bg='rgba(11,16,32,.88)',border=null,padX=11}=o;
+  ctx.font=`600 ${size}px ${FONT}`;const w=ctx.measureText(s).width+padX*2,h=size+13;
+  rr(x-w/2,y-h/2,w,h,h/2);ctx.fillStyle=bg;ctx.fill();if(border){ctx.strokeStyle=border;ctx.lineWidth=1.5;ctx.stroke();}
+  txt(s,x,y+1,{size,color,weight:600});return w;}
+function coin(x,y,r){ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fillStyle=C.gold;ctx.fill();
+  ctx.lineWidth=Math.max(1,r*.24);ctx.strokeStyle=C.goldD;ctx.stroke();
+  ctx.beginPath();ctx.arc(x-r*.32,y-r*.32,r*.3,0,7);ctx.fillStyle='rgba(255,255,255,.6)';ctx.fill();}
+function bez(p0,c,p1,s){const u=1-s;return[u*u*p0[0]+2*u*s*c[0]+s*s*p1[0],u*u*p0[1]+2*u*s*c[1]+s*s*p1[1]];}
+
+/* pipe with flowing coins: n0,n1 = {x,y,r} */
+function pipe(t,n0,n1,o={}){
+  const show=o.show??1; if(show<=0.001) return;
+  const bend=o.bend||0, w=o.w??6, col=o.color||C.gold, spd=o.speed??1;
+  const dx=n1.x-n0.x,dy=n1.y-n0.y,L=Math.hypot(dx,dy),nx=-dy/L,ny=dx/L;
+  const mx=(n0.x+n1.x)/2+nx*bend,my=(n0.y+n1.y)/2+ny*bend;
+  const r0=(n0.r||0)+8,r1=(n1.r||0)+14;
+  const d0=Math.hypot(mx-n0.x,my-n0.y),d1=Math.hypot(mx-n1.x,my-n1.y);
+  const p0=[n0.x+(mx-n0.x)/d0*r0,n0.y+(my-n0.y)/d0*r0],p1=[n1.x+(mx-n1.x)/d1*r1,n1.y+(my-n1.y)/d1*r1],c=[mx,my];
+  let len=0,pv=p0;for(let i=1;i<=24;i++){const q=bez(p0,c,p1,i/24);len+=Math.hypot(q[0]-pv[0],q[1]-pv[1]);pv=q;}
+  const N=48,path=()=>{ctx.beginPath();for(let i=0;i<=Math.ceil(N*show);i++){const q=bez(p0,c,p1,Math.min(show,i/N));i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]);}};
+  ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
+  path();ctx.strokeStyle=col;ctx.globalAlpha*=.16;ctx.lineWidth=w+10;ctx.stroke();ctx.restore();
+  ctx.save();ctx.lineCap='round';if(o.dash)ctx.setLineDash(o.dash);path();ctx.strokeStyle=col;ctx.globalAlpha*=o.dash?.75:.42;ctx.lineWidth=w;ctx.stroke();ctx.restore();
+  // arrow head
+  if(show>.98){const a=bez(p0,c,p1,.97),ang=Math.atan2(p1[1]-a[1],p1[0]-a[0]),s=Math.max(9,w*.75);
+    ctx.save();ctx.translate(p1[0],p1[1]);ctx.rotate(ang);ctx.beginPath();ctx.moveTo(4,0);ctx.lineTo(-s,-s*.75);ctx.lineTo(-s,s*.75);ctx.closePath();
+    ctx.fillStyle=col;ctx.globalAlpha*=.85;ctx.fill();ctx.restore();}
+  // coins
+  const spacing=clamp(64-w*2.2,24,64),n=Math.max(2,Math.floor(len/spacing)),cr=clamp(w*.5,3.5,10);
+  const ph=(o.phase??t)*spd*95/len;
+  for(let k=0;k<n;k++){const s=((ph+k/n)%1+1)%1;if(s>show)continue;
+    const q=bez(p0,c,p1,s),fa=clamp(Math.min(s/.07,(1-s)/.07));A(fa*(o.ca??1),()=>coin(q[0],q[1],cr));}
+  if(o.label&&show>.5){const q=bez(p0,c,p1,o.lp??.5);
+    A(clamp((show-.5)*2),()=>pill(o.label,q[0]+(o.lx||0),q[1]+(o.ly||0),{size:o.ls||14,border:col}));}
+}
+
+/* ---------- icons (unit ~ ±20) ---------- */
+let BG=C.panel;
+const IC={
+  house(){ctx.beginPath();ctx.moveTo(-21,-1);ctx.lineTo(0,-20);ctx.lineTo(21,-1);ctx.closePath();ctx.fill();ctx.fillRect(-15,-2,30,21);ctx.fillStyle=BG;ctx.fillRect(-4,7,8,12);},
+  factory(){ctx.beginPath();[[-21,19],[-21,-2],[-9,6],[-9,-2],[3,6],[3,-19],[11,-19],[11,6],[21,6],[21,19]].forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.closePath();ctx.fill();
+    ctx.fillStyle=BG;for(const x of[-16,-6,4,14])ctx.fillRect(x,11,4,5);},
+  gov(){ctx.beginPath();ctx.arc(0,-6,11,Math.PI,0);ctx.fill();ctx.fillRect(-19,-6,38,4);for(const x of[-16,-7,3,12])ctx.fillRect(x,-1,4,15);ctx.fillRect(-21,14,42,4);ctx.fillRect(-1,-22,2,6);},
+  bank(){ctx.beginPath();ctx.moveTo(-21,-7);ctx.lineTo(0,-20);ctx.lineTo(21,-7);ctx.closePath();ctx.fill();for(const x of[-16,-7,3,12])ctx.fillRect(x,-4,4,17);ctx.fillRect(-21,14,42,4);
+    ctx.fillStyle=BG;ctx.beginPath();ctx.arc(0,-11,3.4,0,7);ctx.fill();},
+  globe(c){ctx.strokeStyle=c;ctx.lineWidth=2.6;ctx.beginPath();ctx.arc(0,0,18,0,7);ctx.stroke();ctx.beginPath();ctx.ellipse(0,0,8,18,0,0,7);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(-18,0);ctx.lineTo(18,0);ctx.moveTo(-15,-9);ctx.lineTo(15,-9);ctx.moveTo(-15,9);ctx.lineTo(15,9);ctx.stroke();},
+  market(c){ctx.strokeStyle=c;ctx.lineWidth=2.6;ctx.beginPath();ctx.moveTo(-20,-18);ctx.lineTo(-20,18);ctx.lineTo(20,18);ctx.stroke();
+    for(const [x,y0,h] of[[-12,4,10],[-3,-2,12],[6,-8,10],[15,-14,12]])ctx.fillRect(x-2.5,y0,5,h);
+    ctx.beginPath();ctx.moveTo(-16,10);ctx.lineTo(-6,2);ctx.lineTo(3,-3);ctx.lineTo(18,-17);ctx.stroke();},
+  train(){rr(-21,-14,42,24,9);ctx.fill();ctx.fillStyle=BG;for(const x of[-14,-3,8])ctx.fillRect(x,-8,7,7);ctx.beginPath();ctx.arc(-11,14,4,0,7);ctx.arc(11,14,4,0,7);ctx.fill();ctx.fillRect(-22,19,44,2);},
+  building(){ctx.fillRect(-13,-21,26,40);ctx.fillStyle=BG;for(let y=-16;y<12;y+=8)for(const x of[-8,2])ctx.fillRect(x,y,5,5);},
+  wallet(){rr(-21,-13,42,28,6);ctx.fill();ctx.fillStyle=BG;rr(6,-4,15,10,3);ctx.fill();},
+  store(){ctx.fillRect(-18,-2,36,20);for(let i=0;i<5;i++){ctx.beginPath();ctx.moveTo(-20+i*8,-16);ctx.lineTo(-12+i*8,-16);ctx.lineTo(-12+i*8,-4);ctx.arc(-16+i*8,-4,4,0,Math.PI);ctx.closePath();ctx.fill();}
+    ctx.fillStyle=BG;ctx.fillRect(-5,6,10,12);},
+  press(){ctx.fillRect(-20,2,40,16);ctx.beginPath();ctx.arc(-8,-8,8,0,7);ctx.arc(9,-8,8,0,7);ctx.fill();ctx.fillStyle=BG;ctx.beginPath();ctx.arc(-8,-8,3,0,7);ctx.arc(9,-8,3,0,7);ctx.fill();}
+};
+function node(n,o={}){const{a=1,color=C.muted,label,sub,icon,glow=0}=o;if(a<=0)return;
+  const s=back(clamp(a));
+  ctx.save();ctx.globalAlpha*=clamp(a*1.4);ctx.translate(n.x,n.y);ctx.scale(s,s);
+  if(glow>0){const g=ctx.createRadialGradient(0,0,n.r*.6,0,0,n.r*1.9);g.addColorStop(0,color+'55');g.addColorStop(1,color+'00');ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,n.r*1.9,0,7);ctx.globalAlpha*=glow;ctx.fill();ctx.globalAlpha/=glow;}
+  ctx.beginPath();ctx.arc(0,0,n.r,0,7);ctx.fillStyle=C.panel;ctx.fill();ctx.lineWidth=2.6;ctx.strokeStyle=color;ctx.stroke();
+  if(icon){ctx.save();const k=n.r/46;ctx.scale(k,k);ctx.fillStyle=color;BG=C.panel;IC[icon](color);ctx.restore();}
+  if(label)txt(label,0,n.r+19,{size:Math.max(14,n.r*.34),weight:700});
+  if(sub)txt(sub,0,n.r+40,{size:13,color:C.muted});
+  ctx.restore();}
+function card(x,y,w,h,a,fn){A(a,()=>{rr(x,y,w,h,12);ctx.fillStyle='rgba(20,28,49,.92)';ctx.fill();ctx.strokeStyle=C.line;ctx.lineWidth=1.2;ctx.stroke();fn();});}
+function bar(x,y,w,h,frac,color,label,val,o={}){rr(x,y,w,h,h/2);ctx.fillStyle='rgba(255,255,255,.07)';ctx.fill();
+  if(frac>0){rr(x,y,Math.max(h,w*frac),h,h/2);ctx.fillStyle=color;ctx.fill();}
+  if(label)txt(label,x,y-13,{size:14,color:C.muted,align:'left'});
+  if(val)txt(val,x+w,y-13,{size:o.vs||16,color:o.vc||color,align:'right',weight:700});}
+function banknote(x,y,s,color){ctx.save();ctx.translate(x,y);ctx.scale(s,s);
+  const g=ctx.createLinearGradient(-190,-90,190,90);g.addColorStop(0,color);g.addColorStop(1,'#7a1e1a');
+  rr(-190,-88,380,176,14);ctx.fillStyle=g;ctx.fill();rr(-176,-74,352,148,9);ctx.strokeStyle='rgba(255,230,200,.45)';ctx.lineWidth=2;ctx.stroke();
+  ctx.beginPath();ctx.arc(-100,0,46,0,7);ctx.strokeStyle='rgba(255,230,200,.5)';ctx.stroke();
+  txt('¥',-100,2,{size:52,weight:800,color:'rgba(255,240,220,.9)'});
+  txt('100',70,4,{size:78,weight:800,color:'rgba(255,240,220,.95)'});
+  txt('一百块钱',70,54,{size:17,color:'rgba(255,240,220,.7)'});ctx.restore();}
+function arrow(x0,y0,x1,y1,col,w=3){const a=Math.atan2(y1-y0,x1-x0);ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=w;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1-Math.cos(a)*8,y1-Math.sin(a)*8);ctx.stroke();
+  ctx.save();ctx.translate(x1,y1);ctx.rotate(a);ctx.beginPath();ctx.moveTo(2,0);ctx.lineTo(-12,-8);ctx.lineTo(-12,8);ctx.closePath();ctx.fill();ctx.restore();}
+function countUp(t,at,dur,to){return to*easeOut(clamp((t-at)/dur));}
+

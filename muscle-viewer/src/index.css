@@ -1,0 +1,143 @@
+:root {
+  --bg: #12151d;
+  --surface: #181c26;
+  --surface-2: #212634;
+  --border: #2d3445;
+  --text: #eef0f6;
+  --text-soft: #c3c8d6;
+  --text-dim: #8b93a7;
+  --accent: #ffb547;
+  --highlight: #3fc8d8;
+  --muscle: #c4544c;
+  --deep-muscle: #9d4a78;
+  --bone: #e6dbc6;
+
+  color-scheme: dark;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Segoe UI',
+    Roboto, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+}
+
+.app {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr) 380px;
+  grid-template-rows: 56px minmax(0, 1fr);
+  grid-template-areas:
+    'top top top'
+    'side main info';
+}
+
+.muted {
+  color: var(--text-dim);
+}
+.small {
+  font-size: 12px;
+  margin: 0 0 8px;
+}
+
+.btn {
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.btn:hover {
+  border-color: var(--accent);
+}
+.btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #1a1305;
+  font-weight: 600;
+}
+.btn--primary:hover {
+  filter: brightness(1.08);
+}
+.btn--small {
+  padding: 5px 11px;
+  font-size: 12px;
+  background: transparent;
+  border-color: transparent;
+}
+.btn--small:hover {
+  background: var(--surface-2);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+/* Tablet: info panel moves under the viewer. */
+@media (max-width: 1200px) {
+  .app {
+    grid-template-columns: 270px minmax(0, 1fr);
+    grid-template-rows: 56px minmax(0, 1fr) minmax(0, 40%);
+    grid-template-areas:
+      'top top'
+      'side main'
+      'side info';
+  }
+  .info-panel {
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+}
+
+/* Phone: single scrolling column. */
+@media (max-width: 760px) {
+  .app {
+    height: auto;
+    min-height: 100%;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 56px 62vh auto auto;
+    grid-template-areas:
+      'top'
+      'main'
+      'info'
+      'side';
+  }
+  .sidebar {
+    border-right: none;
+    border-top: 1px solid var(--border);
+  }
+  .sidebar__body,
+  .info-panel {
+    overflow: visible;
+  }
+  .topbar__subtitle {
+    display: none;
+  }
+}
+
+/* Video mode: a single scrolling column under the top bar. */
+.app.app--video {
+  height: 100%;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 56px minmax(0, 1fr);
+  grid-template-areas:
+    'top'
+    'main';
+}

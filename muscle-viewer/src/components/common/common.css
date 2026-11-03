@@ -1,0 +1,61 @@
+.section {
+  padding: 14px 0;
+  border-top: 1px solid var(--border);
+}
+.section:first-of-type {
+  border-top: none;
+}
+.section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.section__title {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.chip {
+  --chip-color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 18px;
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  max-width: 100%;
+  text-align: left;
+}
+.chip--button {
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  transition: border-color 0.15s, background 0.15s;
+}
+.chip--button:hover {
+  border-color: var(--chip-color);
+  background: color-mix(in srgb, var(--chip-color) 14%, var(--surface-2));
+}
+.chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--chip-color);
+  flex: none;
+}
+.chips {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}

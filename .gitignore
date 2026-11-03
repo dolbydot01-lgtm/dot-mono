@@ -4,3 +4,17 @@
 deep-tutor/data/
 deep-tutor/.venv/
 runs/
+
+# Dependencies / build output
+node_modules/
+dist/
+.venv/
+__pycache__/
+*.pyc
+
+# Logs
+*.log
+
+# Large media assets (kept locally)
+*.mp4
+*.mp3
