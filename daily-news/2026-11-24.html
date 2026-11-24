@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>The Daily Ledger — 24 November 2026</title>
+  <style>
+    :root {
+      --paper: #f4efe5;
+      --ink: #171512;
+      --muted: #625d54;
+      --rule: #28241f;
+      --wash: #e6ddca;
+      --wash-strong: #d9cbb2;
+      --accent: #7b2019;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+      --sans: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    html[data-theme="dark"] {
+      --paper: #171717;
+      --ink: #f0eadf;
+      --muted: #bdb5a8;
+      --rule: #d7cfc2;
+      --wash: #292723;
+      --wash-strong: #3a352e;
+      --accent: #e48d7f;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      background: var(--paper);
+      color: var(--ink);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, color-mix(in srgb, var(--paper) 96%, black 4%) 0, var(--paper) 9%, var(--paper) 91%, color-mix(in srgb, var(--paper) 96%, black 4%) 100%);
+      color: var(--ink);
+      font-family: var(--serif);
+      line-height: 1.52;
+      text-rendering: optimizeLegibility;
+    }
+
+    .edition {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding:
+        max(1rem, env(safe-area-inset-top))
+        max(1rem, env(safe-area-inset-right))
+        max(2rem, env(safe-area-inset-bottom))
+        max(1rem, env(safe-area-inset-left));
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: .55rem;
+      margin-bottom: .75rem;
+      font-family: var(--sans);
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid var(--rule);
+      background: transparent;
+      color: var(--ink);
+      min-height: 42px;
+      padding: .55rem .9rem;
+      font: 700 .78rem/1 var(--sans);
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    button:hover,
+    button:focus-visible {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .masthead {
+      text-align: center;
+      border-top: 5px solid var(--rule);
+      border-bottom: 6px double var(--rule);
+      padding: .5rem 0 .9rem;
+    }
+
+    .kicker {
+      margin: 0 0 .25rem;
+      font: 700 clamp(.66rem, 1.2vw, .82rem)/1.2 var(--sans);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(3.4rem, 10.7vw, 8.4rem);
+      font-weight: 900;
+      line-height: .8;
+      letter-spacing: -.055em;
+      text-transform: uppercase;
+    }
+
+    .strap {
+      max-width: 780px;
+      margin: .7rem auto 0;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-style: italic;
+    }
+
+    .dateline {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: .5rem 1.25rem;
+      margin: .85rem 0 1.25rem;
+      padding: .48rem 0;
+      border-bottom: 1px solid var(--rule);
+      font: 700 .72rem/1.3 var(--sans);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .section {
+      margin: 0 0 1.75rem;
+    }
+
+    .section-banner {
+      margin: 0 0 .9rem;
+      padding: .55rem .8rem;
+      background: var(--ink);
+      color: var(--paper);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      break-after: avoid;
+    }
+
+    .section-banner h2 {
+      margin: 0;
+      font: 900 clamp(1.45rem, 4vw, 2.55rem)/1 var(--serif);
+      letter-spacing: .045em;
+      text-transform: uppercase;
+    }
+
+    .section-banner span {
+      font: 700 .65rem/1.25 var(--sans);
+      letter-spacing: .11em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .story {
+      column-count: 2;
+      column-gap: 2rem;
+      column-rule: 1px solid color-mix(in srgb, var(--rule) 65%, transparent);
+      orphans: 3;
+      widows: 3;
+    }
+
+    .story > * {
+      margin-top: 0;
+    }
+
+    .headline,
+    .dek,
+    .byline,
+    .source,
+    .watch {
+      column-span: all;
+    }
+
+    .headline {
+      margin-bottom: .35rem;
+      font-size: clamp(2rem, 5vw, 4.15rem);
+      font-weight: 900;
+      line-height: .98;
+      letter-spacing: -.03em;
+      text-wrap: balance;
+    }
+
+    .dek {
+      margin-bottom: .45rem;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2.3vw, 1.45rem);
+      font-style: italic;
+      line-height: 1.3;
+    }
+
+    .byline {
+      margin-bottom: .95rem;
+      padding-bottom: .65rem;
+      border-bottom: 1px solid var(--rule);
+      font: 700 .7rem/1.4 var(--sans);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .story p {
+      margin: 0 0 .75rem;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .story p.dropcap::first-letter {
+      float: left;
+      margin: .08em .11em 0 0;
+      color: var(--accent);
+      font-size: 4.3em;
+      font-weight: 900;
+      line-height: .72;
+    }
+
+    .data-box {
+      break-inside: avoid;
+      margin: .25rem 0 1rem;
+      padding: .8rem .9rem;
+      border: 1px solid var(--rule);
+      border-top: 5px solid var(--rule);
+      background: var(--wash);
+      font-family: var(--sans);
+    }
+
+    .data-box h3 {
+      margin: 0 0 .45rem;
+      font-size: .78rem;
+      line-height: 1.2;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .data-box dl {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: .3rem .7rem;
+      margin: 0;
+      font-size: .79rem;
+      line-height: 1.25;
+    }
+
+    .data-box dt { font-weight: 700; }
+    .data-box dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+
+    .data-box small {
+      display: block;
+      margin-top: .55rem;
+      font-size: .62rem;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+
+    .watch {
+      margin: .2rem 0 .75rem;
+      padding: .68rem .8rem;
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--wash) 72%, transparent);
+      font-size: .93rem;
+      line-height: 1.35;
+      break-inside: avoid;
+    }
+
+    .source {
+      margin: .2rem 0 0;
+      padding-top: .6rem;
+      border-top: 1px solid var(--rule);
+      color: var(--muted);
+      font: 600 .66rem/1.45 var(--sans);
+      letter-spacing: .035em;
+    }
+
+    .inside {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+      padding: .9rem 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .inside p { margin: 0; }
+    .inside .lead { font-size: 1.12rem; }
+    .inside .note { color: var(--muted); font-style: italic; }
+
+    footer {
+      margin-top: 2rem;
+      padding-top: .8rem;
+      border-top: 5px double var(--rule);
+      font-family: var(--sans);
+      font-size: .69rem;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme]) {
+        --paper: #171717;
+        --ink: #f0eadf;
+        --muted: #bdb5a8;
+        --rule: #d7cfc2;
+        --wash: #292723;
+        --wash-strong: #3a352e;
+        --accent: #e48d7f;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .edition {
+        padding-left: max(.75rem, env(safe-area-inset-left));
+        padding-right: max(.75rem, env(safe-area-inset-right));
+      }
+
+      .controls { justify-content: stretch; }
+      .controls button { flex: 1 1 45%; }
+      .story { column-count: 1; }
+      .dateline { display: block; }
+      .dateline span { display: block; margin-top: .3rem; }
+      .section-banner { align-items: flex-start; flex-direction: column; gap: .35rem; }
+      .section-banner span { text-align: left; }
+      .inside { grid-template-columns: 1fr; }
+      .story p { text-align: left; }
+    }
+
+    @page {
+      size: A4;
+      margin: 11mm;
+    }
+
+    @media print {
+      .section + .section {
+        break-before: page;
+        page-break-before: always;
+      }
+      :root,
+      html,
+      html[data-theme],
+      html:not([data-theme]) {
+        --paper: #fff;
+        --ink: #000;
+        --muted: #222;
+        --rule: #000;
+        --wash: #eee;
+        --wash-strong: #ddd;
+        --accent: #000;
+        color-scheme: light;
+      }
+
+      html, body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+
+      body {
+        font-size: 9.65pt;
+        line-height: 1.34;
+      }
+
+      .edition {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+      }
+
+      .controls,
+      .inside {
+        display: none !important;
+      }
+
+      .masthead {
+        border-top-width: 3px;
+        border-bottom: 5px double #000;
+        padding-top: 0;
+      }
+
+      h1 {
+        font-size: 54pt;
+        line-height: .85;
+      }
+
+      .strap {
+        font-size: 10pt;
+      }
+
+      .dateline {
+        margin: 3mm 0 4mm;
+        font-size: 6.2pt;
+      }
+
+      .section { margin-bottom: 5mm; }
+
+      .section-banner {
+        margin-bottom: 3mm;
+        padding: 1.4mm 2mm;
+        break-after: avoid;
+      }
+
+      .section-banner h2 {
+        font-size: 17pt;
+      }
+
+      .section-banner span {
+        font-size: 5.8pt;
+      }
+
+      .story {
+        column-count: 2;
+        column-gap: 7mm;
+        column-rule: .4pt solid #000;
+      }
+
+      .headline {
+        font-size: 25pt;
+        line-height: 1;
+        break-after: avoid;
+      }
+
+      .dek {
+        font-size: 10pt;
+        break-after: avoid;
+      }
+
+      .byline {
+        font-size: 6pt;
+        margin-bottom: 2.5mm;
+      }
+
+      .story p {
+        font-size: 9.65pt;
+        text-align: justify;
+      }
+
+      .story p.dropcap::first-letter {
+        font-size: 4em;
+      }
+
+      .data-box {
+        border: .8pt solid #000;
+        border-top-width: 3pt;
+        background: #eee !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .data-box dl { font-size: 7.3pt; }
+      .data-box h3 { font-size: 7.2pt; }
+      .data-box small { font-size: 5.8pt; color: #222; }
+
+      .watch {
+        border-left: 2.5pt solid #000;
+        background: #f1f1f1 !important;
+        font-size: 8.6pt;
+        break-inside: avoid;
+      }
+
+      .source {
+        font-size: 6pt;
+        color: #222;
+      }
+
+      footer {
+        font-size: 6.2pt;
+        color: #222;
+      }
+    }
+
+    .subhead {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin: 1.15rem 0 .9rem;
+      padding-top: .9rem;
+      border-top: 5px double var(--rule);
+      break-before: avoid;
+    }
+    .subhead h2 {
+      margin: 0;
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    .subhead span {
+      font: 700 .65rem/1.25 var(--sans);
+      letter-spacing: .11em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+    @media (max-width: 700px) {
+      .subhead { align-items: flex-start; flex-direction: column; }
+      .subhead span { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <main class="edition">
+    <nav class="controls" aria-label="Edition controls">
+      <button type="button" id="theme-toggle">Dark theme</button>
+      <button type="button" onclick="window.print()">Print this edition</button>
+    </nav>
+    <header class="masthead">
+      <p class="kicker">Independent daily digest · Verified close to publication</p>
+      <h1>The Daily Ledger</h1>
+      <p class="strap">The world, the markets and the streets beyond the closing bell</p>
+    </header>
+    <div class="dateline">
+      <span>Tuesday, 24 November 2026</span>
+      <span>Edition compiled in London</span>
+      <span>All story times are stated at source</span>
+    </div>
+    <div class="inside">
+      <p class="lead"><strong>Today at a glance:</strong> Jensen Huang’s return ignites a violent rebound in AI stocks, the Federal Reserve keeps another rate increase in view, and Washington moves against ESG funds in retirement plans. Congo’s Ebola outbreak is outpacing the response, while London holds emergency talks to stop the first Tube strike.</p>
+      <p class="note">This edition uses bylined reports with visible dates and articles that were opened and read in full. Market figures are labelled by session; official claims and unresolved damage reports are identified as such.</p>
+    </div>
+
+    <section class="section" aria-labelledby="markets">
+      <header class="section-banner">
+        <h2 id="markets">Markets &amp; Technology</h2>
+        <span>Monday markets · Asia session</span>
+      </header>
+
+      <article class="story" data-story="markets">
+        <h2 class="headline">Asia’s regulators step in as the AI sell-off spreads</h2>
+        <p class="dek">South Korea mobilises a crisis fund, Taiwan curbs short selling and China makes leveraged trading easier as chip stocks swing wildly.</p>
+        <p class="byline">Markets desk · CNBC report published 23 November 2026 at 05:58 GMT</p>
+        <p class="dropcap">Asian governments moved on Monday to blunt a deepening technology sell-off, using measures that ranged from a state-backed stabilisation fund to restrictions on short selling and easier margin finance. South Korea’s finance ministry said it was preparing its securities-market stabilisation fund for immediate activation. The vehicle, created during the Covid pandemic and funded by financial firms and other institutions, is valued at 10.76 trillion won, or nearly $8 billion.</p>
+        <p>Seoul also plans to relax limits on daily share-buyback orders for three months from 24 November and to begin a special monitoring period aimed at illegal short selling. Regulators will track margin lending and forced liquidations. The ministry said domestic and international volatility had risen sharply because of uncertainty over global AI and semiconductors as well as US interest-rate increases, while insisting that the medium-term growth outlook for AI remained intact.</p>
+        <p>The warning reflects an extraordinary year for Korean technology stocks. The Kospi is more than 46% below its June high after investors first piled into Samsung Electronics and SK Hynix and then fled. The index fell another 3.26% on Monday. Taiwan also introduced emergency-style market controls. Its Financial Supervisory Commission prohibited short selling below the previous closing price except for legitimate hedging, raised margin requirements for some short trades, suspended certain warrant applications and encouraged share buybacks.</p>
+        <p>Taiwan is especially exposed through TSMC, the world’s largest contract chipmaker. The stock fell 15% last week while Taiwan’s weighted index lost 17.5%. On Monday the index recovered more than 2%, illustrating how quickly sentiment has been changing. China chose a different approach. Its main exchanges will cut the minimum margin ratio for margin-financed stock purchases from 100% to 80% from 30 November, allowing investors to borrow more against shares, and will also reduce some fees.</p>
+        <p>The divergent responses reveal how difficult the policy problem has become. South Korea and Taiwan are trying to restrain speculative selling, while Beijing is trying to restart risk-taking. All three are responding to the same collapse in semiconductor and AI-linked valuations, but with tools that may create different long-term costs. A state fund can cushion a fall; short-selling limits can suppress price discovery; easier leverage can magnify both a rebound and a later reversal.</p>
+        <aside class="data-box" aria-label="Asia market moves · Monday session">
+          <h3>Asia market moves · Monday session</h3>
+          <dl><dt>Korean stabilisation fund</dt><dd>10.76tn won / about $8bn</dd><dt>Kospi, from June high</dt><dd>more than −46%</dd><dt>Kospi, Monday move</dt><dd>−3.26%</dd><dt>Taiwan index, last week</dt><dd>−17.5%</dd><dt>TSMC, last week</dt><dd>−15%</dd><dt>China margin-finance minimum</dt><dd>80%, from 100%</dd><dt>CSI 300, Monday move</dt><dd>−0.71%</dd></dl>
+          <small>CNBC report published 23 November 2026. Monday figures are intraday at the stated publication time, not a closing snapshot.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch whether the Kospi and Taiwan markets hold their rebounds after emergency measures, and whether China’s lower margin requirement increases trading volumes without feeding another leveraged reversal.</p>
+        <p class="source">Source: CNBC, “How Asian countries are looking to prop up markets as AI downturn sinks stocks,” by Lim Hui Jie, published 23 November 2026 and read in full.</p>
+      </article>
+      <div class="subhead">
+        <h2>Technology</h2>
+        <span>Infrastructure · Cybersecurity</span>
+      </div>
+
+      <article class="story" data-story="outages">
+        <h2 class="headline">Nvidia gets its founder back and adds almost $1 trillion</h2>
+        <p class="dek">Jensen Huang’s reinstatement sends the chipmaker up 31% and lifts the whole AI complex, but Washington’s role in the decision raises fresh questions.</p>
+        <p class="byline">Technology desk · CNBC report published 23 November 2026 at 09:17 GMT</p>
+        <p class="dropcap">Nvidia shares jumped 31.48% on Monday after the board reinstated Jensen Huang as chief executive, adding almost $1 trillion in market value in what CNBC described as the company’s strongest day since May 2003. The rebound followed a four-week slide of more than 40%, driven by the circumstances of Huang’s resignation, concern about AI valuations and scrutiny of Nvidia’s relationships across the industry.</p>
+        <p>Huang had left on 12 November after reports about extramarital affairs, including one with a woman whom US intelligence reportedly suspected of being a Chinese spy. His return was announced before markets opened on Monday. Investors responded as though it removed a management crisis from the centre of the AI trade, pushing not only Nvidia higher but also suppliers and companies that depend on its chips and financing.</p>
+        <p>The Nasdaq Composite rose 6.51%, its best session since April 2025. Alphabet gained 6.34%, Meta 6.55%, Amazon 3.47% and Microsoft 1.65%. Arm climbed 16.08%, AMD added 6.85%, Dell gained 20.46% and Micron rose 19.04%. The iShares Semiconductor ETF advanced 13.63%. The companies renting out AI computing capacity also recovered sharply: Nebius rose 20.28%, CoreWeave 22.32% and Iren 23.86%.</p>
+        <p>The political dimension remained close to the surface. President Donald Trump said he had spoken directly with Nvidia’s board and helped persuade it to bring Huang back. Asked whether the previous week’s sell-off influenced his intervention, Trump said it probably played a role, while claiming the longer-term issue was Huang’s value to the company. The White House’s involvement turns a board decision into a test of how national-security concerns and industrial policy are being handled in public.</p>
+        <p>The rally gave the market a dramatic one-day reprieve, but it did not settle the underlying questions. Anthropic, which had risen 17% in its debut, fell 1.43% on Monday after dropping 8.5% on Friday. Investors still need to judge whether AI revenue can support vast infrastructure spending, while Nvidia must show that renewed leadership and government confidence translate into durable demand. A single rebound can repair prices faster than it repairs those doubts.</p>
+        <aside class="data-box" aria-label="Monday’s US close">
+          <h3>Monday’s US close</h3>
+          <dl><dt>Nvidia</dt><dd>+31.48%</dd><dt>Nasdaq Composite</dt><dd>+6.51%</dd><dt>Arm Holdings</dt><dd>+16.08%</dd><dt>Dell</dt><dd>+20.46%</dd><dt>Micron</dt><dd>+19.04%</dd><dt>iShares Semiconductor ETF</dt><dd>+13.63%</dd><dt>Anthropic</dt><dd>−1.43%</dd></dl>
+          <small>CNBC report published 23 November 2026. Figures are closing moves for the US session; Nvidia’s one-day gain added nearly $1 trillion in market value.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch whether Nvidia holds its rebound once the first relief rally fades, and whether Congress or regulators demand a fuller account of the government’s role in reinstating Huang.</p>
+        <p class="source">Source: CNBC, “Tech stocks see monster rally after Jensen Huang returns as Nvidia CEO,” by Caleigh Keating, Kai Nicol-Schwarz and Arjun Kharpal, published 23 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="rates">
+      <header class="section-banner">
+        <h2 id="rates">Interest Rates &amp; Economy</h2>
+        <span>Federal Reserve · Inflation</span>
+      </header>
+
+      <article class="story" data-story="rates">
+        <h2 class="headline">Fed official says inflation still needs more tightening</h2>
+        <p class="dek">John Williams keeps a December rate increase in view while rejecting the idea that AI is the main cause of persistent inflation.</p>
+        <p class="byline">Economy desk · CNBC report published 23 November 2026 at 21:00 GMT</p>
+        <p class="dropcap">New York Federal Reserve President John Williams said the central bank still has work to do on inflation, although he suggested that any further tightening could take place gradually as the economy grows. In a speech at the University of Mount Saint Vincent, he said returning inflation to 2% was essential and that policy must achieve that goal in a timely and sustained way. His comments came at a delicate point for markets, which have already priced another quarter-point increase.</p>
+        <p>The federal funds target range stands at 3.75% to 4%. The Federal Open Market Committee meets on 8–9 December, and traders fully expect a quarter-point rise. Williams projected that inflation would move substantially closer to target in 2027 before reaching 2% the following year. He also said the economy remained strong and unemployment was edging lower, conditions that make it harder for officials to argue that higher borrowing costs can be reduced quickly.</p>
+        <p>Williams traced current price pressure to the Iran conflict, demand created by the AI build-out and tariffs. He said there was little evidence that AI itself would cause more persistent inflation, and described the tariff effect on prices as having largely abated. The distinction matters because officials are trying to separate temporary supply shocks from continuing domestic inflation that would justify a longer sequence of rate rises.</p>
+        <p>His remarks are expected to be the last major policy statement from a Fed official before the December decision. Williams deferred to the committee’s October statement, which said more information would guide the next step, but added that data since then showed an economy that remained strong while inflation continued to run too high. He did not explicitly endorse the quarter-point move expected by markets.</p>
+        <p>The practical consequence reaches mortgages, business loans, credit cards and the valuation of long-duration assets such as technology stocks. A measured approach gives households less immediate pain than an abrupt half-point move, but it also keeps uncertainty alive for longer. Williams’s framing suggests the central bank will not treat the recent market rebound as a reason to relax its inflation objective.</p>
+        <aside class="data-box" aria-label="Fed policy markers">
+          <h3>Fed policy markers</h3>
+          <dl><dt>Current target range</dt><dd>3.75%–4.00%</dd><dt>Next FOMC meeting</dt><dd>8–9 December</dd><dt>Market-expected move</dt><dd>+25bp</dd><dt>Inflation goal</dt><dd>2%</dd><dt>Williams’ target path</dt><dd>closer in 2027, reached 2028</dd></dl>
+          <small>CNBC report published 23 November 2026. The December increase is current market pricing, not an FOMC decision.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch the final inflation and labour releases before 8–9 December, together with the committee’s vote split; a larger minority for a half-point move would signal a faster policy path.</p>
+        <p class="source">Source: CNBC, “Fed’s John Williams indicates higher interest rates likely ‘over time’ to address inflation,” by Jeff Cox, published 23 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="world">
+      <header class="section-banner">
+        <h2 id="world">World</h2>
+        <span>DR Congo · Public health</span>
+      </header>
+
+      <article class="story" data-story="world">
+        <h2 class="headline">Ebola outbreak outruns the response in eastern Congo</h2>
+        <p class="dek">The WHO’s Africa chief warns that international spread is possible, with more than 11,000 cases, no approved vaccine for this strain and aid workers cut off by militia violence.</p>
+        <p class="byline">World desk · Metro report published 23 November 2026 at 16:00 GMT</p>
+        <p class="dropcap">The World Health Organization’s regional director for Africa has warned that the Ebola outbreak in the Democratic Republic of Congo could spread beyond the region unless the international response is expanded. Dr Mohamed Janabi said more than 5,500 people have died and cases have exceeded 11,000. The Bundibugyo strain is spreading faster than any previous Ebola outbreak, and there is no approved vaccine for it.</p>
+        <p>The epidemic was detected in January but an outbreak was not formally declared until May, giving the virus a four-month head start. Janabi said insecurity, population movement and transmission in hard-to-reach areas were frustrating efforts to break chains of infection. Ten other countries are considered at high risk. The virus has appeared in France, Uganda and Nigeria, while a British healthcare worker who had been deployed in the region was evacuated to the UK for treatment this month.</p>
+        <p>Ebola begins with sudden flu-like symptoms before progressing to severe gastrointestinal illness, organ failure and bleeding. The WHO official said the response had gained ground in Bunia, where cases fell sharply, but teams could not safely reach some eastern communities dominated by armed groups. More than 100 attacks have limited access to patients and health workers, and he called for a humanitarian truce so treatment teams can move.</p>
+        <p>The international response is active but uneven. Janabi said the WHO needed fast and flexible funding, better screening equipment and local treatment capacity rather than short-term assistance alone. He also urged the UK and pharmaceutical companies to ensure that future vaccines are affordable for low-income countries and do not reach the region only at commercial market prices. The UK government said it had provided £78.7 million, technical expertise and diplomatic support.</p>
+        <p>Janabi described the global risk as low, but said wider transmission was possible while the outbreak continues. He rejected travel and trade bans, arguing that they encourage countries to conceal cases. A Reuters analysis of graves in Bunia suggested fatalities may exceed official reports. Even so, the WHO official said more than 3,000 confirmed patients have been discharged and the number of treatment centres has grown from zero to more than 40; trials of a vaccine are continuing.</p>
+        <aside class="data-box" aria-label="Ebola outbreak · reported figures">
+          <h3>Ebola outbreak · reported figures</h3>
+          <dl><dt>Deaths reported</dt><dd>more than 5,500</dd><dt>Cases reported</dt><dd>more than 11,000</dd><dt>Countries at high risk</dt><dd>10</dd><dt>Treatment centres</dt><dd>more than 40</dd><dt>Confirmed patients discharged</dt><dd>more than 3,000</dd><dt>UK support</dt><dd>£78.7m</dd></dl>
+          <small>Metro report published 23 November 2026. A Reuters grave analysis suggested under-reporting, but the official totals and fatality data remain subject to revision.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch whether aid teams gain safe access to eastern Congo and whether vaccine trial results arrive early next year; either can change the trajectory of an outbreak that is still outpacing the response.</p>
+        <p class="source">Source: Metro, “Global spread of deadly Ebola virus with no cure is ‘possible’, WHO chief warns,” published 23 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="us">
+      <header class="section-banner">
+        <h2 id="us">United States</h2>
+        <span>Washington · Retirement policy</span>
+      </header>
+
+      <article class="story" data-story="us">
+        <h2 class="headline">Labor Department moves to push ESG funds out of 401(k)s</h2>
+        <p class="dek">A proposed rule says retirement-plan fiduciaries must consider only workers’ financial interests, narrowing the case for values-based investments.</p>
+        <p class="byline">US desk · CNBC report published 23 November 2026 at 18:14 GMT</p>
+        <p class="dropcap">The US Labor Department proposed a rule on Monday intended to sharply limit environmental, social and governance investing in workplace retirement plans. The regulation would amend the fiduciary rules under the Employee Retirement Income Security Act, or ERISA, and state that people choosing investments must act solely in the financial interests of workers and retirees rather than advancing political or social objectives.</p>
+        <p>Labor Secretary Keith Sonderling said plan fiduciaries could not pursue “ulterior motives or collateral interests.” A department official told reporters that the guidance would make clear that an impact or ESG fund would very rarely be appropriate for retirement plans. The proposal follows a broader administration campaign against ESG and would undo elements of a 2022 Biden-era rule that allowed employers to weigh climate and other sustainability factors.</p>
+        <p>The measure would remove two mechanisms that had given ESG funds more room in retirement plans. One was a tiebreaker allowing an ESG option to be selected when it was financially equivalent to a conventional fund. The other was a provision permitting plan sponsors to consider participants’ preferences. The proposal will be open for public comment for 60 days before the department decides whether to finalise it.</p>
+        <p>The practical effect may be smaller than its political significance. According to the Plan Sponsor Council of America, only about 5% of 401(k) plans offered an ESG fund in 2025, and less than 1% of total plan assets were invested in such products. Supporters of the restrictions argue that workers should not have retirement savings directed according to political priorities. Critics say ESG factors can be material to long-term financial risk and that the rule narrows the choices available to savers.</p>
+        <p>Performance claims are contested. A Morgan Stanley analysis cited by CNBC found that sustainable funds returned a median 4.9% in the first half of 2026, compared with 4% for traditional funds, and showed stronger cumulative returns since 2018. That does not settle what every plan should offer, but it complicates the administration’s argument that ESG options necessarily sacrifice financial returns. The comment period will test how employers, asset managers and workers interpret the proposed fiduciary duty.</p>
+        <aside class="data-box" aria-label="401(k) ESG proposal">
+          <h3>401(k) ESG proposal</h3>
+          <dl><dt>Plans offering ESG funds, 2025</dt><dd>about 5%</dd><dt>Plan assets in ESG funds</dt><dd>less than 1%</dd><dt>Public comment period</dt><dd>60 days</dd><dt>Median sustainable-fund return, H1 2026</dt><dd>4.9%</dd><dt>Median traditional-fund return, H1 2026</dt><dd>4.0%</dd></dl>
+          <small>CNBC report published 23 November 2026. This is a proposed rule and does not take effect unless finalised; return figures come from a Morgan Stanley analysis.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch the 60-day comment record and whether the final rule preserves participants’ ability to select values-based funds; litigation is likely if the department adopts the proposal in its current form.</p>
+        <p class="source">Source: CNBC, “Trump administration proposes rule that could curb ESG investing in 401(k)s,” by Greg Iacurci, published 23 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="uk">
+      <header class="section-banner">
+        <h2 id="uk">United Kingdom</h2>
+        <span>London · Transport</span>
+      </header>
+
+      <article class="story" data-story="uk">
+        <h2 class="headline">Last-ditch talks seek to stop the first of eight Tube strikes</h2>
+        <p class="dek">London Underground and the RMT meet a day before a walkout that would disrupt the Piccadilly, Circle and Waterloo & City lines.</p>
+        <p class="byline">UK desk · Metro report published 23 November 2026 at 15:55 GMT</p>
+        <p class="dropcap">Transport for London and the RMT union will hold last-ditch talks on Tuesday in an attempt to avert the first of eight planned 24-hour Tube strikes. The first walkout is due to begin at midday on Thursday. If it proceeds, disruption is expected to start around 10am, when the Circle and Piccadilly lines are expected to be suspended, followed by the Waterloo & City line after midday. Services should resume later than normal on Friday, with disruption continuing until about 6pm.</p>
+        <p>The dispute concerns a proposed four-day working week. TfL says it has revised the plans and will let drivers remain on a five-day pattern while guaranteeing that they can stay at the same depot. The organisation argues that both four-day and five-day staff would spend less time at work each year while the Underground becomes more efficient and reliable. The RMT opposes the changes and says the revised package would leave drivers more fatigued.</p>
+        <p>The rivals’ positions are difficult to reconcile because they describe the same proposal differently. London Underground’s customer operations director, Nick Dent, said months of discussions had produced a workable option and that most RMT concerns had been resolved. The union argues that the operational consequences remain unsafe. Further strikes are scheduled for 17 and 19 December, directly affecting the Christmas shopping and hospitality season.</p>
+        <p>The broader list of dates extends through January and February, although the article’s focus was the imminent stoppage. Passengers should expect the first strike to affect the beginning and end of journeys as well as the central period. Even after drivers return, trains and staff must be repositioned, which is why normal service is not expected immediately at either boundary.</p>
+        <p>The dispute has become a test of how London Underground balances a shorter working week with reliable service and driver fatigue. TfL has advised passengers to check before travelling and allow extra time. Businesses will be watching the Tuesday talks closely because a cancelled first strike would provide only temporary certainty while later dates remain on the calendar. A settlement would need to resolve the competing claims about staffing, rosters and safety rather than merely postpone the action.</p>
+        <aside class="data-box" aria-label="London Underground strike dates">
+          <h3>London Underground strike dates</h3>
+          <dl><dt>Planned strikes</dt><dd>8</dd><dt>First walkout</dt><dd>Thursday, 26 November</dd><dt>Expected disruption starts</dt><dd>10:00</dd><dt>Lines suspended first</dt><dd>Circle and Piccadilly</dd><dt>Waterloo & City suspension</dt><dd>after midday</dd><dt>Friday disruption expected until</dt><dd>about 18:00</dd><dt>Emergency talks</dt><dd>Tuesday, 24 November</dd></dl>
+          <small>Metro report published 23 November 2026. The article confirms December strikes on 17 and 19 December; the remaining dates depend on talks.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch the Tuesday talks for a full suspension rather than a partial delay, and check TfL’s line-by-line plan before Thursday because the first strikes affect the start and finish of service as well as the middle of the day.</p>
+        <p class="source">Source: Metro, “London braces for eight Tube strikes starting this week — but could they be called off?,” published 23 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <footer>
+      <strong>Editorial note.</strong> Stories were selected only when the complete article could be read and its publication time checked. Figures retain their source dates and attribution. Market moves are labelled by session, the Fed action remains market pricing rather than a decision, and the Ebola totals remain subject to revision. No unverified political round-up was added merely to fill the UK section.
+    </footer>
+  </main>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const button = document.getElementById("theme-toggle");
+      const media = window.matchMedia("(prefers-color-scheme: dark)");
+      const current = () => root.dataset.theme || (media.matches ? "dark" : "light");
+      const label = () => { button.textContent = current() === "dark" ? "Light theme" : "Dark theme"; };
+      button.addEventListener("click", () => {
+        root.dataset.theme = current() === "dark" ? "light" : "dark";
+        label();
+      });
+      media.addEventListener("change", label);
+      label();
+    })();
+  </script>
+</body>
+</html>
