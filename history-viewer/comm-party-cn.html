@@ -1,0 +1,3314 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>中国共产党党史纲要 · 1920–2025</title>
+  <meta name="description" content="中国共产党党史大事记，分为 1920–1949 年革命与建国、1950–2025 年执政与现代化两个部分，并从社会学、经济学、权力博弈三个角度分析各事件。" />
+  <style>
+    /* ── 设计变量：沿用近代史时间轴的纸张色与红色主调 ── */
+    :root {
+      color-scheme: light;
+      --bg: #f5f3ee;
+      --surface: #ffffff;
+      --surface-2: #efede6;
+      --ink: #181a1d;
+      --ink-2: #4b5057;
+      --ink-3: #868b92;
+      --line: #e1ded5;
+      --accent: #a63a2a;
+      --accent-soft: #f3e2dc;
+      --part1: #a63a2a;
+      --part2: #3f6f65;
+      --gold: #9a7b43;
+      --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      --serif: "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC", "Source Han Serif SC", Georgia, serif;
+      --radius: 12px;
+      --shadow: 0 1px 2px rgba(22, 20, 15, .04), 0 10px 30px rgba(22, 20, 15, .045);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        color-scheme: dark;
+        --bg: #111315;
+        --surface: #191c1f;
+        --surface-2: #202327;
+        --ink: #eceef0;
+        --ink-2: #b3b7bd;
+        --ink-3: #7e858c;
+        --line: #2c3035;
+        --accent: #ed8b74;
+        --accent-soft: #3a231e;
+        --part1: #ed8b74;
+        --part2: #82b8ab;
+        --gold: #c5a56b;
+        --shadow: none;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 460px at 92% -8%, color-mix(in srgb, var(--part2) 6%, transparent), transparent 65%),
+        radial-gradient(780px 400px at 2% 4%, color-mix(in srgb, var(--part1) 5%, transparent), transparent 62%),
+        var(--bg);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    body.locked { overflow: hidden; }
+    h1, h2, h3, h4, p { margin-top: 0; }
+    h1, h2, h3, h4 { line-height: 1.3; }
+    button, input { font: inherit; }
+    button:focus-visible, a:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 68%, transparent); outline-offset: 2px; }
+    a { color: var(--accent); }
+    ::selection { background: var(--accent-soft); color: var(--ink); }
+    .wrap { width: min(1120px, 100%); margin: 0 auto; padding-left: 20px; padding-right: 20px; }
+    .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+    [hidden] { display: none !important; }
+
+    .skip-link {
+      position: fixed;
+      left: 16px;
+      top: -60px;
+      z-index: 200;
+      padding: 8px 12px;
+      border-radius: 6px;
+      background: var(--ink);
+      color: var(--bg);
+      text-decoration: none;
+      transition: top .15s;
+    }
+    .skip-link:focus { top: 12px; }
+
+    /* ── 顶栏 ── */
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: color-mix(in srgb, var(--bg) 90%, transparent);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+    .top::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--part1), var(--gold) 48%, var(--part2));
+      opacity: .55;
+      pointer-events: none;
+    }
+    .top-inner {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
+    .brand-mark {
+      flex: none;
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      color: #fff;
+      background: var(--part1);
+      font-family: var(--serif);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -.06em;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
+    }
+    .brand h1 { margin: 0; font-size: 16px; font-weight: 650; letter-spacing: .01em; }
+    .brand .sub { margin: 0; font-size: 11.5px; color: var(--ink-3); line-height: 1.5; }
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: min(330px, 42vw);
+      padding: 7px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .search:focus-within {
+      border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 9%, transparent);
+    }
+    .search svg { width: 15px; height: 15px; flex: none; fill: none; stroke: var(--ink-3); stroke-width: 2; }
+    .search input {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      color: var(--ink);
+      background: transparent;
+      font-size: 13px;
+    }
+    .search input::placeholder { color: var(--ink-3); }
+
+    /* ── 开篇 ── */
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.42fr) minmax(275px, .58fr);
+      gap: 38px;
+      margin: 28px 0 14px;
+      padding: 46px 42px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background:
+        linear-gradient(120deg,
+          color-mix(in srgb, var(--part1) 7%, var(--surface)) 0%,
+          var(--surface) 48%,
+          color-mix(in srgb, var(--part2) 6%, var(--surface)) 100%);
+      box-shadow: var(--shadow);
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--part1), var(--gold), var(--part2));
+    }
+    .hero::after {
+      content: "1920—2025";
+      position: absolute;
+      right: -22px;
+      bottom: -28px;
+      color: var(--ink);
+      opacity: .035;
+      font-family: var(--mono);
+      font-size: clamp(68px, 11vw, 112px);
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -.07em;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 13px;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: .16em;
+    }
+    .eyebrow::before { content: ""; width: 23px; height: 1px; background: currentColor; }
+    .hero h2 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(34px, 5.1vw, 56px);
+      font-weight: 700;
+      letter-spacing: -.025em;
+      line-height: 1.18;
+    }
+    .hero h2 em { font-style: normal; color: var(--part1); }
+    .hero-lede {
+      position: relative;
+      z-index: 1;
+      max-width: 650px;
+      margin: 20px 0 0;
+      color: var(--ink-2);
+      font-size: 14.5px;
+      line-height: 1.85;
+    }
+    .hero-actions { position: relative; z-index: 1; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 24px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border-radius: 7px;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: var(--bg);
+      text-decoration: none;
+      font-size: 12.5px;
+      transition: transform .15s, opacity .15s;
+    }
+    .btn:hover { transform: translateY(-1px); opacity: .9; }
+    .text-link {
+      color: var(--ink-2);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+      font-size: 12.5px;
+      padding-bottom: 1px;
+    }
+    .text-link:hover { color: var(--ink); border-bottom-color: var(--ink-3); }
+    .hero-figure {
+      position: relative;
+      z-index: 1;
+      align-self: center;
+      padding-left: 32px;
+      border-left: 1px solid var(--line);
+    }
+    .figure-number {
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: clamp(56px, 7.5vw, 78px);
+      font-weight: 500;
+      line-height: .9;
+      letter-spacing: -.08em;
+    }
+    .figure-number small { font-family: var(--sans); font-size: 12px; color: var(--ink-3); letter-spacing: 0; font-weight: 400; }
+    .figure-rule {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 18px 0 20px;
+      color: var(--ink-3);
+      font-family: var(--mono);
+      font-size: 10.5px;
+    }
+    .figure-rule i {
+      position: relative;
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--part1), var(--gold), var(--part2));
+    }
+    .figure-rule i::before,
+    .figure-rule i::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      transform: translateY(-50%);
+      background: currentColor;
+    }
+    .figure-rule i::before { left: 0; background: var(--part1); }
+    .figure-rule i::after { right: 0; background: var(--part2); }
+    .phase-mini { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+    .phase-mini li { display: flex; align-items: flex-start; gap: 9px; }
+    .phase-dot { flex: none; width: 6px; height: 6px; margin-top: 7px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 10%, transparent); }
+    .phase-mini b { display: block; font-size: 12.5px; font-weight: 600; line-height: 1.5; }
+    .phase-mini small { display: block; margin-top: 1px; color: var(--ink-3); font-family: var(--mono); font-size: 10.5px; line-height: 1.6; }
+    .hero-note {
+      margin: 20px 0 0;
+      color: var(--ink-3);
+      font-size: 11.5px;
+      line-height: 1.7;
+    }
+
+    /* 三重视角共用色：社会／经济／权力 */
+    .lz-society { --lz: var(--part2); }
+    .lz-economy { --lz: var(--gold); }
+    .lz-power { --lz: var(--part1); }
+    .lens-dots { display: inline-flex; align-items: center; gap: 3px; vertical-align: middle; }
+    .lens-dots i { display: block; width: 5px; height: 5px; border-radius: 50%; background: var(--lz); }
+    .hero-note .lens-dots { margin-right: 4px; }
+
+    /* ── 概览数字 ── */
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .kpi {
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .kpi-v {
+      display: block;
+      font-family: var(--mono);
+      font-size: 27px;
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -.045em;
+    }
+    .kpi-l { display: block; margin-top: 2px; color: var(--ink-3); font-size: 11.5px; }
+
+    /* ── 两部分入口 ── */
+    .part-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .part-card {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      padding: 18px 20px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: inherit;
+      text-decoration: none;
+      box-shadow: var(--shadow);
+      transition: transform .16s, border-color .16s;
+    }
+    .part-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--c);
+    }
+    .part-card:hover {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--c) 42%, var(--line));
+    }
+    .pc-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--c);
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: .1em;
+    }
+    .pc-arrow { color: var(--ink-3); font-family: var(--sans); letter-spacing: 0; }
+    .pc-years { display: block; margin-top: 8px; font-family: var(--mono); font-size: 22px; font-weight: 500; line-height: 1.2; letter-spacing: -.04em; }
+    .pc-title { display: block; margin-top: 1px; font-family: var(--serif); font-size: 20px; font-weight: 700; line-height: 1.4; }
+    .pc-desc { display: block; margin-top: 4px; color: var(--ink-2); font-size: 12.5px; line-height: 1.65; }
+    .pc-meta { display: block; margin-top: 11px; padding-top: 9px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 11px; line-height: 1.5; }
+    .pc-meta b { color: var(--c); font-family: var(--mono); font-weight: 600; }
+
+    /* ── 筛选栏 ── */
+    .filters {
+      position: sticky;
+      top: 64px;
+      z-index: 30;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 18px;
+      margin: 18px 0 0;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--bg) 94%, transparent);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .fgroup { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; }
+    .fgroup > span { margin-right: 2px; color: var(--ink-3); font-size: 11px; letter-spacing: .04em; }
+    .chip {
+      appearance: none;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 3px 10px;
+      background: var(--surface);
+      color: var(--ink-2);
+      font-size: 12px;
+      line-height: 1.6;
+      cursor: pointer;
+      transition: border-color .15s, background .15s, color .15s;
+    }
+    .chip:hover { border-color: var(--ink-3); }
+    .chip[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+    .chip.reset { border-style: dashed; color: var(--ink-3); }
+    .chip.reset:hover { color: var(--ink); }
+    .count {
+      margin-left: auto;
+      color: var(--ink-3);
+      font-family: var(--mono);
+      font-size: 10.5px;
+      white-space: nowrap;
+    }
+    .count b { color: var(--ink-2); font-weight: 500; }
+
+    /* ── 时间轴 ── */
+    .timeline { padding-bottom: 16px; }
+    .part-block { scroll-margin-top: 132px; }
+    .part-head {
+      display: grid;
+      grid-template-columns: 126px minmax(0, 1fr);
+      gap: 30px;
+      margin-top: 34px;
+      padding-top: 34px;
+      border-top: 1px solid var(--line);
+    }
+    .part-block:first-child .part-head { margin-top: 20px; padding-top: 28px; border-top: 0; }
+    .part-no {
+      display: block;
+      color: var(--c);
+      font-family: var(--mono);
+      font-size: 38px;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: -.06em;
+    }
+    .part-range { display: block; margin-top: 8px; color: var(--ink-3); font-family: var(--mono); font-size: 11px; letter-spacing: -.01em; }
+    .part-rule { display: block; width: 34px; height: 2px; margin-top: 14px; background: var(--c); }
+    .part-kicker { margin: 0 0 3px; color: var(--c); font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; }
+    .part-copy h2 { margin: 0 0 8px; font-family: var(--serif); font-size: clamp(27px, 3.4vw, 35px); font-weight: 700; line-height: 1.2; letter-spacing: -.02em; }
+    .part-lede { max-width: 760px; margin: 0; color: var(--ink-2); font-size: 13.5px; line-height: 1.8; }
+    .threads { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 13px; }
+    .thread {
+      border: 1px solid color-mix(in srgb, var(--c) 26%, var(--line));
+      border-radius: 5px;
+      padding: 1px 7px;
+      background: color-mix(in srgb, var(--c) 5%, var(--surface));
+      color: var(--ink-2);
+      font-size: 11px;
+      line-height: 1.7;
+    }
+    .part-count { margin: 11px 0 0; color: var(--ink-3); font-family: var(--mono); font-size: 10.5px; }
+    .part-count b { color: var(--c); font-weight: 600; }
+
+    .era-band {
+      display: grid;
+      grid-template-columns: 126px minmax(0, 1fr);
+      gap: 30px;
+      align-items: end;
+      margin: 26px 0 3px;
+      padding: 15px 0 10px;
+      border-top: 1px solid var(--line);
+    }
+    .era-index { display: block; color: var(--c); font-family: var(--mono); font-size: 9.5px; letter-spacing: .12em; line-height: 1.5; }
+    .era-years { display: block; margin-top: 2px; color: var(--ink-2); font-family: var(--mono); font-size: 13px; letter-spacing: -.03em; line-height: 1.4; }
+    .era-main { display: flex; align-items: baseline; flex-wrap: wrap; gap: 7px 12px; }
+    .era-name { margin: 0; font-family: var(--serif); font-size: 19px; font-weight: 700; line-height: 1.4; letter-spacing: -.01em; }
+    .era-name::before { content: ""; display: inline-block; width: 18px; height: 2px; margin-right: 9px; vertical-align: middle; background: var(--c); }
+    .era-count { color: var(--ink-3); font-family: var(--mono); font-size: 9.5px; }
+
+    .year-group {
+      display: grid;
+      grid-template-columns: 126px minmax(0, 1fr);
+      gap: 30px;
+      padding: 9px 0 7px;
+    }
+    .year-label { padding-top: 5px; }
+    .year-label strong { display: block; font-family: var(--mono); font-size: 18px; font-weight: 600; line-height: 1.2; letter-spacing: -.04em; }
+    .year-label span { display: block; margin-top: 2px; color: var(--ink-3); font-size: 10.5px; }
+    .year-events { position: relative; display: grid; gap: 8px; padding-left: 22px; border-left: 1px solid var(--line); }
+    .year-events::before {
+      content: "";
+      position: absolute;
+      left: -3px;
+      top: 16px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--c);
+      box-shadow: 0 0 0 4px var(--bg);
+    }
+
+    .cp-ev {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr) 16px;
+      align-items: start;
+      gap: 12px;
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-left: 2px solid color-mix(in srgb, var(--c) 25%, var(--line));
+      border-radius: 9px;
+      background: var(--surface);
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform .15s, border-color .15s, box-shadow .15s;
+    }
+    .cp-ev:hover {
+      transform: translateY(-1px);
+      border-color: color-mix(in srgb, var(--c) 44%, var(--line));
+      border-left-color: var(--c);
+      box-shadow: 0 3px 14px rgba(22, 20, 15, .07);
+    }
+    .cp-ev:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
+    .cp-ev.is-key { border-left-color: var(--c); }
+    .ev-date { padding-top: 2px; color: var(--ink-3); font-family: var(--mono); font-size: 10.5px; font-variant-numeric: tabular-nums; line-height: 1.5; }
+    .ev-body { display: block; min-width: 0; }
+    .ev-top { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+    .ev-title { font-size: 14.5px; font-weight: 600; line-height: 1.5; letter-spacing: .005em; }
+    .ev-badges { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+    .keybadge {
+      border: 1px solid color-mix(in srgb, var(--c) 23%, transparent);
+      border-radius: 4px;
+      padding: 0 5px;
+      background: color-mix(in srgb, var(--c) 11%, transparent);
+      color: var(--c);
+      font-size: 9.5px;
+      font-weight: 600;
+      line-height: 1.7;
+    }
+    .ev-cat { border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; color: var(--ink-3); font-size: 10px; line-height: 1.7; }
+    .ev-img {
+      border: 1px solid color-mix(in srgb, var(--gold) 32%, var(--line));
+      border-radius: 4px;
+      padding: 0 5px;
+      background: color-mix(in srgb, var(--gold) 7%, transparent);
+      color: color-mix(in srgb, var(--gold) 82%, var(--ink));
+      font-size: 9.5px;
+      line-height: 1.7;
+    }
+    .ev-sum { display: block; margin-top: 3px; color: var(--ink-2); font-size: 12.5px; line-height: 1.65; }
+    .ev-arrow { align-self: center; padding-top: 1px; color: var(--ink-3); font-size: 13px; line-height: 1; transition: transform .15s, color .15s; }
+    .cp-ev:hover .ev-arrow { color: var(--c); transform: translateX(2px); }
+
+    .empty {
+      padding: 68px 20px;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      text-align: center;
+      color: var(--ink-3);
+    }
+    .empty strong { display: block; margin-bottom: 4px; color: var(--ink); font-family: var(--serif); font-size: 20px; font-weight: 700; }
+    .empty button { margin-top: 14px; }
+
+    /* ── 阅读说明 ── */
+    .notes {
+      margin: 48px 0 26px;
+      padding: 28px 30px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .notes h2 { margin: 0 0 18px; font-family: var(--serif); font-size: 26px; font-weight: 700; letter-spacing: -.02em; }
+    .notes-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 34px; }
+    .notes h3 { margin: 0 0 8px; color: var(--ink-3); font-size: 11px; font-weight: 600; letter-spacing: .08em; }
+    .notes p { margin: 0 0 9px; color: var(--ink-2); font-size: 13px; line-height: 1.8; }
+    .sources { margin: 0; padding-left: 18px; color: var(--ink-2); font-size: 12.5px; line-height: 1.8; }
+    .sources li { margin: 4px 0; }
+    .lens-guide {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+    .lens-guide-item { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 9px; align-items: start; }
+    .lens-guide-item .lens-mark { width: 25px; height: 25px; font-size: 12px; grid-row: 1 / 3; }
+    .lens-guide h3 { margin: 0; color: var(--lz); font-size: 11.5px; font-weight: 600; letter-spacing: .04em; }
+    .lens-guide p { margin: 0; color: var(--ink-2); font-size: 12px; line-height: 1.7; }
+    .disclaimer { margin: 22px 0 0; padding-top: 13px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 11px; line-height: 1.7; }
+
+    /* ── 页脚 ── */
+    .site-foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding-top: 18px;
+      padding-bottom: 34px;
+      border-top: 1px solid var(--line);
+      color: var(--ink-3);
+      font-size: 11px;
+    }
+    .site-foot a { color: var(--ink-3); text-decoration: none; }
+    .site-foot a:hover { color: var(--ink); }
+
+    /* ── 详情抽屉 ── */
+    .scrim {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: rgba(9, 11, 13, .43);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 70;
+      width: min(780px, 100%);
+      overflow-y: auto;
+      border-left: 1px solid var(--line);
+      background: var(--bg);
+      box-shadow: -22px 0 70px rgba(0, 0, 0, .16);
+      transform: translateX(102%);
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1);
+    }
+    .drawer.open { transform: none; }
+    .drawer-inner { padding: 0 32px 56px; }
+    .d-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      margin: 0 -32px;
+      padding: 18px 32px 14px;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--bg) 96%, transparent);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .d-close {
+      position: absolute;
+      right: 24px;
+      top: 16px;
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--ink-2);
+      font-size: 19px;
+      line-height: 1;
+      cursor: pointer;
+      transition: border-color .15s, color .15s;
+    }
+    .d-close:hover { border-color: var(--ink-3); color: var(--ink); }
+    .d-close:focus-visible { outline: 2px solid color-mix(in srgb, var(--c, var(--accent)) 75%, transparent); outline-offset: 3px; }
+    .d-kicker {
+      padding-right: 44px;
+      color: var(--c, var(--accent));
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: .04em;
+    }
+    .d-title { margin: 5px 42px 9px 0; font-family: var(--serif); font-size: clamp(25px, 3.8vw, 34px); font-weight: 700; line-height: 1.3; letter-spacing: -.02em; }
+    .d-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; }
+    .d-lead { margin: 23px 0 4px; color: var(--ink); font-family: var(--serif); font-size: 17.5px; line-height: 1.9; }
+    .sec { padding-top: 26px; }
+    .sec h4 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 10px;
+      color: var(--ink-3);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .1em;
+    }
+    .sec h4::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+    .sec p { margin: 0 0 10px; color: var(--ink-2); font-size: 13.5px; line-height: 1.9; }
+    .steps { margin: 0; padding: 0; list-style: none; }
+    .steps li { display: grid; grid-template-columns: 70px 12px minmax(0, 1fr); gap: 0 10px; padding: 7px 0; color: var(--ink-2); font-size: 13px; line-height: 1.8; }
+    .steps .sd { padding-top: 2px; color: var(--ink-3); font-family: var(--mono); font-size: 10.5px; text-align: right; }
+    .steps .sn { position: relative; }
+    .steps .sn::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      border: 1.5px solid var(--c, var(--accent));
+      border-radius: 50%;
+      background: var(--bg);
+      transform: translateX(-50%);
+    }
+    .steps .sn::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 17px;
+      bottom: -10px;
+      width: 1px;
+      background: var(--line);
+      transform: translateX(-50%);
+    }
+    .steps li:last-child .sn::after { display: none; }
+    .impact {
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--c, var(--accent));
+      border-radius: 8px;
+      background: var(--surface);
+    }
+    .impact p:last-child { margin-bottom: 0; }
+    .note {
+      padding: 12px 14px;
+      border: 1px dashed color-mix(in srgb, var(--c, var(--accent)) 38%, var(--line));
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--c, var(--accent)) 4%, transparent);
+      color: var(--ink-2);
+      font-size: 12.5px;
+      line-height: 1.85;
+    }
+    .note b { color: var(--ink); font-weight: 600; }
+
+    /* ── 三重视角 ── */
+    .lens-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .lens-panel {
+      padding: 12px 13px;
+      border: 1px solid var(--line);
+      border-top: 3px solid var(--lz);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+    .lens-top { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
+    .lens-mark {
+      display: grid;
+      place-items: center;
+      flex: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: color-mix(in srgb, var(--lz) 13%, transparent);
+      color: var(--lz);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .lens-top h5 { margin: 0; color: var(--ink); font-size: 12px; font-weight: 600; letter-spacing: .03em; }
+    .lens-panel p { margin: 0; color: var(--ink-2); font-size: 12px; line-height: 1.8; }
+    .lens-note { margin: 8px 0 0; color: var(--ink-3); font-size: 10.5px; line-height: 1.7; }
+
+    /* ── 历史影像 ── */
+    .image-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+    .image-card {
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+    .image-frame {
+      position: relative;
+      display: block;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--surface-2) 86%, transparent), var(--surface));
+    }
+    .image-frame img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform .25s ease;
+    }
+    .image-frame:hover img { transform: scale(1.025); }
+    .image-open {
+      position: absolute;
+      right: 8px;
+      top: 8px;
+      display: grid;
+      place-items: center;
+      width: 21px;
+      height: 21px;
+      border-radius: 50%;
+      background: rgba(12, 14, 16, .6);
+      color: #fff;
+      font-size: 10px;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .image-card figcaption { padding: 8px 10px 10px; }
+    .image-caption { display: block; color: var(--ink-2); font-size: 11.5px; line-height: 1.65; }
+    .image-meta { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-top: 5px; color: var(--ink-3); font-size: 9.5px; line-height: 1.5; }
+    .image-source { flex: none; color: var(--ink-3); text-decoration: none; border-bottom: 1px dotted var(--line); }
+    .image-source:hover { color: var(--ink); border-bottom-color: var(--ink-3); }
+    .image-note { margin: 9px 0 0; color: var(--ink-3); font-size: 10.5px; line-height: 1.7; }
+    .image-card.is-broken .image-frame img { opacity: 0; }
+    .image-card.is-broken .image-frame::after {
+      content: "图片暂时无法加载，点击可查看原始页面";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      color: var(--ink-3);
+      font-size: 11px;
+      line-height: 1.6;
+      text-align: center;
+    }
+    .kw { display: flex; flex-wrap: wrap; gap: 6px; }
+    .kw span { padding: 2px 7px; border-radius: 4px; background: var(--surface-2); color: var(--ink-2); font-size: 11px; line-height: 1.7; }
+    .drawer-nav { display: flex; justify-content: space-between; gap: 10px; margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--line); }
+    .drawer-nav button {
+      max-width: 48%;
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--surface);
+      color: var(--ink-2);
+      font-size: 11.5px;
+      line-height: 1.5;
+      text-align: left;
+      cursor: pointer;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .drawer-nav button:last-child { text-align: right; }
+    .drawer-nav button:hover { border-color: var(--ink-3); color: var(--ink); }
+    .drawer-nav button:disabled { opacity: .35; cursor: default; }
+
+    .noscript { margin: 30px auto; padding: 12px 16px; border: 1px dashed var(--line); color: var(--ink-2); text-align: center; }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 26px; padding: 36px 30px; }
+      .hero-figure { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px 26px; align-items: center; padding: 20px 0 0; border-top: 1px solid var(--line); border-left: 0; }
+      .figure-rule { margin: 8px 0; }
+      .phase-mini, .hero-note { grid-column: 1 / -1; }
+      .part-head, .year-group, .era-band { grid-template-columns: 104px minmax(0, 1fr); gap: 22px; }
+      .part-no { font-size: 32px; }
+    }
+    @media (max-width: 720px) {
+      .top-inner { align-items: flex-start; flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; }
+      .search { width: min(330px, 100%); }
+      .hero { margin-top: 18px; }
+      .kpis { grid-template-columns: repeat(2, 1fr); }
+      .part-cards { grid-template-columns: 1fr; }
+      .filters { position: static; margin-top: 14px; }
+      .part-block { scroll-margin-top: 20px; }
+      .part-head { grid-template-columns: 1fr; gap: 11px; margin-top: 26px; padding-top: 26px; }
+      .part-index { display: flex; align-items: baseline; gap: 10px; }
+      .part-no { font-size: 26px; }
+      .part-range { margin-top: 0; }
+      .part-rule { display: none; }
+      .part-copy h2 { font-size: 28px; }
+      .year-group { grid-template-columns: 1fr; gap: 7px; padding-top: 14px; }
+      .year-label { display: flex; align-items: baseline; gap: 8px; padding: 0; }
+      .year-label strong { font-size: 16px; }
+      .year-label span { margin-top: 0; }
+      .year-events { padding-left: 14px; }
+      .year-events::before { top: 13px; }
+      .era-band { grid-template-columns: 1fr; gap: 5px; margin-top: 22px; padding-top: 13px; }
+      .era-index, .era-years { display: inline; }
+      .era-index { margin-right: 7px; }
+      .era-name { font-size: 17px; }
+      .notes { padding: 23px 20px; }
+      .notes-grid { grid-template-columns: 1fr; gap: 22px; }
+      .lens-grid, .lens-guide { grid-template-columns: 1fr; }
+      .lens-guide { gap: 12px; }
+      .count { width: 100%; margin-left: 0; }
+      .drawer-inner { padding: 0 18px 42px; }
+      .d-head { margin: 0 -18px; padding: 15px 18px 12px; }
+      .d-close { right: 13px; top: 13px; }
+    }
+    @media (max-width: 520px) {
+      .wrap { padding-left: 15px; padding-right: 15px; }
+      .brand .sub { display: none; }
+      .brand h1 { font-size: 15px; }
+      .search { width: 100%; }
+      .hero { padding: 29px 20px; border-radius: 13px; }
+      .hero h2 { font-size: 35px; }
+      .hero-lede { font-size: 13.5px; }
+      .hero-actions { margin-top: 18px; }
+      .hero-figure { grid-template-columns: 1fr; gap: 8px; }
+      .figure-number { font-size: 60px; }
+      .phase-mini, .hero-note { grid-column: auto; }
+      .kpi { padding: 11px 13px; }
+      .kpi-v { font-size: 23px; }
+      .kpi-l { font-size: 10.5px; }
+      .cp-ev { grid-template-columns: 42px minmax(0, 1fr) 12px; gap: 9px; padding: 11px 12px; }
+      .ev-title { font-size: 13.5px; }
+      .ev-sum { font-size: 12px; }
+      .ev-date { font-size: 9.5px; }
+      .ev-cat { display: none; }
+      .steps li { grid-template-columns: 53px 10px minmax(0, 1fr); gap: 0 8px; font-size: 12.5px; }
+      .steps .sd { font-size: 9.5px; }
+      .image-grid { grid-template-columns: 1fr; }
+      .notes h2 { font-size: 23px; }
+      .site-foot { display: block; }
+      .site-foot span { display: block; margin-bottom: 4px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+    @media print {
+      .top, .filters, .hero-actions, .drawer, .scrim, .skip-link, .ev-arrow { display: none !important; }
+      body { background: #fff; color: #000; }
+      .hero, .kpi, .part-card, .cp-ev, .notes { box-shadow: none; break-inside: avoid; }
+      .cp-ev { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#timeline">跳到大事记</a>
+
+  <header class="top" id="top">
+    <div class="wrap top-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">党史</span>
+        <div>
+          <h1>中国共产党 · 党史纲要</h1>
+          <p class="sub">1920–2025 · 两段历史 · 三重视角</p>
+        </div>
+      </div>
+      <label class="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+        <input id="q" type="search" placeholder="搜索事件、年份、关键词…" aria-label="搜索党史事件" autocomplete="off" />
+      </label>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <p class="eyebrow">党史纲要 / 1920—2025</p>
+        <h2 id="hero-title">从革命建国<br /><em>到改革开放</em></h2>
+        <p class="hero-lede">
+          把一百零五年的党史放在两个时段里阅读：1920–1949 年，重点是从早期组织、国共合作、农村根据地与抗战，走向全国政权；1950–2025 年，重点是执政后的制度建设、工业化、市场化、社会转型与对外关系。每个事件另从社会学、经济学和权力博弈三个角度展开，帮助区分“发生了什么”和“怎样理解它”。
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="#timeline">浏览大事记 <span aria-hidden="true">↓</span></a>
+          <a class="text-link" href="#sources">阅读说明与参考 →</a>
+        </div>
+      </div>
+      <aside class="hero-figure" aria-label="时间跨度概览">
+        <div class="figure-number"><span>105</span><small>年</small></div>
+        <div class="figure-rule" aria-hidden="true"><span>1920</span><i></i><span>2025</span></div>
+        <ul class="phase-mini">
+          <li style="--c: var(--part1)">
+            <span class="phase-dot" aria-hidden="true"></span>
+            <div><b>革命与建国</b><small>1920–1949 · <span data-part-count="1">—</span> 个节点</small></div>
+          </li>
+          <li style="--c: var(--part2)">
+            <span class="phase-dot" aria-hidden="true"></span>
+            <div><b>执政与现代化</b><small>1950–2025 · <span data-part-count="2">—</span> 个节点</small></div>
+          </li>
+        </ul>
+        <p class="hero-note"><span class="lens-dots" aria-hidden="true"><i class="lz-society"></i><i class="lz-economy"></i><i class="lz-power"></i></span>每个事件附三重视角；关键节点另附至少两幅可点击的历史影像。时间轴按 11 个历史分期展开，分期、关键节点与视角分析均为编者所加。</p>
+      </aside>
+    </section>
+
+    <section class="kpis" id="kpis" aria-label="页面收录概况"></section>
+
+    <section class="part-cards" aria-label="两个历史阶段">
+      <a class="part-card" href="#part-1" data-jump-part="1" style="--c: var(--part1)">
+        <span class="pc-top"><span>第一部分 / 01</span><span class="pc-arrow" aria-hidden="true">向下阅读 ↓</span></span>
+        <span class="pc-years">1920–1949</span>
+        <span class="pc-title">革命与建国</span>
+        <span class="pc-desc">从早期组织、国共合作、武装斗争与抗战，走向 1949 年建立全国政权。</span>
+        <span class="pc-meta"><b data-part-count="1">—</b> 个节点 · 从石库门到天安门</span>
+      </a>
+      <a class="part-card" href="#part-2" data-jump-part="2" style="--c: var(--part2)">
+        <span class="pc-top"><span>第二部分 / 02</span><span class="pc-arrow" aria-hidden="true">向下阅读 ↓</span></span>
+        <span class="pc-years">1950–2025</span>
+        <span class="pc-title">执政与现代化</span>
+        <span class="pc-desc">从社会主义改造、计划建设与曲折探索，到改革开放和新时代治理。</span>
+        <span class="pc-meta"><b data-part-count="2">—</b> 个节点 · 从新生政权到全球大国</span>
+      </a>
+    </section>
+
+    <section class="filters" id="filters" aria-label="筛选时间轴"></section>
+
+    <section class="timeline" id="timeline" tabindex="-1" aria-live="polite" aria-label="党史大事记"></section>
+
+    <section class="notes" id="sources" aria-labelledby="sources-title">
+      <p class="eyebrow">阅读说明</p>
+      <h2 id="sources-title">怎样读懂这份时间轴</h2>
+      <div class="notes-grid">
+        <div>
+          <h3>选材与写法</h3>
+          <p>本页以政治、军事、经济、外交、社会与思想领域的关键事件为线索。事件条目以“概述—背景—影响”为基本结构，关键事件另列“关键节点”；对评价存在分歧的事件，另设“史学注记”，尽量把基本事实与解释框架分开。</p>
+          <p>1920 年作为起点，是因为各地共产党早期组织在这一年出现；中共正式成立通常以 1921 年 7 月第一次全国代表大会为标志。1950 年作为第二部分起点，接续 1949 年中华人民共和国成立后的执政实践。</p>
+          <p>“关键节点”、历史分期和主题分类是编者为方便阅读所作的选择，并非官方分级。页面为学习用纲要，不能替代原始档案、专门史研究或当事人回忆。</p>
+          <p>关键节点的历史影像以外部链接方式引用自 Wikimedia Commons，并标注作者、授权和原始页面；图片说明尽量与图源一致。若所在网络无法访问维基共享资源，图片可能无法显示。</p>
+        </div>
+        <div>
+          <h3>主要参考</h3>
+          <ol class="sources">
+            <li>中共中央党史和文献研究院：《中国共产党的一百年》，中共党史出版社，2022 年。</li>
+            <li>中共中央党史研究室：《中国共产党的九十年》，中共党史出版社、党建读物出版社，2016 年。</li>
+            <li>《中国共产党简史》，人民出版社、中共党史出版社，2021 年。</li>
+            <li>《关于建国以来党的若干历史问题的决议》（1981 年）；《中共中央关于党的百年奋斗重大成就和历史经验的决议》（2021 年）。</li>
+            <li>麦克法夸尔、费正清主编：《剑桥中华人民共和国史》，中国社会科学出版社中译本。</li>
+            <li>傅高义：《邓小平时代》，生活·读书·新知三联书店中译本。</li>
+          </ol>
+        </div>
+      </div>
+      <div class="lens-guide" aria-label="三重视角说明">
+        <div class="lens-guide-item lz-society">
+          <span class="lens-mark" aria-hidden="true">社</span>
+          <h3>社会学视角</h3>
+          <p>关注哪些群体被动员、组织或排除，以及阶级、城乡、教育、家庭和集体记忆如何变化。</p>
+        </div>
+        <div class="lens-guide-item lz-economy">
+          <span class="lens-mark" aria-hidden="true">经</span>
+          <h3>经济学视角</h3>
+          <p>关注资源、财政、产权、激励与分配，政策如何改变生产结构、市场机会和日常生活。</p>
+        </div>
+        <div class="lens-guide-item lz-power">
+          <span class="lens-mark" aria-hidden="true">权</span>
+          <h3>权力博弈视角</h3>
+          <p>关注党内、国家与社会、中央与地方以及国际力量之间的联合、竞争和制度约束。</p>
+        </div>
+      </div>
+      <p class="disclaimer">说明：本页为独立整理的公开学习资料，不代表任何机构立场。历史数字、地名、职务与评价在不同文献中可能存在差异；涉及争议事件时，页面只陈述基本时间线并标出分歧。三重视角是分析工具，不是对事件的唯一定论；读者应进一步查核原始文献。内容截至 2025 年。</p>
+    </section>
+  </main>
+
+  <footer class="site-foot wrap">
+    <span>中国共产党党史纲要 · 1920–2025 · 编者自用学习页</span>
+    <span><a href="#top">回到顶部 ↑</a></span>
+  </footer>
+
+  <div class="scrim" id="scrim" hidden></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-hidden="true" inert>
+    <div class="drawer-inner" id="drawerBody"></div>
+  </aside>
+
+  <noscript>
+    <div class="wrap noscript">本页的大事记由 JavaScript 生成，请在浏览器中启用 JavaScript 后查看。</div>
+  </noscript>
+
+  <script>
+    /* ── 数据：两个部分、主题分类与事件 ── */
+    const DATA = {
+      meta: { start: 1920, end: 2025, title: "中国共产党党史纲要" },
+      categories: ["建党与组织", "统一战线", "军事与战争", "政权与制度", "经济与社会", "外交", "思想与文化", "科技与国防", "危机与转折"],
+      parts: [
+        {
+          id: 1,
+          kicker: "第一部分 · 1920–1949",
+          title: "革命与建国",
+          years: "1920–1949",
+          lede: "三十年间，中共从数十人的早期组织发展为领导全国政权的政党。主线是：马克思主义传播与建党、国共合作与破裂、农村根据地与武装斗争、抗日战争中的统一战线，以及解放战争中的战略决战。",
+          threads: ["建党", "国共合作", "武装斗争", "农村根据地", "抗日战争", "解放战争"]
+        },
+        {
+          id: 2,
+          kicker: "第二部分 · 1950–2025",
+          title: "执政与现代化",
+          years: "1950–2025",
+          lede: "从巩固新政权、社会主义改造和计划建设，到文化大革命、改革开放与新时代治理。主线是：国家制度建设、工业化与市场化、全球化与社会转型，以及党在组织、意识形态和治理方式上的持续调整。",
+          threads: ["制度建设", "工业化", "改革开放", "市场经济", "全球化", "治理现代化"]
+        }
+      ],
+      events: [
+        {
+          id: "1920-08-shanghai-group",
+          date: "1920-08",
+          part: 1,
+          title: "上海共产党早期组织成立",
+          category: "建党与组织",
+          importance: 4,
+          summary: "陈独秀等在上海成立共产党早期组织，随后北京、武汉、长沙、济南、广州以及旅日、旅法群体相继建立类似组织，为 1921 年建党做了组织准备。",
+          background: "五四运动后马克思主义传播加速。1920 年，共产国际代表维经斯基来华，先后会见李大钊、陈独秀。上海组织以陈独秀寓所为活动中心，成员包括李达、李汉俊、陈望道、俞秀松等，创办《共产党》月刊并参与工人运动。",
+          impact: "这些组织规模不大、名称不一，却建立了跨地域的联系与宣传网络；中共一大即由各地组织派代表参加。",
+          note: "1920 年是党的早期组织起点，正式成立仍以 1921 年 7 月中共一大为标志。",
+          keywords: ["陈独秀", "维经斯基", "《共产党》月刊", "早期组织"]
+        },
+        {
+          id: "1921-07-first-congress",
+          date: "1921-07-23",
+          part: 1,
+          title: "中国共产党第一次全国代表大会",
+          category: "建党与组织",
+          importance: 5,
+          summary: "1921 年 7 月，13 名代表在上海和嘉兴南湖举行第一次全国代表大会，通过党的第一个纲领，宣告中国共产党成立。",
+          background: "到 1921 年，各地早期组织已有 50 多名党员。共产国际代表马林、尼克尔斯基推动召开全国代表大会。会议原定在上海法租界望志路 106 号举行，陈独秀、李大钊均未出席。",
+          process: [
+            { when: "7 月 23 日", text: "大会在上海望志路 106 号开幕，到会代表 13 人，代表全国 50 多名党员。" },
+            { when: "7 月 30 日", text: "法租界巡捕闯入会场搜查，会议被迫中断。" },
+            { when: "8 月初", text: "会议转移到浙江嘉兴南湖的游船上继续举行，通过党的第一个纲领和决议，选举陈独秀为中央局书记。" }
+          ],
+          impact: "各地分散的早期组织由此形成全国性政党。此后中共以工人运动为中心，1922 年提出民主革命纲领，1924 年与国民党合作。",
+          note: "一大开幕日期长期以 7 月 1 日为纪念日，后经考证确定为 7 月 23 日；南湖会议的具体日期仍有讨论。",
+          keywords: ["上海", "嘉兴南湖", "陈独秀", "马林", "建党"]
+        },
+        {
+          id: "1922-07-second-congress",
+          date: "1922-07-16",
+          part: 1,
+          title: "中共二大与民主革命纲领",
+          category: "建党与组织",
+          importance: 4,
+          summary: "1922 年 7 月，中共二大在上海举行，首次提出反帝反封建的民主革命纲领，并通过第一部党章。",
+          background: "华盛顿会议后列强重分远东秩序，中国仍处于军阀割据状态。中共成立后领导香港海员罢工等工人运动，但需要回答中国革命的性质、对象和步骤。",
+          impact: "二大把党的最高纲领与民主革命阶段的目标区分开来，提出打倒军阀、推翻国际帝国主义压迫、统一中国为真正民主共和国，为第一次国共合作提供了理论基础。",
+          keywords: ["二大", "民主革命纲领", "党章", "共产国际"]
+        },
+        {
+          id: "1923-06-third-congress",
+          date: "1923-06-12",
+          part: 1,
+          title: "中共三大与国共合作方针",
+          category: "统一战线",
+          importance: 4,
+          summary: "1923 年 6 月，中共三大在广州决定共产党员以个人身份加入国民党，同时保持党在政治上、组织上的独立性，推动第一次国共合作。",
+          background: "二七惨案后工人运动受挫，中共认识到仅靠工人阶级孤军奋战难以推翻军阀和帝国主义。共产国际与苏联推动国共合作，孙中山也有改组国民党、吸收新力量的需求。",
+          impact: "三大确定的党内合作形式促成了 1924 年国民党改组和黄埔军校建立，也埋下后来国共争夺领导权的矛盾。",
+          keywords: ["三大", "党内合作", "孙中山", "共产国际"]
+        },
+        {
+          id: "1924-01-first-united-front",
+          date: "1924-01-20",
+          part: 1,
+          title: "第一次国共合作与黄埔军校",
+          category: "统一战线",
+          importance: 4,
+          summary: "国民党一大在广州召开，孙中山重新解释三民主义，确立联俄、联共、扶助农工政策；黄埔军校随后建立，第一次国共合作正式形成。",
+          background: "孙中山在陈炯明兵变后寻求新的革命力量，与苏联和中共接触。1923 年的《孙文越飞宣言》与中共三大为合作铺路。",
+          impact: "国共合作推动了国民革命和北伐；但两党在阶级基础、领导权与土地问题上的矛盾始终存在，最终在 1927 年破裂。",
+          keywords: ["国民党一大", "新三民主义", "黄埔军校", "孙中山"]
+        },
+        {
+          id: "1925-05-may-thirtieth",
+          date: "1925-05-30",
+          part: 1,
+          title: "五卅运动",
+          category: "经济与社会",
+          importance: 4,
+          summary: "1925 年 5 月 30 日，上海租界英国巡捕向抗议日本纱厂枪杀工人顾正红的示威者开枪，引发全国反帝运动和省港大罢工。",
+          background: "日商纱厂罢工中，工人顾正红于 5 月 15 日被枪杀，学生募捐声援时被捕。5 月 30 日，上海学生和市民在南京路示威，遭老闸捕房开枪。",
+          impact: "运动从上海扩展到全国，工人罢工、学生罢课、商人罢市；中共在运动中扩大影响并成立上海总工会。国民党内部对群众运动的态度分化，也为此后国共分裂埋下伏笔。",
+          keywords: ["顾正红", "上海总工会", "省港大罢工", "反帝运动"]
+        },
+        {
+          id: "1926-07-northern-expedition",
+          date: "1926-07-09",
+          part: 1,
+          title: "北伐战争",
+          category: "军事与战争",
+          importance: 4,
+          summary: "1926 年 7 月，国民革命军从广东出师北伐，在国共合作与工农运动配合下，先后击溃吴佩孚、孙传芳等部，占领长江流域。",
+          background: "广东革命根据地逐步巩固，黄埔军校培养军官，工农运动高涨；北洋军阀内部四分五裂，为北伐提供了窗口。",
+          impact: "北伐军于 1927 年攻占南京、上海，但国共矛盾日趋尖锐。四一二政变后，北伐成果被国民党各派分割，中共转入独立武装斗争。",
+          keywords: ["国民革命军", "吴佩孚", "孙传芳", "工农运动"]
+        },
+        {
+          id: "1927-04-april-twelfth",
+          date: "1927-04-12",
+          part: 1,
+          title: "四一二政变",
+          category: "危机与转折",
+          importance: 5,
+          summary: "1927 年 4 月 12 日，蒋介石在上海发动清党，包围上海总工会、解除工人纠察队武装并大规模捕杀共产党人和工农群众，第一次国共合作破裂。",
+          background: "北伐军进入上海后，工人武装与工会力量迅速壮大，引起国民党右翼、租界当局和江浙财阀不安。蒋介石与汪精卫、中共之间围绕迁都、党政军权的矛盾加剧。",
+          process: [
+            { when: "4 月 12 日", text: "上海帮会武装袭击总工会，军队解除工人纠察队武装并展开大规模搜捕。" },
+            { when: "4 月 18 日", text: "蒋介石在南京另立国民政府，形成宁汉对立。" },
+            { when: "7 月 15 日", text: "武汉汪精卫集团实行分共，国共第一次合作全面破裂。" }
+          ],
+          impact: "中共在城市遭到严重打击，党员人数锐减，城市工人运动受挫。中共中央随后转向武装反抗和农村斗争。",
+          note: "清党过程中大量平民、工人和中共党员死亡；具体伤亡数字因统计口径不同差异很大。",
+          keywords: ["蒋介石", "清党", "上海总工会", "国共分裂"]
+        },
+        {
+          id: "1927-08-nanchang-uprising",
+          date: "1927-08-01",
+          part: 1,
+          title: "南昌起义",
+          category: "军事与战争",
+          importance: 5,
+          summary: "1927 年 8 月 1 日，周恩来、贺龙、叶挺、朱德、刘伯承等率部在南昌起义，这是中共独立领导武装斗争的重要起点。",
+          background: "四一二、七一五后，中共在城市遭到清洗。南昌聚集了受中共影响的部分国民革命军部队，起义原定配合南下广东，再图发展。",
+          process: [
+            { when: "8 月 1 日", text: "起义部队占领南昌，随后按计划南下广东。" },
+            { when: "南下途中", text: "部队在潮汕地区受挫，部分力量由朱德、陈毅等率领转战，后与井冈山部队会合。" },
+            { when: "1933 年", text: "中共中央确定 8 月 1 日为中国工农红军成立纪念日，后成为建军节。" }
+          ],
+          impact: "南昌起义保存的部分力量成为红军的重要来源；它标志着中共开始独立领导军队和武装斗争。",
+          note: "“打响第一枪”的说法通常与秋收起义、广州起义并提；南昌起义是其中规模最大、影响最直接的一次。",
+          keywords: ["周恩来", "贺龙", "叶挺", "八一建军节"]
+        },
+        {
+          id: "1927-08-august-seventh",
+          date: "1927-08-07",
+          part: 1,
+          title: "八七会议、秋收起义与井冈山",
+          category: "危机与转折",
+          importance: 5,
+          summary: "八七会议确定土地革命和武装反抗的总方针；随后毛泽东领导秋收起义，受挫后转向井冈山，开辟农村革命根据地。",
+          background: "国共合作破裂后，中共急需重新确定革命路线。1927 年 8 月 7 日，中共中央在汉口召开紧急会议，批评陈独秀的右倾错误，选出瞿秋白为首的临时中央。",
+          process: [
+            { when: "8 月 7 日", text: "八七会议确定实行土地革命和武装起义的方针，毛泽东提出“枪杆子里面出政权”。" },
+            { when: "9 月 9 日", text: "毛泽东领导湘赣边界秋收起义，进攻长沙受挫后改变原定计划。" },
+            { when: "10 月", text: "起义部队转向井冈山，开始建立农村革命根据地；1928 年 4 月，朱德、毛泽东部队会师。" }
+          ],
+          impact: "这一转向使中国革命的重心从城市暴动转向农村武装割据，形成“农村包围城市、武装夺取政权”道路的起点。",
+          note: "八七会议同时存在“左”倾急躁倾向，要求各地普遍暴动；这一教训后来在党内被反复总结。",
+          keywords: ["八七会议", "秋收起义", "井冈山", "农村包围城市"]
+        },
+        {
+          id: "1929-12-gutian",
+          date: "1929-12-28",
+          part: 1,
+          title: "古田会议",
+          category: "建党与组织",
+          importance: 4,
+          summary: "1929 年 12 月，红四军第九次党代会在福建古田召开，通过毛泽东起草的决议，确立思想建党、政治建军原则。",
+          background: "红四军内部围绕党的领导、军事与政治关系、民主与集中发生争论；中共中央九月来信支持毛泽东的主张。",
+          impact: "古田会议决议强调党对军队的绝对领导、支部建在连上和政治工作制度，为红军及后来人民军队的建设奠定基础。",
+          keywords: ["红四军", "思想建党", "政治建军", "党指挥枪"]
+        },
+        {
+          id: "1931-11-chinese-soviet",
+          date: "1931-11-07",
+          part: 1,
+          title: "中华苏维埃共和国成立",
+          category: "政权与制度",
+          importance: 3,
+          summary: "1931 年 11 月，中华苏维埃第一次全国代表大会在江西瑞金召开，成立中华苏维埃共和国临时中央政府，毛泽东任主席。",
+          background: "中央苏区在反“围剿”中扩大，国民党统治区的中共组织遭受破坏，中共需要在根据地建立统一的政权形态。",
+          impact: "这是中共在局部地区执政的最早国家形态实践，制定了宪法大纲、土地法、劳动法等；1934 年红军长征后苏区大部丧失。",
+          note: "中华苏维埃共和国与后来成立的中华人民共和国不是同一国家实体，但常被视为中共政权建设的重要预演。",
+          keywords: ["瑞金", "毛泽东", "临时中央政府", "苏区"]
+        },
+        {
+          id: "1934-10-long-march",
+          date: "1934-10-10",
+          part: 1,
+          title: "长征（1934–1936）",
+          category: "军事与战争",
+          importance: 5,
+          summary: "1934 年 10 月，中央红军被迫从江西瑞金等地出发，经过两年多转战，于 1936 年 10 月在甘肃会宁、将台堡实现三大主力会师。",
+          background: "第五次反“围剿”中，博古、李德采取消极防御，红军失利，苏区缩小。中央红军约 8.6 万人开始战略转移。",
+          process: [
+            { when: "1934 年 10 月", text: "中央红军从江西出发，湘江战役后由 8.6 万人锐减至 3 万余人。" },
+            { when: "1935 年 1 月", text: "遵义会议调整中央领导，随后四渡赤水、巧渡金沙江、强渡大渡河。" },
+            { when: "1935 年 10 月", text: "中央红军到达陕北吴起镇，结束中央红军的长征。" },
+            { when: "1936 年 10 月", text: "红一、红二、红四方面军在甘肃会宁、静宁将台堡会师，三大主力长征结束。" }
+          ],
+          impact: "长征保存了党和红军的主要骨干，把中国革命中心转移到西北，并在沿途传播了中共的主张；它后来成为中共历史叙事中最重要的象征之一。",
+          note: "长征出发地、路线和里程有不同表述；“二万五千里”通常指中央红军。",
+          keywords: ["中央红军", "遵义会议", "陕北", "三大主力会师"]
+        },
+        {
+          id: "1935-01-zunyi",
+          date: "1935-01-15",
+          part: 1,
+          title: "遵义会议",
+          category: "危机与转折",
+          importance: 5,
+          summary: "1935 年 1 月，中共中央在贵州遵义召开政治局扩大会议，纠正博古、李德的军事指挥错误，开始确立毛泽东在党中央的领导地位。",
+          background: "湘江战役后中央红军损失惨重，党内对军事路线强烈不满；蒋介石调集重兵围堵，红军处于生死关头。",
+          process: [
+            { when: "1 月 15–17 日", text: "政治局扩大会议在遵义举行，集中批评博古、李德的军事指挥错误。" },
+            { when: "会议决定", text: "增选毛泽东为政治局常委，取消博古、李德的最高军事指挥权，仍由朱德、周恩来指挥军事。" },
+            { when: "会后", text: "红军四渡赤水、巧渡金沙江，逐步摆脱围追堵截。" }
+          ],
+          impact: "1981 年历史决议称，遵义会议“开始确立以毛泽东同志为主要代表的马克思主义正确路线在党中央的领导地位”，是党和红军生死攸关的转折点。",
+          note: "“确立领导地位”有一个逐步过程；遵义会议后，毛泽东进入核心决策层，但组织上的最高职务调整仍在继续。",
+          keywords: ["博古", "李德", "四渡赤水", "生死攸关"]
+        },
+        {
+          id: "1936-12-xian-incident",
+          date: "1936-12-12",
+          part: 1,
+          title: "西安事变",
+          category: "统一战线",
+          importance: 5,
+          summary: "1936 年 12 月 12 日，张学良、杨虎城在西安扣押蒋介石，要求停止内战、一致抗日；经中共代表周恩来等斡旋，事件和平解决。",
+          background: "日本侵占东北后继续蚕食华北，蒋介石坚持“攘外必先安内”。东北军、十七路军与红军在陕北对峙，张、杨受到抗日舆论和部下情绪影响。",
+          process: [
+            { when: "12 月 12 日", text: "张学良、杨虎城发动兵谏，扣押蒋介石，提出停止内战、联共抗日等主张。" },
+            { when: "12 月 17 日", text: "周恩来等抵达西安，确定和平解决方针，与各方斡旋。" },
+            { when: "12 月 25 日", text: "蒋介石被释放，承诺停止内战、联共抗日（具体形式与文本存在不同说法）。" }
+          ],
+          impact: "西安事变成为时局转换的枢纽，内战基本停止，第二次国共合作初步形成，为全面抗战准备了条件。",
+          note: "蒋介石是否作出书面承诺、具体条件如何，史料表述不一，是研究西安事变的重要争议点。",
+          keywords: ["张学良", "杨虎城", "周恩来", "停止内战"]
+        },
+        {
+          id: "1937-07-marco-polo-bridge",
+          date: "1937-07-07",
+          part: 1,
+          title: "七七事变与全面抗战",
+          category: "军事与战争",
+          importance: 5,
+          summary: "1937 年 7 月 7 日，日军在卢沟桥附近挑起事端，中国守军第 29 军奋起抵抗，全民族抗战爆发。",
+          background: "九一八事变后日本侵占东北、蚕食华北。1937 年 7 月 7 日夜，日军在宛平城附近演习，借口士兵失踪要求入城搜查，被中国守军拒绝。",
+          process: [
+            { when: "7 月 7 日", text: "卢沟桥事变爆发，第 29 军在卢沟桥、宛平城一带抵抗。" },
+            { when: "7 月 8 日", text: "中共中央通电全国，号召全民族抗战。" },
+            { when: "8 月", text: "洛川会议通过抗日救国十大纲领；红军改编为八路军，后南方红军游击队改编为新四军。" },
+            { when: "9 月", text: "国共第二次合作正式形成，抗日民族统一战线建立。" }
+          ],
+          impact: "全国抗战爆发后，中共在敌后开展游击战争、建立根据地，力量不断壮大；抗战也成为中共从陕北走向全国的重要阶段。",
+          keywords: ["卢沟桥", "第 29 军", "洛川会议", "抗日民族统一战线"]
+        },
+        {
+          id: "1940-08-hundred-regiments",
+          date: "1940-08-20",
+          part: 1,
+          title: "百团大战",
+          category: "军事与战争",
+          importance: 4,
+          summary: "1940 年 8 月至 12 月，八路军在华北发动大规模破袭战，参战兵力达 105 个团，史称百团大战。",
+          background: "日军推行“囚笼政策”，以铁路、公路和据点分割封锁根据地；国民党方面出现妥协投降倾向。八路军总部决定发动破袭战。",
+          impact: "百团大战打击了日军交通线，振奋了全国抗战情绪；但过早暴露八路军实力，招致日军报复性“扫荡”，根据地进入困难时期。对其历史作用，研究者有不同评估。",
+          keywords: ["八路军", "彭德怀", "正太铁路", "囚笼政策"]
+        },
+        {
+          id: "1941-01-southern-anhui",
+          date: "1941-01-06",
+          part: 1,
+          title: "皖南事变",
+          category: "危机与转折",
+          importance: 4,
+          summary: "1941 年 1 月，新四军军部及所属部队约 9000 人在安徽泾县茂林地区遭国民党军围攻，损失惨重，史称皖南事变。",
+          background: "抗战进入相持阶段后，国民党对中共武装力量的发展心存戒备，限共、反共摩擦增加。1940 年，中共中央要求新四军北移。",
+          process: [
+            { when: "1 月 4 日", text: "新四军军部及所属部队开始北移。" },
+            { when: "1 月 6 日起", text: "部队在茂林地区遭国民党军围攻，叶挺被扣，项英遇害。" },
+            { when: "1 月 20 日", text: "中共重建新四军军部，陈毅代军长，刘少奇任政治委员。" }
+          ],
+          impact: "国共关系严重恶化，中共采取政治反击而非全面破裂，以维护抗日统一战线；新四军在华中继续发展。",
+          keywords: ["新四军", "叶挺", "项英", "国共摩擦"]
+        },
+        {
+          id: "1942-02-yanan-rectification",
+          date: "1942-02-01",
+          part: 1,
+          title: "延安整风",
+          category: "思想与文化",
+          importance: 4,
+          summary: "1942 年起，中共在延安开展整风运动，反对主观主义、宗派主义和党八股，确立实事求是的思想路线。",
+          background: "遵义会议后，党内仍存在教条主义影响；抗战进入相持阶段，延安相对稳定，具备集中学习和总结历史的条件。",
+          impact: "整风统一了全党思想，为中共七大确立毛泽东思想为指导思想奠定基础；运动后期的审干和“抢救失足者”出现严重扩大化，造成冤假错案，后予纠正。",
+          keywords: ["毛泽东", "实事求是", "党八股", "审干"]
+        },
+        {
+          id: "1945-04-seventh-congress",
+          date: "1945-04-23",
+          part: 1,
+          title: "中共七大",
+          category: "建党与组织",
+          importance: 5,
+          summary: "1945 年 4 月至 6 月，中共七大在延安召开，确立毛泽东思想为党的指导思想，选出以毛泽东为首的中央委员会。",
+          background: "抗战胜利前夕，中共拥有约 121 万党员和近百万军队，需要总结历史、统一路线、准备建国。",
+          process: [
+            { when: "4 月 23 日", text: "大会开幕，755 名代表出席，代表全国 121 万名党员。" },
+            { when: "会议期间", text: "毛泽东作《论联合政府》报告，朱德作军事报告，刘少奇作修改党章报告。" },
+            { when: "6 月 11 日", text: "大会通过新党章，将毛泽东思想确定为党的指导思想；选举毛泽东为中央委员会主席。" }
+          ],
+          impact: "七大使全党在抗战胜利前夜达到新的团结，为争取抗战胜利、应对随后内战做了政治和组织准备。",
+          keywords: ["毛泽东思想", "论联合政府", "延安", "团结的大会"]
+        },
+        {
+          id: "1945-08-victory-chongqing",
+          date: "1945-08-15",
+          part: 1,
+          title: "抗战胜利与重庆谈判",
+          category: "外交",
+          importance: 4,
+          summary: "1945 年 8 月日本宣布投降；同月毛泽东赴重庆与蒋介石谈判，10 月双方签署《双十协定》，但未解决军队和政权问题。",
+          background: "美国投下原子弹、苏联出兵东北，日本投降在即；国民党主力在西南，需要时间接收。蒋介石三次电邀毛泽东赴重庆谈判。",
+          process: [
+            { when: "8 月 15 日", text: "日本宣布无条件投降；9 月 2 日正式签署投降书。" },
+            { when: "8 月 28 日", text: "毛泽东、周恩来、王若飞抵达重庆，与国民党谈判。" },
+            { when: "10 月 10 日", text: "双方签署《政府与中共代表会谈纪要》（双十协定），同意和平建国，但军队和解放区政权问题悬而未决。" }
+          ],
+          impact: "谈判争取了和平舆论，但内战并未避免。1946 年 6 月，国民党军进攻中原解放区，全面内战爆发。",
+          keywords: ["日本投降", "重庆谈判", "双十协定", "毛泽东"]
+        },
+        {
+          id: "1946-06-civil-war",
+          date: "1946-06-26",
+          part: 1,
+          title: "全面内战爆发",
+          category: "军事与战争",
+          importance: 4,
+          summary: "1946 年 6 月，国民党军大举进攻中原解放区，全面内战爆发。",
+          background: "抗战胜利后，国共围绕受降、军队整编和解放区政权矛盾激化；美国调停失败，双方军事冲突不断扩大。",
+          impact: "中共采取战略防御，以运动战消耗国民党军，同时在解放区实行土地改革；到 1947 年，战争进入战略进攻阶段。",
+          keywords: ["中原解放区", "国共内战", "战略防御"]
+        },
+        {
+          id: "1947-06-strategic-offensive",
+          date: "1947-06-30",
+          part: 1,
+          title: "战略进攻：刘邓大军挺进大别山",
+          category: "军事与战争",
+          importance: 4,
+          summary: "1947 年 6 月底，刘伯承、邓小平率晋冀鲁豫野战军强渡黄河，挺进大别山，揭开人民解放军战略进攻的序幕。",
+          background: "经过一年内线作战，国民党军机动兵力下降，解放区经济困难。中共中央决定以主力打到外线，将战争引向国民党统治区。",
+          impact: "刘邓、陈粟、陈谢三路大军经略中原，迫使国民党军由进攻转入防御；这一转折为 1948 年的战略决战创造了条件。",
+          keywords: ["刘伯承", "邓小平", "大别山", "战略进攻"]
+        },
+        {
+          id: "1947-10-land-reform",
+          date: "1947-10-10",
+          part: 1,
+          title: "解放区土地改革",
+          category: "经济与社会",
+          importance: 4,
+          summary: "1947 年 10 月，《中国土地法大纲》公布，实行“耕者有其田”，在解放区推动土地改革。",
+          background: "抗战时期的减租减息政策已不能满足农民的土地要求；内战需要动员农民支持，中共将土地改革作为巩固解放区的基础工作。",
+          impact: "土改激发农民参军支前，巩固了解放区；但各地也出现侵犯中农、工商业者利益和乱打乱杀等偏差，后被纠正。",
+          note: "土地改革中的阶级划分、暴力与地方差异是理解此时期社会动员的重要一面，不同地区差别很大。",
+          keywords: ["中国土地法大纲", "耕者有其田", "农民", "支前"]
+        },
+        {
+          id: "1948-09-three-campaigns",
+          date: "1948-09-12",
+          part: 1,
+          title: "辽沈、淮海、平津三大战役",
+          category: "军事与战争",
+          importance: 5,
+          summary: "1948 年 9 月至 1949 年 1 月，人民解放军先后进行辽沈、淮海、平津三大战役，消灭国民党军主力。",
+          background: "1948 年秋，国共力量对比发生逆转，解放军在东北、华北、华东取得主动权。中共中央决定进行战略决战。",
+          process: [
+            { when: "1948 年 9–11 月", text: "辽沈战役结束，东北全境解放，解放军首次在兵力上超过国民党军。" },
+            { when: "1948 年 11 月–1949 年 1 月", text: "淮海战役歼灭国民党军大量主力，长江以北局面基本确定。" },
+            { when: "1948 年 11 月–1949 年 1 月", text: "平津战役结束，北平和平解放，华北基本解放。" }
+          ],
+          impact: "三大战役共消灭和改编国民党军约 154 万人，基本摧毁其精锐力量，为渡江战役和建立全国政权奠定了基础。",
+          keywords: ["辽沈战役", "淮海战役", "平津战役", "战略决战"]
+        },
+        {
+          id: "1949-03-second-plenum",
+          date: "1949-03-05",
+          part: 1,
+          title: "七届二中全会",
+          category: "政权与制度",
+          importance: 4,
+          summary: "1949 年 3 月，中共七届二中全会在河北西柏坡召开，决定党的工作重心由乡村转向城市，提出“两个务必”。",
+          background: "三大战役后，中共即将取得全国政权，如何接管城市、恢复经济、保持队伍清醒成为紧迫课题。",
+          impact: "会议规定了接管全国政权后的基本政策，提出谦虚谨慎、不骄不躁和艰苦奋斗的“两个务必”，成为中共长期强调的作风要求。",
+          keywords: ["西柏坡", "两个务必", "工作重心", "城市接管"]
+        },
+        {
+          id: "1949-04-crossing-yangtze",
+          date: "1949-04-20",
+          part: 1,
+          title: "渡江战役",
+          category: "军事与战争",
+          importance: 4,
+          summary: "1949 年 4 月，人民解放军发起渡江战役，突破长江防线，4 月 23 日占领南京，国民党政权在大陆的统治崩溃。",
+          background: "国共北平和谈破裂，南京政府拒绝《国内和平协定》最后修正案。解放军随即发起渡江。",
+          impact: "渡江后解放军向华中、华南、西南推进，到 1950 年基本解放大陆（西藏于 1951 年和平解放）；1949 年 10 月 1 日中华人民共和国成立。",
+          keywords: ["渡江", "南京", "长江防线", "解放战争"]
+        },
+        {
+          id: "1949-09-cppcc-founding",
+          date: "1949-09-21",
+          part: 1,
+          title: "政协会议与开国大典",
+          category: "政权与制度",
+          importance: 5,
+          summary: "1949 年 9 月，中国人民政治协商会议第一届全体会议在北平召开，通过《共同纲领》；10 月 1 日，中华人民共和国中央人民政府成立。",
+          background: "三大战役和渡江后，中共召集各民主党派、人民团体和社会各界筹备新政权；政协代行全国人民代表大会职权。",
+          process: [
+            { when: "9 月 21–30 日", text: "政协第一届全体会议通过《共同纲领》、政府组织法和政协组织法，定都北京，确定国旗、国歌和公元纪年。" },
+            { when: "9 月 30 日", text: "会议选举毛泽东为中央人民政府主席；人民英雄纪念碑奠基。" },
+            { when: "10 月 1 日", text: "开国大典在北京天安门广场举行，中华人民共和国中央人民政府宣告成立。" }
+          ],
+          impact: "《共同纲领》起临时宪法作用；中华人民共和国成立结束了近代中国长期的政治分裂与外敌入侵局面，也开启中共在全国执政的新阶段。",
+          keywords: ["政协", "共同纲领", "开国大典", "中华人民共和国"]
+        },
+        {
+          id: "1950-06-land-reform",
+          date: "1950-06-30",
+          part: 2,
+          title: "新解放区土地改革",
+          category: "经济与社会",
+          importance: 4,
+          summary: "1950 年 6 月，《中华人民共和国土地改革法》公布，在新解放区废除地主阶级封建剥削的土地所有制，实行农民的土地所有制。",
+          background: "新中国成立时，约三分之二的新解放区尚未完成土改。中共将土地改革视为巩固政权、恢复农业生产和动员农民的中心工作。",
+          impact: "约 3 亿无地少地农民获得土地，农业生产力逐步恢复，中共在农村的基层组织和政权得到加强；运动也伴随阶级划分、批斗和暴力，地方差异很大。",
+          note: "官方叙述强调废除封建土地制度；学界对土改中的暴力、地方实践和长期影响有大量研究。",
+          keywords: ["土地改革法", "耕者有其田", "农民", "农村基层政权"]
+        },
+        {
+          id: "1950-10-korean-war",
+          date: "1950-10-19",
+          part: 2,
+          title: "抗美援朝",
+          category: "军事与战争",
+          importance: 5,
+          summary: "1950 年 10 月，中国人民志愿军入朝作战；1953 年 7 月《朝鲜停战协定》签署，战争在三八线附近结束。",
+          background: "1950 年 6 月朝鲜战争爆发，美国派第七舰队进入台湾海峡，联合国军越过三八线逼近中朝边境。中国决策层在苏联空中支援有限的情况下决定出兵。",
+          process: [
+            { when: "10 月 19 日", text: "中国人民志愿军跨过鸭绿江，彭德怀任司令员兼政治委员。" },
+            { when: "1950–1951 年", text: "志愿军与朝鲜人民军进行五次战役，战线逐步稳定在三八线附近。" },
+            { when: "1953 年 7 月 27 日", text: "《朝鲜停战协定》在板门店签署，建立非军事区，但未签订和平条约。" }
+          ],
+          impact: "战争提高了新中国的国际地位，推动了军队现代化，也造成重大人员伤亡和经济负担，加深了与西方阵营的对抗。",
+          note: "中国官方公布志愿军阵亡约 19.7 万人；伤亡、失踪和被俘统计口径不同，朝鲜与美国的数字也有差异。",
+          keywords: ["彭德怀", "三八线", "停战协定", "台湾海峡"]
+        },
+        {
+          id: "1953-01-first-five-year-plan",
+          date: "1953-01",
+          part: 2,
+          title: "第一个五年计划",
+          category: "经济与社会",
+          importance: 4,
+          summary: "1953 年起，中国实施第一个五年计划，以重工业为中心，苏联援建的 156 个重点项目构成工业化骨架。",
+          background: "国民经济恢复完成，中共提出过渡时期总路线，计划通过国家工业化和社会主义改造向社会主义过渡。",
+          impact: "一五计划奠定了工业基础，1957 年主要指标超额完成；同时，高度集中的计划体制、农业集体化和城乡分割逐步形成。",
+          keywords: ["一五计划", "156 项工程", "重工业", "过渡时期总路线"]
+        },
+        {
+          id: "1953-12-five-principles-bandung",
+          date: "1953-12-31",
+          part: 2,
+          title: "和平共处五项原则与万隆会议",
+          category: "外交",
+          importance: 4,
+          summary: "1953 年底，周恩来提出和平共处五项原则；1955 年万隆会议上，中国以“求同存异”推动亚非团结，打开外交局面。",
+          background: "新中国初期外交实行“一边倒”，朝鲜战争后需要拓展与新兴民族国家的关系；亚非国家在冷战格局中寻求不结盟空间。",
+          process: [
+            { when: "1953 年 12 月", text: "周恩来会见印度代表团时提出互相尊重领土主权、互不侵犯、互不干涉内政、平等互惠、和平共处五项原则。" },
+            { when: "1954 年 6 月", text: "中印、中缅总理联合声明确认五项原则，将其作为处理国家关系的准则。" },
+            { when: "1955 年 4 月", text: "周恩来在万隆会议补充发言中提出“求同存异”，推动会议通过和平共处十项原则。" }
+          ],
+          impact: "五项原则成为此后中国外交的基本话语之一；万隆会议提升了中国的国际影响，也为中国在冷战中拓展与不结盟国家的关系提供了空间。",
+          keywords: ["周恩来", "五项原则", "万隆会议", "求同存异"]
+        },
+        {
+          id: "1954-09-npc-constitution",
+          date: "1954-09-15",
+          part: 2,
+          title: "第一届全国人大与五四宪法",
+          category: "政权与制度",
+          importance: 4,
+          summary: "1954 年 9 月，第一届全国人民代表大会第一次会议在北京召开，通过《中华人民共和国宪法》，确立人民代表大会制度。",
+          background: "建国初期由政协代行人大职权，《共同纲领》起临时宪法作用；1953 年普选后，召开全国人大的条件成熟。",
+          impact: "宪法规定国体、政体、民族区域自治和公民基本权利；毛泽东当选国家主席，周恩来任国务院总理。这一制度框架延续至今，但党与人大、政府的关系在实践中不断调整。",
+          note: "“五四宪法”后被 1975 年、1978 年宪法取代；现行宪法为 1982 年宪法及其修正案。",
+          keywords: ["全国人大", "五四宪法", "人民代表大会制度", "毛泽东"]
+        },
+        {
+          id: "1956-09-eighth-congress",
+          date: "1956-09-15",
+          part: 2,
+          title: "中共八大",
+          category: "建党与组织",
+          importance: 5,
+          summary: "1956 年 9 月，中共八大在北京召开，判断国内主要矛盾已变为人民对经济文化发展的需要同落后社会生产之间的矛盾，提出集中力量发展社会生产力。",
+          background: "社会主义改造基本完成，苏联模式弊端显现，毛泽东发表《论十大关系》，提出探索适合中国国情的建设道路。",
+          process: [
+            { when: "9 月 15–27 日", text: "大会举行，1,026 名代表出席，代表全国 1,073 万名党员。" },
+            { when: "政治报告", text: "大会提出集中力量发展社会生产力、实现国家工业化，并坚持党的集体领导。" },
+            { when: "党章修改", text: "邓小平作修改党章报告，强调反对个人崇拜、发展党内民主和集体领导。" },
+            { when: "9 月 27 日", text: "大会选举新的中央委员会，毛泽东任中央委员会主席。" }
+          ],
+          impact: "八大的路线在当时具有正确性，但随后被反右扩大化、大跃进和阶级斗争扩大化中断，未能坚持。",
+          keywords: ["八大", "主要矛盾", "论十大关系", "集体领导"]
+        },
+        {
+          id: "1957-04-anti-rightist",
+          date: "1957-04-27",
+          part: 2,
+          title: "整风运动与反右派斗争",
+          category: "危机与转折",
+          importance: 4,
+          summary: "1957 年，中共开展整风运动，随后转为反右派斗争，约 55 万人被划为右派，民主空气受到严重损害。",
+          background: "波匈事件后，毛泽东认为需要正确处理人民内部矛盾，鼓励党外人士批评；一些批评超出预期，被判断为右派进攻。",
+          process: [
+            { when: "4 月 27 日", text: "中共中央发出整风指示，号召党外人士帮助党整风。" },
+            { when: "5 月", text: "统战部座谈会和高校鸣放中，批评集中于官僚主义、肃反和知识分子政策。" },
+            { when: "6 月 8 日", text: "《人民日报》社论《这是为什么？》发表，反右派斗争全面展开。" },
+            { when: "1958 年", text: "运动基本结束，约 55 万人被划为右派分子。" }
+          ],
+          impact: "反右扩大化使大批知识分子和干部长期受迫害，堵塞了言路；1978 年后绝大多数被改正，但运动的政治影响持续。",
+          note: "1981 年历史决议称反右派斗争被“严重扩大化”；对整风转向反右的原因和具体责任，学界有不同解释。",
+          keywords: ["整风", "反右", "知识分子", "55 万人"]
+        },
+        {
+          id: "1958-05-great-leap",
+          date: "1958-05-05",
+          part: 2,
+          title: "大跃进与人民公社化运动",
+          category: "经济与社会",
+          importance: 5,
+          summary: "1958 年，中共提出“鼓足干劲、力争上游、多快好省地建设社会主义”的总路线，发动大跃进和人民公社化运动，导致高指标、浮夸风和严重经济困难。",
+          background: "一五计划成功、反右后政治气氛变化，毛泽东希望快速赶超英美。1958 年 5 月八大二次会议通过总路线，8 月北戴河会议决定建立人民公社。",
+          process: [
+            { when: "5 月", text: "八大二次会议通过社会主义建设总路线，各地开始层层加码。" },
+            { when: "8 月", text: "北戴河会议决定在农村建立人民公社，随后掀起大炼钢铁和“放高产卫星”的高潮。" },
+            { when: "1959–1961 年", text: "国民经济比例严重失调，农村出现大规模饥荒和非正常死亡。" },
+            { when: "1961 年", text: "中共开始实行“调整、巩固、充实、提高”方针，纠正部分错误。" }
+          ],
+          impact: "大跃进造成国民经济失调、生态破坏和大规模饥荒。1981 年历史决议将其视为严重失误，并将困难原因概括为政策错误、自然灾害和苏联撕毁合同；学界对死亡人数的估计差异很大。",
+          note: "死亡数字从数百万到数千万的估计都有，因统计口径和档案限制缺乏共识；本页不采用单一数字。",
+          keywords: ["总路线", "大跃进", "人民公社", "大炼钢铁", "三年困难时期"]
+        },
+        {
+          id: "1959-07-lushan",
+          date: "1959-07-02",
+          part: 2,
+          title: "庐山会议与反右倾",
+          category: "危机与转折",
+          importance: 4,
+          summary: "1959 年 7 月，庐山会议原定继续纠“左”，因彭德怀上书批评大跃进，会议转为反右倾，彭德怀等被撤职。",
+          background: "大跃进问题暴露，1959 年夏中央在庐山开会。彭德怀给毛泽东写信，指出比例失调、浮夸等问题，要求总结经验。",
+          process: [
+            { when: "7 月 2 日", text: "中央政治局扩大会议在庐山开幕，原定议题是继续纠正“左”的错误。" },
+            { when: "7 月 14 日", text: "彭德怀致信毛泽东，批评大跃进中的浮夸风和比例失调。" },
+            { when: "7 月 23 日", text: "毛泽东批评彭德怀的信，会议方向转为反右倾。" },
+            { when: "8 月", text: "八届八中全会将彭德怀、黄克诚、张闻天、周小舟定为“反党集团”。" }
+          ],
+          impact: "反右倾使党内不同意见受到压制，经济调整推迟，个人崇拜和阶级斗争扩大化加剧，为文化大革命埋下伏笔。",
+          keywords: ["彭德怀", "庐山会议", "反右倾", "大跃进"]
+        },
+        {
+          id: "1960-07-sino-soviet-adjustment",
+          date: "1960-07-16",
+          part: 2,
+          title: "中苏分裂与国民经济调整",
+          category: "经济与社会",
+          importance: 4,
+          summary: "1960 年苏联撤走专家、撕毁合同，中苏分歧公开化；中共同时实施“调整、巩固、充实、提高”方针，恢复国民经济。",
+          background: "苏共二十大后，中苏在斯大林评价、和平共处与和平过渡等问题上分歧加深；1958 年炮击金门、1960 年布加勒斯特会议等事件加剧冲突。",
+          process: [
+            { when: "1960 年 7 月", text: "苏联撤走全部在华专家，撕毁数百个合同和合作项目。" },
+            { when: "1961 年 1 月", text: "八届九中全会通过“调整、巩固、充实、提高”八字方针。" },
+            { when: "1962 年 1 月", text: "七千人大会召开，总结大跃进以来的经验教训。" }
+          ],
+          impact: "中苏分裂迫使中国强调自力更生和国防自主，也加剧国内政治紧张；1964 年中苏公开论战，社会主义阵营走向分裂。",
+          keywords: ["中苏分裂", "撤走专家", "八字方针", "七千人大会"]
+        },
+        {
+          id: "1964-10-atomic-bomb",
+          date: "1964-10-16",
+          part: 2,
+          title: "第一颗原子弹爆炸成功",
+          category: "科技与国防",
+          importance: 4,
+          summary: "1964 年 10 月 16 日，中国在新疆罗布泊成功爆炸第一颗原子弹，1967 年又试爆氢弹，成为核国家。",
+          background: "中苏关系破裂后，中国在困难条件下坚持“两弹一星”工程，依靠本国科学家、工程人员和全国协作。",
+          impact: "核试验提升了中国的战略地位和安全自主性，也加剧了冷战对抗；“两弹一星”成为国家科技动员的象征。",
+          keywords: ["罗布泊", "原子弹", "两弹一星", "核武器"]
+        },
+        {
+          id: "1966-05-cultural-revolution",
+          date: "1966-05-16",
+          part: 2,
+          title: "文化大革命",
+          category: "危机与转折",
+          importance: 5,
+          summary: "1966 年 5 月，中央政治局扩大会议通过《五一六通知》，随后文化大革命全面发动；至 1976 年结束，持续十年。",
+          background: "毛泽东认为党内出现修正主义、资本主义复辟的危险，决定通过群众运动改造上层建筑；党内高层对运动的范围和方式存在分歧。",
+          process: [
+            { when: "1966 年 5 月", text: "《五一六通知》通过，文化大革命全面发动。" },
+            { when: "1966 年 8 月", text: "八届十一中全会通过《十六条》，红卫兵运动兴起，毛泽东多次接见红卫兵。" },
+            { when: "1967 年", text: "“一月风暴”后各地全面夺权，派系武斗和社会动荡加剧。" },
+            { when: "1969 年", text: "中共九大召开，林彪被写入党章为接班人。" },
+            { when: "1976 年 10 月", text: "粉碎“四人帮”，文化大革命结束。" }
+          ],
+          impact: "1981 年历史决议将其定性为“由领导者错误发动，被反革命集团利用，给党、国家和各族人民带来严重灾难的内乱”。十年间大量干部、知识分子和群众被迫害，教育中断，经济和社会遭到严重破坏。",
+          note: "文化大革命的分期、群众参与原因和后果评估在学界存在不同解释；官方历史决议是理解其定性的基本文本。",
+          keywords: ["五一六通知", "红卫兵", "一月风暴", "内乱", "四人帮"]
+        },
+        {
+          id: "1971-09-lin-biao",
+          date: "1971-09-13",
+          part: 2,
+          title: "林彪事件",
+          category: "危机与转折",
+          importance: 4,
+          summary: "1971 年 9 月 13 日，林彪及其妻子叶群、儿子林立果等乘飞机外逃，在蒙古温都尔汗坠毁身亡，史称九一三事件。",
+          background: "林彪在文革中地位上升，1969 年九大党章将其定为毛泽东的“亲密战友和接班人”；九届二中全会后，林彪集团与毛泽东的矛盾激化。",
+          impact: "事件使文化大革命的合法性受到冲击，军队高层调整，毛泽东的权威受损；此后文革仍在继续，但群众运动热度下降。",
+          note: "官方公布林彪集团策划武装政变、南逃广州另立中央；学术研究对细节和性质有不同讨论。",
+          keywords: ["林彪", "九一三事件", "温都尔汗", "接班人"]
+        },
+        {
+          id: "1971-10-un-seat",
+          date: "1971-10-25",
+          part: 2,
+          title: "恢复联合国合法席位",
+          category: "外交",
+          importance: 4,
+          summary: "1971 年 10 月 25 日，联合国大会通过第 2758 号决议，恢复中华人民共和国在联合国的一切合法权利，驱逐台湾当局代表。",
+          background: "冷战格局下，美国长期阻挠中国恢复联合国席位；亚非拉国家支持中国，尼克松政府调整对华政策也影响了投票。",
+          impact: "中国成为安理会常任理事国，国际地位提升；台湾当局的国际空间大幅收缩。",
+          keywords: ["联合国", "2758 号决议", "安理会", "一个中国"]
+        },
+        {
+          id: "1972-02-nixon-visit",
+          date: "1972-02-21",
+          part: 2,
+          title: "尼克松访华",
+          category: "外交",
+          importance: 4,
+          summary: "1972 年 2 月，美国总统尼克松访华，中美发表《上海公报》，标志着两国关系开始正常化。",
+          background: "中苏边境冲突、越战僵局和美国国内压力促使双方调整战略；1971 年基辛格秘密访华铺路。",
+          process: [
+            { when: "1971 年 7 月", text: "基辛格秘密访华，与周恩来商定尼克松访华安排。" },
+            { when: "1972 年 2 月 21–28 日", text: "尼克松访问北京、上海、杭州，毛泽东会见尼克松。" },
+            { when: "1972 年 2 月 28 日", text: "中美发表《上海公报》，确认关系正常化符合双方利益。" },
+            { when: "1979 年 1 月 1 日", text: "中美正式建立外交关系。" }
+          ],
+          impact: "中美和解改变了冷战格局，推动中国与日本等西方国家建交；台湾问题仍是中美关系的核心分歧，《上海公报》采用各自表述一个中国的措辞。",
+          keywords: ["尼克松", "上海公报", "基辛格", "中美关系"]
+        },
+        {
+          id: "1976-09-mao-death",
+          date: "1976-09-09",
+          part: 2,
+          title: "毛泽东逝世与文化大革命结束",
+          category: "危机与转折",
+          importance: 5,
+          summary: "1976 年 9 月 9 日毛泽东逝世；10 月 6 日，中共中央政治局粉碎“四人帮”，持续十年的文化大革命结束。",
+          background: "文革后期经济困难、社会疲惫，周恩来、朱德、毛泽东先后逝世；四五运动显示民众对“四人帮”的强烈不满。",
+          process: [
+            { when: "1 月 8 日", text: "周恩来逝世，民众自发悼念；4 月 5 日发生四五运动。" },
+            { when: "9 月 9 日", text: "毛泽东逝世，全国进入哀悼期。" },
+            { when: "10 月 6 日", text: "华国锋、叶剑英等逮捕江青、张春桥、姚文元、王洪文，粉碎“四人帮”。" },
+            { when: "随后", text: "华国锋任中共中央主席、国务院总理，文化大革命正式结束。" }
+          ],
+          impact: "结束文革为纠正错误、恢复经济和改革开放创造了前提；但对文革的彻底否定和对毛泽东的评价在党内经过激烈讨论，直到 1981 年历史决议才基本定型。",
+          keywords: ["毛泽东", "四人帮", "四五运动", "华国锋"]
+        },
+        {
+          id: "1978-12-third-plenum",
+          date: "1978-12-18",
+          part: 2,
+          title: "十一届三中全会",
+          category: "危机与转折",
+          importance: 5,
+          summary: "1978 年 12 月，中共十一届三中全会在北京召开，决定把工作重点转移到社会主义现代化建设，提出改革开放，成为建国以来党的历史上具有深远意义的转折。",
+          background: "粉碎“四人帮”后，华国锋提出“两个凡是”，与要求平反冤假错案、恢复经济的老干部发生分歧；1978 年真理标准讨论推动思想解放。",
+          process: [
+            { when: "1978 年 11 月", text: "中央工作会议召开，陈云等提出平反冤假错案、批评“两个凡是”。" },
+            { when: "12 月 18–22 日", text: "十一届三中全会召开，停止使用“以阶级斗争为纲”的口号。" },
+            { when: "会议决定", text: "把党和国家工作重点转移到社会主义现代化建设上来，实行改革开放，平反冤假错案。" },
+            { when: "此后", text: "农村家庭联产承包责任制、经济特区等改革措施逐步展开。" }
+          ],
+          impact: "全会开启改革开放和社会主义现代化建设新时期，实际形成以邓小平为核心的中央领导集体，深刻改变了中国的经济和社会结构。",
+          keywords: ["十一届三中全会", "改革开放", "邓小平", "两个凡是"]
+        },
+        {
+          id: "1980-08-special-economic-zones",
+          date: "1980-08-26",
+          part: 2,
+          title: "设置经济特区",
+          category: "经济与社会",
+          importance: 4,
+          summary: "1980 年 8 月，全国人大常委会批准在深圳、珠海、汕头、厦门设置经济特区，作为对外开放和市场化改革的试验场。",
+          background: "改革开放需要一个与港澳、海外资本连接的窗口；广东、福建提出实行特殊政策、灵活措施。",
+          impact: "特区引入外资、技术和管理经验，深圳从边陲小镇快速发展；也带来区域差距、制度试验和走私等问题。1988 年海南建省并设经济特区。",
+          keywords: ["经济特区", "深圳", "对外开放", "外资"]
+        },
+        {
+          id: "1981-06-history-resolution",
+          date: "1981-06-27",
+          part: 2,
+          title: "历史决议与中共十二大",
+          category: "思想与文化",
+          importance: 4,
+          summary: "1981 年 6 月，中共十一届六中全会通过《关于建国以来党的若干历史问题的决议》，总结建国以来历史、评价毛泽东；1982 年十二大提出“建设有中国特色的社会主义”。",
+          background: "改革开放需要统一对文化大革命和毛泽东的认识；党内对评价存在争论。邓小平主张决议“宜粗不宜细”，确立毛泽东功绩是主要的、错误是次要的。",
+          impact: "历史决议否定文化大革命、维护毛泽东和毛泽东思想的历史地位，为改革开放提供党内共识；十二大进一步确定了社会主义现代化建设的方向。",
+          note: "决议的核心评价是毛泽东“功绩是第一位的，错误是第二位的”；此后官方党史叙事基本沿用这一框架。",
+          keywords: ["历史决议", "毛泽东", "十二大", "中国特色社会主义"]
+        },
+        {
+          id: "1989-06-political-turmoil",
+          date: "1989-06-04",
+          part: 2,
+          title: "1989 年政治风波",
+          category: "危机与转折",
+          importance: 5,
+          summary: "1989 年春夏，北京等地发生学生和市民抗议；5 月北京部分地区戒严，6 月 3 日夜至 4 日军队清场，事件造成人员伤亡，具体数字至今缺乏各方共同接受的统计。",
+          background: "1980 年代改革伴随通胀、腐败和分配不公，知识分子和学生对政治改革有所期待。1989 年 4 月胡耀邦逝世成为导火索，北京高校学生聚集天安门广场，抗议扩展到全国多地。",
+          process: [
+            { when: "4 月 15 日", text: "胡耀邦逝世，北京高校学生开始集会悼念，随后转为请愿。" },
+            { when: "4 月 26 日", text: "《人民日报》社论将运动定性为“动乱”，激化学生与政府对立。" },
+            { when: "5 月 13 日", text: "部分学生在天安门广场开始绝食，首都各界声援扩大。" },
+            { when: "5 月 20 日", text: "北京部分地区宣布戒严，军队进城受阻，抗议持续。" },
+            { when: "6 月 3–4 日", text: "军队清场，天安门广场及周边发生冲突和伤亡。" }
+          ],
+          impact: "中国官方最初将事件定性为“反革命暴乱”，后表述为“1989 年春夏之交的政治风波”，认为采取的措施维护了稳定；独立研究、国际组织和许多亲历者则有不同评价。事件导致政治气氛收紧、部分改革放缓，并长期影响中外关系。",
+          note: "本节只列基本时间线。伤亡规模、事件性质与责任归属存在重大争议，阅读时应并置官方文献、独立研究与亲历者证词。",
+          keywords: ["1989", "天安门", "戒严", "政治风波"]
+        },
+        {
+          id: "1992-01-southern-tour",
+          date: "1992-01-18",
+          part: 2,
+          title: "邓小平南方谈话与中共十四大",
+          category: "经济与社会",
+          importance: 5,
+          summary: "1992 年初邓小平南方谈话，重申市场和计划都是手段，推动进一步改革；同年中共十四大确定建立社会主义市场经济体制。",
+          background: "1989 年后改革一度停滞，党内对市场化方向存在争论；邓小平视察武昌、深圳、珠海、上海，发表一系列谈话。",
+          process: [
+            { when: "1 月 18 日–2 月 21 日", text: "邓小平先后视察武昌、深圳、珠海、上海，强调“发展才是硬道理”和“三个有利于”。" },
+            { when: "10 月 12–18 日", text: "中共十四大召开，明确经济体制改革的目标是建立社会主义市场经济体制。" },
+            { when: "此后", text: "市场化改革、非公经济发展、分税制和国企改革加速推进。" }
+          ],
+          impact: "南方谈话和十四大重启市场化改革，推动中国经济高速增长；也带来通胀、国企职工下岗和区域差距等社会问题。",
+          keywords: ["邓小平", "南方谈话", "十四大", "社会主义市场经济"]
+        },
+        {
+          id: "1997-07-hong-kong",
+          date: "1997-07-01",
+          part: 2,
+          title: "香港回归与中共十五大",
+          category: "外交",
+          importance: 4,
+          summary: "1997 年 7 月 1 日香港回归；同年中共十五大把邓小平理论写入党章，提出公有制为主体、多种所有制经济共同发展。",
+          background: "中英 1984 年联合声明确认香港于 1997 年回归，“一国两制”成为制度安排。邓小平于 1997 年 2 月逝世。",
+          process: [
+            { when: "2 月 19 日", text: "邓小平逝世。" },
+            { when: "7 月 1 日", text: "中国对香港恢复行使主权，香港特别行政区成立。" },
+            { when: "9 月", text: "中共十五大召开，邓小平理论写入党章，确认社会主义初级阶段的基本经济制度。" }
+          ],
+          impact: "香港回归结束英国殖民统治，成为“一国两制”的首次实践；十五大进一步确认市场化改革和所有制多元化的方向。",
+          keywords: ["香港回归", "一国两制", "十五大", "邓小平理论"]
+        },
+        {
+          id: "2001-12-wto",
+          date: "2001-12-11",
+          part: 2,
+          title: "中国加入世界贸易组织",
+          category: "经济与社会",
+          importance: 4,
+          summary: "2001 年 12 月 11 日，中国正式加入世界贸易组织，深度融入全球贸易体系。",
+          background: "中国 1986 年申请恢复关贸总协定缔约国地位，1995 年转为入世谈判；与美国等成员进行长期双边谈判，1999 年达成中美双边协议。",
+          impact: "入世推动中国制造业和出口高速增长，加速市场化；也带来农业、国企、知识产权和劳工等调整压力。",
+          keywords: ["WTO", "对外开放", "制造业", "全球贸易"]
+        },
+        {
+          id: "2008-05-earthquake-olympics",
+          date: "2008-05-12",
+          part: 2,
+          title: "汶川地震与北京奥运会",
+          category: "经济与社会",
+          importance: 4,
+          summary: "2008 年 5 月汶川地震造成重大伤亡，中国动员全国救援；8 月北京举办奥运会；同年全球金融危机爆发，中国推出大规模刺激计划。",
+          background: "中国经济高速增长，国家能力增强；地震暴露建筑质量和应急管理问题，奥运被作为国家形象工程。",
+          impact: "抗震救灾和奥运提升了民族凝聚力与政府形象；四万亿刺激计划稳住增长，也留下地方债务、产能过剩和房地产依赖等后遗症。",
+          keywords: ["汶川地震", "北京奥运", "四万亿", "金融危机"]
+        },
+        {
+          id: "2012-11-18th-congress",
+          date: "2012-11-08",
+          part: 2,
+          title: "中共十八大",
+          category: "建党与组织",
+          importance: 5,
+          summary: "2012 年 11 月，中共十八大召开，习近平当选总书记；大会提出全面建成小康社会，随后开展大规模反腐和军队改革。",
+          background: "中国经济总量跃居世界第二，但腐败、环境污染、贫富差距和政治改革滞后引发关注；薄熙来、令计划等案件暴露党内问题。",
+          process: [
+            { when: "11 月 8–14 日", text: "十八大举行，提出“五位一体”总体布局和 2020 年全面建成小康社会目标。" },
+            { when: "11 月 15 日", text: "十八届一中全会选举习近平为中共中央总书记、中央军委主席。" },
+            { when: "2012–2014 年", text: "中央出台八项规定，开展“打虎拍蝇”反腐，查处周永康、薄熙来、令计划等案件。" },
+            { when: "2015 年", text: "军队改革全面展开，建立军委管总、战区主战、军种主建的新格局。" }
+          ],
+          impact: "十八大后权力结构和治理方式发生重大变化，反腐整肃了党内，也引发权力集中、个人权威增强的争议。",
+          keywords: ["习近平", "十八大", "反腐", "五位一体"]
+        },
+        {
+          id: "2013-11-third-plenum-bri",
+          date: "2013-11-09",
+          part: 2,
+          title: "全面深化改革与“一带一路”",
+          category: "经济与社会",
+          importance: 4,
+          summary: "2013 年 11 月，十八届三中全会提出全面深化改革，使市场在资源配置中起决定性作用；同年“一带一路”倡议提出。",
+          background: "改革进入深水区，利益固化、产能过剩、地方债务等问题突出；中国寻求更积极的国际角色和对外经济布局。2013 年秋，习近平在哈萨克斯坦和印度尼西亚分别提出“丝绸之路经济带”和“21 世纪海上丝绸之路”。",
+          impact: "改革涵盖财税、土地、户籍、司法等领域；“一带一路”推动基础设施和投资合作，也引发债务、环境和地缘政治争议。",
+          keywords: ["十八届三中全会", "全面深化改革", "一带一路", "市场决定性作用"]
+        },
+        {
+          id: "2017-10-19th-congress",
+          date: "2017-10-18",
+          part: 2,
+          title: "中共十九大",
+          category: "建党与组织",
+          importance: 5,
+          summary: "2017 年 10 月，中共十九大召开，习近平新时代中国特色社会主义思想写入党章，大会提出到 2035 年基本实现现代化、到本世纪中叶建成社会主义现代化强国。",
+          background: "十八大以来反腐和集中领导强化，中国经济进入新常态；社会主要矛盾表述从物质文化需要改为人民美好生活需要与不平衡不充分发展。",
+          impact: "十九大巩固了习近平的核心地位，将党的指导思想冠以领导人姓名；中国政治进入更强调集中统一、安全和党的全面领导的新阶段。",
+          keywords: ["十九大", "习近平新时代中国特色社会主义思想", "中国式现代化", "主要矛盾"]
+        },
+        {
+          id: "2018-03-constitution-amendment",
+          date: "2018-03-11",
+          part: 2,
+          title: "2018 年宪法修正案",
+          category: "政权与制度",
+          importance: 4,
+          summary: "2018 年 3 月，全国人大通过宪法修正案，删去国家主席、副主席连续任职不得超过两届的限制，并写入习近平新时代中国特色社会主义思想。",
+          background: "修宪由中共中央提出，官方称为了健全党和国家领导体制、适应新时代需要；此前习近平已任总书记和中央军委主席。",
+          impact: "修宪为习近平 2018 年连任国家主席并在 2023 年继续连任扫除宪法障碍，国内外广泛视为从邓小平时代集体领导规范向权力集中的转变，修宪程序与内容也引发争议。",
+          keywords: ["修宪", "国家主席任期", "监察委员会", "习近平"]
+        },
+        {
+          id: "2020-01-covid",
+          date: "2020-01-23",
+          part: 2,
+          title: "新冠疫情与“动态清零”",
+          category: "经济与社会",
+          importance: 5,
+          summary: "2020 年初，新冠疫情在武汉暴发，中国实施封城和大规模隔离，随后坚持“动态清零”；2022 年底政策转向放开。",
+          background: "2019 年 12 月武汉出现不明原因肺炎，早期信息披露和预警受到压制；2020 年 1 月 23 日武汉封城。",
+          process: [
+            { when: "1 月 23 日", text: "武汉实施封城，全国调集医疗资源驰援湖北。" },
+            { when: "2020 年 3 月", text: "世界卫生组织宣布新冠疫情构成全球大流行，中国转入常态化防控。" },
+            { when: "2020–2022 年", text: "实施“动态清零”，开展大规模核酸检测、流调和疫苗接种。" },
+            { when: "2022 年 12 月", text: "“新十条”发布，防控政策迅速转向放开，随后出现大规模感染。" }
+          ],
+          impact: "严格防控在早期压低了感染和死亡，也造成经济停摆、次生医疗问题和地方财政压力；2022 年底突然放开后感染人数激增，官方统计与外界估计差异很大。",
+          note: "疫情起源、早期应对和死亡数据是高度政治化的争议议题，不同国家与机构的统计口径也不同。",
+          keywords: ["新冠", "武汉封城", "动态清零", "新十条"]
+        },
+        {
+          id: "2020-06-hong-kong-nsl",
+          date: "2020-06-30",
+          part: 2,
+          title: "香港国安法",
+          category: "政权与制度",
+          importance: 3,
+          summary: "2020 年 6 月，全国人大常委会通过《香港国安法》，针对分裂国家、颠覆政权、恐怖活动和勾结外国势力；香港选举制度随后被修改。",
+          background: "2019 年香港因《逃犯条例》修订爆发大规模抗议和警民冲突；北京认为外部势力和本地反对派威胁国家安全。",
+          impact: "国安法压制了反对派和公民社会，香港政治反对空间大幅收缩；西方国家批评其违反《中英联合声明》，中国则称香港事务属于内政。",
+          keywords: ["香港国安法", "一国两制", "2019 修例风波", "选举制度"]
+        },
+        {
+          id: "2021-07-centenary",
+          date: "2021-07-01",
+          part: 2,
+          title: "建党百年与第三个历史决议",
+          category: "建党与组织",
+          importance: 4,
+          summary: "2021 年 7 月，中共庆祝成立 100 周年，宣布全面建成小康社会；11 月通过第三个历史决议，总结百年历史。",
+          background: "第一个百年奋斗目标完成，官方宣布脱贫攻坚战取得全面胜利、消除绝对贫困；习近平寻求在二十大前强化历史叙事。",
+          impact: "百年庆典和第三个历史决议巩固了习近平的核心地位和历史地位；“中国式现代化”随后成为二十大核心表述。",
+          keywords: ["建党百年", "小康社会", "第三个历史决议", "脱贫攻坚"]
+        },
+        {
+          id: "2022-10-20th-congress",
+          date: "2022-10-16",
+          part: 2,
+          title: "中共二十大",
+          category: "建党与组织",
+          importance: 5,
+          summary: "2022 年 10 月，中共二十大召开，习近平第三次担任总书记，大会提出“中国式现代化”和全面建成社会主义现代化强国的两步走安排。",
+          background: "经济增长放缓、房地产危机、防疫政策争议和地方财政压力构成背景；二十大前高层人事高度集中。",
+          process: [
+            { when: "10 月 16–22 日", text: "二十大举行，通过党章修正案，将“中国式现代化”等表述写入。" },
+            { when: "10 月 23 日", text: "二十届一中全会选举产生新一届中央领导机构，习近平任总书记。" },
+            { when: "此后", text: "防疫政策转向放开，经济政策强调安全、自主和高质量发展。" }
+          ],
+          impact: "习近平打破邓小平时代形成的十年任期惯例，权力进一步集中；中国政治进入以“中国式现代化”为总目标的新阶段，同时面临经济转型和外部竞争压力。",
+          keywords: ["二十大", "中国式现代化", "习近平", "第三任期"]
+        },
+        {
+          id: "2024-07-third-plenum",
+          date: "2024-07-15",
+          part: 2,
+          title: "二十届三中全会",
+          category: "经济与社会",
+          importance: 4,
+          summary: "2024 年 7 月，中共二十届三中全会通过《关于进一步全面深化改革、推进中国式现代化的决定》，提出 300 多项改革举措。",
+          background: "经济面临房地产低迷、内需不足、地方债务和外部科技封锁；会议延后近一年召开，引发外界关注。",
+          impact: "改革重点包括财税、全国统一大市场、科技自立和城乡融合；外界关注政策能否落实，以及国家安全优先与市场化改革之间的张力。",
+          keywords: ["二十届三中全会", "全面深化改革", "中国式现代化", "新质生产力"]
+        },
+        {
+          id: "2025-10-15th-five-year-plan",
+          date: "2025-10",
+          part: 2,
+          title: "“十四五”收官与“十五五”谋划",
+          category: "经济与社会",
+          importance: 3,
+          summary: "2025 年是“十四五”规划收官之年，也是“十五五”规划谋篇布局之年；中共强调扩大内需、发展新质生产力和防范风险。",
+          background: "中国经济增速放缓、人口负增长、外部贸易摩擦和技术竞争持续，官方将高质量发展和新质生产力作为主线。",
+          impact: "“十五五”规划将影响 2026–2030 年政策方向；具体目标和部署以 2025 年中央会议和规划文件为准。",
+          keywords: ["十四五", "十五五", "新质生产力", "扩大内需"]
+        },
+
+        /* ── 时间轴补充节点：补足组织、抗战背景、国家能力与高层政治的关键环节 ── */
+        {
+          id: "1928-06-sixth-congress",
+          date: "1928-06-18",
+          part: 1,
+          title: "中共六大",
+          category: "建党与组织",
+          importance: 3,
+          summary: "1928 年 6 月至 7 月，中共六大在莫斯科近郊召开，确认中国革命性质仍是资产阶级民主革命，批评盲动主义，并调整中央领导机构。",
+          background: "大革命失败后，党内对革命形势和策略争论激烈；国内白色恐怖使大会难以召开，遂在共产国际安排下移至莫斯科。",
+          process: [
+            { when: "6 月 18 日", text: "大会在莫斯科近郊开幕，142 名代表出席（其中 84 人有表决权），代表全国 13 万多名党员。" },
+            { when: "会议期间", text: "通过政治、土地、农民、军事等决议，确认中国革命现阶段的资产阶级民主革命性质，批评盲动主义和命令主义。" },
+            { when: "7 月 11 日", text: "大会闭幕，选举新的中央委员会；工人出身的向忠发进入最高领导层，周恩来负责中央组织工作。" }
+          ],
+          impact: "六大在革命低潮中重新确定民主革命任务，但对中间阶级和农村革命作用的估计仍有局限，也没有完全纠正党内的“左”倾情绪；此后中国革命的实际重心更多转向农村根据地。",
+          note: "六大是中共历史上唯一一次在境外召开的全国代表大会。共产国际对会议议程和人事有强烈影响。",
+          keywords: ["莫斯科", "六大", "向忠发", "盲动主义"]
+        },
+        {
+          id: "1931-09-mukden-incident",
+          date: "1931-09-18",
+          part: 1,
+          title: "九一八事变",
+          category: "危机与转折",
+          importance: 4,
+          summary: "1931 年 9 月 18 日，日本关东军制造柳条湖事件并进攻沈阳，东北军执行不抵抗政策，东北迅速沦陷，民族危机急剧上升。",
+          background: "日本自明治以来视满蒙为势力范围，1931 年世界经济危机加剧其扩张冲动；国民政府正忙于围剿红军和内部整合。",
+          process: [
+            { when: "9 月 18 日夜", text: "关东军炸毁南满铁路柳条湖段并嫁祸中国军队，随即进攻沈阳北大营。" },
+            { when: "数月内", text: "东北军大部不战而退，辽宁、吉林、黑龙江相继沦陷；1932 年伪满洲国成立。" },
+            { when: "此后", text: "中共发表抗日宣言，东北抗日游击队和义勇军兴起，但力量分散、处境艰难。" }
+          ],
+          impact: "事变使中日民族矛盾迅速上升，国民政府“攘外必先安内”政策受到质疑；中共以抗日主张扩大政治影响，为后来的抗日民族统一战线埋下伏笔。",
+          note: "“不抵抗”命令的具体文本、责任归属以及蒋介石与张学良各自的作用，长期存在不同史料和解释。",
+          keywords: ["九一八", "关东军", "东北沦陷", "不抵抗"]
+        },
+        {
+          id: "1951-02-suppress-counterrevolutionaries",
+          date: "1951-02-21",
+          part: 2,
+          title: "镇压反革命运动",
+          category: "政权与制度",
+          importance: 4,
+          summary: "1951 年 2 月，《中华人民共和国惩治反革命条例》公布，全国开展镇压反革命运动，重点打击土匪、恶霸、特务、反动党团骨干和反动会道门头子。",
+          background: "新政权初期治安不稳，朝鲜战争和土地改革加剧紧张；各地在 1950 年已开始镇压，1951 年转为全国性运动。",
+          process: [
+            { when: "1950 年 10 月", text: "中共中央发出镇压反革命活动的指示，要求纠正过于宽大的倾向。" },
+            { when: "1951 年 2 月", text: "《惩治反革命条例》公布，规定死刑、无期徒刑等刑罚，运动全面展开。" },
+            { when: "1951–1953 年", text: "各地召开公审大会、群众检举，运动出现扩大化；随后中央要求收缩和纠偏。" }
+          ],
+          impact: "运动巩固了基层政权和治安，也造成大量错捕错杀、伤及无辜；官方后来承认并纠正部分偏差。",
+          note: "处决人数、错案规模与运动的地方差异是研究争议点，官方披露和学术估计之间存在差距。",
+          keywords: ["镇压反革命", "惩治反革命条例", "公审", "基层政权"]
+        },
+        {
+          id: "1954-02-gao-rao-affair",
+          date: "1954-02",
+          part: 2,
+          title: "高岗、饶漱石事件",
+          category: "危机与转折",
+          importance: 4,
+          summary: "1954 年 2 月，中共七届四中全会批评高岗、饶漱石进行分裂活动；随后高岗自杀、饶漱石被撤职，成为建国后首次高层权力危机。",
+          background: "高岗主政东北、后任国家计委主席，饶漱石任华东局第一书记、中央组织部长；两人在财经会议和组织会议上的活动引起毛泽东和其他领导人警惕。",
+          process: [
+            { when: "1953 年", text: "全国财经会议和组织工作会议期间，高岗、饶漱石与刘少奇、周恩来等发生尖锐冲突，被指进行非组织活动。" },
+            { when: "1954 年 2 月", text: "七届四中全会通过《关于增强党的团结的决议》，对高岗、饶漱石进行批评。" },
+            { when: "1954–1955 年", text: "高岗自杀；1955 年全国代表会议将二人开除党籍，事件定性为“反党联盟”。" }
+          ],
+          impact: "事件强化了中央集中统一，随后撤销大区中央局，改变建国初期的权力结构；也开了以“党的团结”和路线名义处理高层异见的先例。",
+          note: "高饶事件的事实、定性及党内程序长期存在不同解读；官方叙述称其为反党联盟，学界关注其对党内民主的影响。",
+          keywords: ["高岗", "饶漱石", "七届四中全会", "大区撤销"]
+        },
+        {
+          id: "1956-04-ten-relationships",
+          date: "1956-04-25",
+          part: 2,
+          title: "《论十大关系》",
+          category: "思想与文化",
+          importance: 3,
+          summary: "1956 年 4 月，毛泽东作《论十大关系》讲话，提出调动一切积极因素，处理重工业与轻工业、农业，沿海与内地，中央与地方等关系。",
+          background: "第一个五年计划接近完成，苏联模式弊端开始暴露；苏共二十大和波匈事件促使中共重新审视社会主义建设道路。",
+          impact: "讲话为中共八大和探索中国式建设道路提供思想准备，但没有从根本上改变计划体制，许多原则在此后的政治运动中未能落实。",
+          keywords: ["论十大关系", "毛泽东", "苏联模式", "中央与地方"]
+        },
+        {
+          id: "1962-10-sino-indian-war",
+          date: "1962-10-20",
+          part: 2,
+          title: "中印边境自卫反击战",
+          category: "外交",
+          importance: 3,
+          summary: "1962 年 10 月，中印在藏南和新疆阿克赛钦边境爆发军事冲突，中国军队发起自卫反击后主动停火并后撤。",
+          background: "中印边界从未正式划定，1959 年达赖出走和边境冲突加剧；中国面临美苏压力和国内经济困难，印度推行“前进政策”。",
+          process: [
+            { when: "10 月 20 日", text: "中国军队在东段和西段发起自卫反击，击退印军。" },
+            { when: "11 月 21 日", text: "中国宣布单方面停火，随后将部队后撤至 1959 年实际控制线附近，并归还部分缴获物资。" }
+          ],
+          impact: "中国在军事上取得优势并主动后撤，避免了长期消耗，但边界问题延续至今；战争加深中印互不信任和国内民族主义。",
+          note: "战争起因、边界线主张和双方伤亡数字存在不同叙述，本页只列基本经过。",
+          keywords: ["中印边界", "阿克赛钦", "自卫反击", "尼赫鲁"]
+        },
+        {
+          id: "1976-04-april-fifth",
+          date: "1976-04-05",
+          part: 2,
+          title: "四五运动",
+          category: "危机与转折",
+          importance: 4,
+          summary: "1976 年 4 月 5 日，北京天安门广场发生大规模悼念周恩来、反对“四人帮”的群众运动，随后被镇压；中共后来为其平反。",
+          background: "周恩来 1 月逝世后，民众不满文革、经济困难和干部特权；清明前夕，大量群众到天安门献花圈、张贴诗词，悼念周恩来并表达政治诉求。",
+          process: [
+            { when: "3 月底", text: "群众开始到天安门广场献花圈、诗词，悼念周恩来。" },
+            { when: "4 月 4 日", text: "清明节当天，广场聚集数十万人，形成大规模群众集会。" },
+            { when: "4 月 5 日凌晨", text: "当局清场并逮捕参与者，事件被定性为“反革命事件”。" },
+            { when: "1978 年 11 月", text: "中共为其平反，称其为革命行动，并作为拨乱反正的一部分。" }
+          ],
+          impact: "运动显示城市民众对文革和“四人帮”的反对，为 1976 年 10 月粉碎“四人帮”提供社会情绪基础；其平反也推动了冤假错案纠正。",
+          keywords: ["四五运动", "周恩来", "天安门", "平反"]
+        },
+        {
+          id: "1984-10-third-plenum",
+          date: "1984-10-20",
+          part: 2,
+          title: "十二届三中全会与城市经济改革",
+          category: "经济与社会",
+          importance: 4,
+          summary: "1984 年 10 月，中共十二届三中全会通过《关于经济体制改革的决定》，提出有计划的商品经济，把改革重点由农村转向城市。",
+          background: "农村家庭联产承包责任制见效，城市国企效率低、价格扭曲；1984 年邓小平视察经济特区后，改革共识增强。",
+          process: [
+            { when: "10 月 20 日", text: "全会通过关于经济体制改革的决定，提出政企分开、企业自主经营和有计划的商品经济。" },
+            { when: "此后", text: "价格双轨制、国企承包、财政包干等改革逐步推开，城市私营经济获得空间。" }
+          ],
+          impact: "决定推动城市经济改革和私营经济发展，也带来价格闯关、寻租、通胀和国企职工下岗等风险，为 1980 年代末的社会紧张提供了经济背景。",
+          keywords: ["十二届三中全会", "有计划的商品经济", "城市改革", "价格双轨制"]
+        },
+        {
+          id: "2019-06-hong-kong-extradition",
+          date: "2019-06-09",
+          part: 2,
+          title: "香港修例风波",
+          category: "危机与转折",
+          importance: 4,
+          summary: "2019 年 6 月，香港因《逃犯条例》修订爆发大规模抗议；运动持续数月，警民冲突和暴力升级，成为回归后最严重的政治危机。",
+          background: "香港市民担心被移交内地受审，修例引发对“一国两制”和司法独立的疑虑；2014 年“占中”和 2016 年旺角冲突已积累不信任。",
+          process: [
+            { when: "6 月 9 日", text: "香港爆发大规模游行，要求撤回修例。" },
+            { when: "6 月 12 日", text: "示威者包围立法会，与警方发生冲突；特区政府暂缓修例。" },
+            { when: "7–11 月", text: "抗议扩散，出现冲击中联办、警民冲突和暴力升级；中央与特区政府拒绝核心诉求。" },
+            { when: "2020 年 6 月", text: "全国人大常委会通过《香港国安法》，运动被压制。" }
+          ],
+          impact: "抗议未能改变修例，但引发中央强力回应；国安法和选举制度改革重塑香港政治秩序，公民社会与反对派空间收缩，香港经济与人才流动也受到影响。",
+          note: "运动的性质、暴力责任、外部势力介入程度和警方行为均存在重大争议；本页只列基本时间线。",
+          keywords: ["香港", "逃犯条例", "一国两制", "国安法"]
+        }
+      ]
+    };
+
+    /* ── 时间轴分期：在两大阶段之下再分 11 个历史时期 ── */
+    const ERAS = [
+      { id: 1, part: 1, start: 1920, end: 1923, name: "建党与早期工人运动" },
+      { id: 2, part: 1, start: 1924, end: 1926, name: "国民革命与第一次国共合作" },
+      { id: 3, part: 1, start: 1927, end: 1936, name: "国共分裂、土地革命与长征" },
+      { id: 4, part: 1, start: 1937, end: 1945, name: "全民族抗战" },
+      { id: 5, part: 1, start: 1946, end: 1949, name: "解放战争与建国" },
+      { id: 6, part: 2, start: 1950, end: 1956, name: "新政权巩固与社会主义改造" },
+      { id: 7, part: 2, start: 1957, end: 1965, name: "曲折探索与国民经济调整" },
+      { id: 8, part: 2, start: 1966, end: 1976, name: "文化大革命" },
+      { id: 9, part: 2, start: 1977, end: 1991, name: "拨乱反正与改革开放起步" },
+      { id: 10, part: 2, start: 1992, end: 2011, name: "市场经济与高速增长" },
+      { id: 11, part: 2, start: 2012, end: 2025, name: "新时代治理与全球竞争" }
+    ];
+
+    /*
+     * 三重视角：社会学、经济学、权力博弈。
+     * 这些是编者的分析性归纳，不是历史当事人的自述，也不是唯一解释。
+     * lens(id, 社会学, 经济学, 权力博弈)
+     */
+    const LENSES = Object.create(null);
+    function lens(id, society, economy, power) {
+      LENSES[id] = { society, economy, power };
+    }
+
+    /* 第一部分：1920–1949 */
+    lens("1920-08-shanghai-group",
+      "成员以教师、学生、编辑和少量工人为主，依靠《新青年》《共产党》等刊物和社团建立跨城市网络；组织规模很小，尚未形成群众基础。",
+      "活动经费很大程度依赖共产国际资助和成员自筹，上海的商业出版与工人聚居提供宣传和联络条件；组织没有稳定的独立财源。",
+      "共产国际通过维经斯基建立联系并提供资源，陈独秀的个人声望成为凝聚核心；各地组织之间仍是松散网络，中央权威尚未成形。");
+    lens("1921-07-first-congress",
+      "13 名代表主要来自各地早期组织和知识分子群体，全国仅 50 多名党员；大会把工人运动确定为中心，但党组织尚未深入农村和多数城市。",
+      "会议和日常活动经费依赖共产国际资助，党员多为职业革命者，缺乏稳定财政来源，宣传与工会工作的规模受到限制。",
+      "陈独秀未出席仍被选为中央局书记，显示个人权威；马林和尼克尔斯基深度介入议程，民主集中制的组织原则开始确立。");
+    lens("1922-07-second-congress",
+      "二大把工人、农民、小资产阶级和民族资产阶级都纳入革命动力，但实际组织基础仍以城市知识分子和工人为主，土地纲领尚不具体。",
+      "纲领把帝国主义和军阀统治视为经济落后的根源，提出关税自主和劳工保护，却没有完整的财政、土地和工业化方案。",
+      "大会决定加入共产国际，强化中央对地方的控制；“民主联合战线”的提法为此后国共合作与党内路线争论定下框架。");
+    lens("1923-06-third-congress",
+      "共产党员以个人身份加入国民党，形成双重党籍和跨组织身份；工人、农民被纳入国民革命动员，但中共基层组织的独立性面临被稀释的风险。",
+      "合作换取了广东革命政权的合法空间和部分资源，为工农运动提供舞台；中共自身的财政与组织资源仍然薄弱，依赖国民党和苏联援助。",
+      "共产国际推动合作，陈独秀和党内多数接受；保持政治独立性的条款与国民党领导权要求之间存在结构性冲突，为 1927 年分裂埋下伏笔。");
+    lens("1924-01-first-united-front",
+      "国民党改组后吸收工人、农民、青年和学生，黄埔军校培养新式军官；中共借助这一平台扩张组织，同时必须适应国民党的纪律和意识形态。",
+      "苏联援助和广东政权财政支撑黄埔军校与军队建设；土地问题没有根本解决，工农运动与地主、商团的利益冲突日益显现。",
+      "中共在国民党内发展党团，国民党右翼警惕其渗透；蒋介石借助黄埔军权和党军体系上位，两党对领导权的争夺从合作初期就已存在。");
+    lens("1925-05-may-thirtieth",
+      "运动把工人、学生、店员和部分商人卷入跨阶层抗议，上海总工会和全国学生网络得到锻炼；工人经济诉求与反帝政治目标之间需要协调。",
+      "日资纱厂和英国在华利益是直接靶子，罢工和抵制英日货冲击贸易与工厂生产；外资工业城市中的劳资矛盾与民族矛盾交织在一起。",
+      "中共通过上海总工会扩大影响，国民党左右派争夺运动领导权；租界当局和军阀的镇压反而使民族主义动员进一步扩散。");
+    lens("1926-07-northern-expedition",
+      "北伐把城市工人罢工和农村农民协会推向高潮，沿途社会秩序被重组；军队扩张也带来征粮、拉夫和基层权力真空。",
+      "战争依赖广东根据地财政、苏联军援和沿途征收，军费挤压民生；工农运动触及地主和商人利益，影响后方经济支持。",
+      "蒋介石以北伐军权迅速上升，与武汉国民党左派、中共及苏联顾问形成多方博弈；地方军阀倒戈和旧官僚收编使革命阵营内部关系复杂化。");
+    lens("1927-04-april-twelfth",
+      "上海工人纠察队和总工会被解散，工人运动遭到血腥清洗，城市进入白色恐怖；知识分子和青年学生被迫分化、转入地下。",
+      "蒋介石获得江浙财阀、上海银行界和租界当局支持，清党也压制了工人罢工对资本的威胁；革命财政基础从群众运动转向城市资产阶级。",
+      "蒋介石联合帮会和地方实力派清除党内左派与中共，另立南京政府；武汉方面随后分共，国共第一次合作彻底破裂。");
+    lens("1927-08-nanchang-uprising",
+      "起义依靠受中共影响的国民革命军部队，而非群众起义；士兵和下层军官成为党组织的主要载体，城市工人响应有限。",
+      "起义军携带有限军械和经费，南下途中补给困难，只能依靠沿途筹款和打土豪；这暴露了单纯军事暴动缺乏经济根基。",
+      "周恩来、贺龙、叶挺等组成前敌委员会，以军事行动对抗国民党清党；起义失败后，中央开始把重心转向农村。");
+    lens("1927-08-august-seventh",
+      "秋收起义和井冈山根据地把农民、乡村手工业者和地方武装纳入动员，土地革命重新划分乡村阶级关系；城市工人参与有限。",
+      "根据地以没收地主土地、征收公粮和自给自足的小农经济为基础，物资匮乏和商业封锁使其长期处于生存经济状态。",
+      "八七会议把大革命失败归咎于陈独秀的右倾路线，瞿秋白主持中央；毛泽东在起义受挫后改变攻打长沙的部署、转向农村，形成中央路线与地方实践的张力。");
+    lens("1929-12-gutian",
+      "红四军主要由农民和旧军队士兵组成，古田会议用思想教育和支部建在连上来改造“非无产阶级意识”，把流动作战的军队嵌入地方社会。",
+      "红军补给依赖打土豪、筹款和根据地公粮，军事优先使经济制度带有战时色彩；决议强调节约、生产与群众纪律，回应匮乏环境。",
+      "会议解决毛泽东与朱德、陈毅等围绕前委和军委权限的争论，重申党对军队的领导；中央九月来信支持毛泽东，红四军领导权重新集中。");
+    lens("1931-11-chinese-soviet",
+      "苏维埃政权在农村进行阶级划分和土地分配，建立贫农团、妇女会等群众组织；战争和“扩红”给基层社会带来沉重负担。",
+      "临时中央政府发行公债、征收公粮并经营国营贸易以维持红军；国民党封锁使根据地经济高度自给和军事化。",
+      "毛泽东任主席，但中共中央和共产国际对苏区政策有最终影响；苏维埃国家机构与党的领导、军队指挥之间的关系尚未理顺。");
+    lens("1934-10-long-march",
+      "长征队伍沿途吸收农民、挑夫和少数民族向导，也因筹粮、征兵与地方社会发生摩擦；幸存骨干后来成为党和军队的核心，长征记忆成为重要的政治象征。",
+      "离开根据地后，红军失去稳定税基和后勤，只能靠打土豪、征借和缴获维持；数万人的行军消耗巨大，减员严重。",
+      "长征途中中央与张国焘围绕北上南下发生分裂，遵义会议后毛泽东进入核心；到达陕北使中央获得相对安全的新根据地，改变了党内权力格局。");
+    lens("1935-01-zunyi",
+      "遵义会议主要是党和红军高层的危机应对，普通士兵和沿途社会几乎没有参与；但它决定了数万红军官兵的生死和此后党的组织走向。",
+      "会议没有涉及经济政策，核心是军事指挥和部队生存；湘江战役后的兵员与物资损失，使改变指挥方式成为紧迫问题。",
+      "博古、李德的军事权威被削弱，周恩来、朱德继续指挥，毛泽东进入政治局常委；共产国际的远程指导让位于本土军事经验，是中央权力结构的关键转折。");
+    lens("1936-12-xian-incident",
+      "东北军官兵和流亡学生强烈要求打回东北，抗日舆论成为兵谏的社会土壤；事件激发了全国各界的救亡动员。",
+      "东北军失去东北地盘后依赖国民党财政，军饷和补给受制于人；内战消耗与西北贫瘠经济加剧军队不满。",
+      "张学良、杨虎城以兵谏逼迫蒋介石，中共从“审蒋”转向和平解决，莫斯科也主张保蒋；各方在避免内战和抵抗日本之间重新结盟，蒋的权威受损但未被取代。");
+    lens("1937-07-marco-polo-bridge",
+      "全面抗战把学生、工人、农民和海外华侨卷入救亡运动，难民和知识青年流向延安和各抗日根据地；中共在敌后获得新的社会基础。",
+      "战争造成沿海工业内迁、财政赤字和通货膨胀；中共在根据地实行减租减息和合理负担，以维持统一战线与军队供给。",
+      "国共第二次合作在抗战压力下形成，但双方对领导权、军队和根据地的争夺从未停止；中共以独立自主的山地游击战保存和发展力量。");
+    lens("1940-08-hundred-regiments",
+      "百团大战动员华北根据地的农民、民兵和铁路工人破坏交通线并攻击据点；日军的报复性扫荡随后给根据地民众带来巨大伤亡。",
+      "战斗目标包括铁路、矿山和据点，直接打击日军交通与资源掠夺；但大规模作战消耗八路军弹药和根据地物资，加剧后续经济困难。",
+      "彭德怀和八路军总部主导作战，作战规模和暴露实力后来在党内受到检讨；战役也加剧了国民党对中共扩张的警惕。");
+    lens("1941-01-southern-anhui",
+      "新四军军部和地方群众在皖南遭受重创，部队与根据地社会关系被削弱；事变宣传使国共摩擦进入公众视野。",
+      "新四军失去皖南根据地和部分后勤基础，重建军部后转而经营苏北、华中；军费与补给更加依赖根据地自筹。",
+      "项英与叶挺的指挥关系、北上路线选择，以及国民党第三战区设伏，共同造成损失；中共以政治攻势反击，但在抗日统一战线中保持有限冲突。");
+    lens("1942-02-yanan-rectification",
+      "整风触及延安的知识分子、干部和青年学生，塑造了以坦白、检查和思想改造为核心的政治文化；审干扩大化造成恐惧和社会信任损伤。",
+      "整风与边区大生产运动并行，机关干部参加劳动以缓解物资封锁；思想动员为战时经济纪律和资源调配提供组织保障。",
+      "毛泽东通过整风批判王明路线和教条主义，巩固最高领导权威；中央党校、报纸和审干机构成为权力整合工具，七大最终确认毛泽东思想的指导地位。");
+    lens("1945-04-seventh-congress",
+      "七大把各根据地、军队和地下党的代表集中起来，代表成分覆盖农民、工人和知识分子；大会强调群众路线，为战后动员和土地政策提供组织基础。",
+      "七大讨论战后国家建设，主张发展国营、合作社和私人经济，但战时根据地经济仍以农业和自给为主，工业基础薄弱。",
+      "毛泽东思想写入党章，毛泽东任中央委员会主席；刘少奇、周恩来、朱德等形成新的领导集体，王明路线被边缘化，党内权力高度集中于毛泽东。");
+    lens("1945-08-victory-chongqing",
+      "八年战争后城乡普遍厌战求安，重庆谈判的和平姿态获得舆论支持；但在受降、土地和军队问题上，社会分裂很快重新显现。",
+      "战后接收敌产、法币与伪币兑换、军费膨胀，使国统区经济迅速恶化；中共解放区则继续土改与生产，两个经济体系渐行渐远。",
+      "蒋介石借受降和美军运输抢占战略要地，毛泽东赴渝争取政治主动；美国调停与苏联因素交织，双十协定只解决表面程序，未触及军队和政权归属。");
+    lens("1946-06-civil-war",
+      "内战把农民推向参军、支前和土改，社会动员成为中共军事力量的重要来源；国民党征兵和征粮则加剧农村不满。",
+      "国民党军费膨胀、滥发法币导致恶性通胀，城市中产和工人生活恶化；解放区以农业经济支撑战争，实行战时财政和土改。",
+      "蒋介石依赖美国援助和正规军优势，中共采取运动战和根据地纵深；双方争夺地方武装、交通线和政权合法性，力量对比在 1947 年后逆转。");
+    lens("1947-06-strategic-offensive",
+      "挺进大别山把战争带入国民党统治区，部队在陌生社会环境中重建根据地，依靠农民和地方武装；沿途群众动员与军事需要相互牵制。",
+      "外线作战缺少稳定补给，刘邓部队一度陷入极度困难；战略进攻打乱国民党军部署，为解放区恢复生产赢得空间。",
+      "毛泽东和中央军委主导外线出击，刘伯承、邓小平承担最大风险；国民党军被迫抽调兵力回防，战略主动权开始转向中共。");
+    lens("1947-10-land-reform",
+      "土地改革以阶级划分重塑乡村社会，贫雇农获得土地和政治地位，地主富农受到批斗；暴力与错划在各地程度不同，改变了乡村信任结构。",
+      "土地重新分配提高了部分农民生产积极性，也为战争提供粮食和兵源；但小块土地经营、生产工具不足和市场萎缩限制农业增长。",
+      "中共通过土改工作队、农会和民兵把国家权力延伸到村庄，摧毁旧士绅和保甲体系；这一基层能力成为解放战争胜利和国家建设的重要基础。");
+    lens("1948-09-three-campaigns",
+      "数百万支前民工为解放军运输粮食、弹药和伤员，战争动员深入华北、东北农村；军民伤亡和难民潮也造成巨大社会代价。",
+      "战役消耗巨量粮食、弹药和运输能力，东北工业与铁路成为关键支撑；国民党经济在战争和通胀中进一步崩溃。",
+      "中共中央军委统一指挥，林彪、粟裕、刘伯承等战区指挥员拥有较大机动权；国民党高层指挥分歧、嫡系与杂牌军矛盾以及美援不足，加速其军事失败。");
+    lens("1949-03-second-plenum",
+      "会议预示党的工作重心从农村转向城市，要求干部学会管理工人、知识分子和城市居民；农村土改与城市接管将同时推进。",
+      "会议提出以国营经济为主导，合作社、私人资本主义、个体经济和国家资本主义并存，优先恢复生产，为建国初期混合经济提供政策框架。",
+      "毛泽东和中央在西柏坡确立全面接管国家的路线，强调纪律和“两个务必”；党将从革命党转为执政党，干部治理能力成为新风险。");
+    lens("1949-04-crossing-yangtze",
+      "渡江战役动员大量船工、农民和城市地下党，解放军进入南京、上海等大城市后面临恢复秩序和安置旧人员的任务。",
+      "接管江南城市带来工业、金融和税收资源，但国民党留下的恶性通胀和失业问题严重；解放军需从作战转向城市管理。",
+      "国民党长江防线迅速崩溃，南京政府失去大陆统治中心；中共在军事胜利后加速筹备全国政权，同时处理地方实力派、起义部队和外国在华利益。");
+    lens("1949-09-cppcc-founding",
+      "政协和《共同纲领》把工人、农民、小资产阶级、民族资产阶级及民主党派纳入新国家框架；妇女、青年和少数民族被组织进群众团体。",
+      "《共同纲领》规定公私兼顾、劳资两利、城乡互助，允许多种经济成分并存；新政权面对的是恶性通胀、工业萎缩和财政赤字。",
+      "中共居于领导地位，同时以政协和联合政府形式容纳党外人士；毛泽东任中央人民政府主席，党和国家机构开始建立，权力从军事委员会转向新国家机器。");
+    lens("1928-06-sixth-congress",
+      "六大代表主要来自城市党组织、工人和知识分子，国内农村根据地代表有限；大会试图在白色恐怖下重建城市党和工会网络。",
+      "会议在莫斯科举行，经费和组织依赖共产国际与苏联；大会强调城市工人运动，对中国农村土地革命的具体经济问题讨论不足。",
+      "共产国际主导议程和人事，工人出身的向忠发被推到最高领导层，周恩来负责组织和军事；中央权威得到强化，但与国内实际斗争的联系仍薄弱。");
+    lens("1931-09-mukden-incident",
+      "东北难民、学生和知识界抗日情绪高涨，流亡关内的东北民众成为抗日宣传的重要力量；中共在东北城乡组织抗日活动，但力量有限。",
+      "日本控制东北煤铁、铁路和农业资源，伪满成为其战争经济基地；中国失去重要工业与税收来源，国民政府的财政和国防压力加大。",
+      "蒋介石坚持“攘外必先安内”，张学良和东北军背负失土责任；中共以抗日旗帜争夺民族主义话语权，国共及地方实力派关系随之重组。");
+
+    /* 第二部分：1950–2025 */
+    lens("1950-06-land-reform",
+      "土改把约 3 亿无地少地农民纳入国家主导的再分配，阶级划分和诉苦会重塑乡村权威；地主阶级成为被专政对象，富农经济被保留但政治压力上升，社会关系长期政治化。",
+      "土地平均分配提高了农民生产积极性，为国家提取粮食和农业税创造条件；但地块细碎、农具不足和统购统销的逐步建立限制了市场与效率。",
+      "工作队、农会和民兵把中共组织嵌入村庄，取代旧士绅和保甲；土改同时是发动群众、甄别敌我和巩固新政权的政治过程，抵抗在部分地区引发暴力。");
+    lens("1950-10-korean-war",
+      "战争动员塑造了“抗美援朝”的集体记忆，数十万军人伤亡和家庭分离深刻影响社会；运动也强化了国内对美敌意和对新政权的认同。",
+      "战费与苏联军事贷款加重财政负担，中国以农产品和矿产偿还；战争刺激军工和重工业，也挤压民生和恢复建设。",
+      "毛泽东在党内争论后决定出兵，彭德怀负责前线；斯大林提供有限空军和装备，金日成、联合国军和台湾问题交织，使中国更深卷入冷战。");
+    lens("1953-01-first-five-year-plan",
+      "工业化吸引农村人口进入城市和工矿企业，单位制、户籍和粮食统购逐步形成；农民通过统购统销为工业积累承担主要成本。",
+      "156 项重点工程奠定重工业和国防工业基础，但资源向重工业倾斜导致农业和轻工业长期紧张，计划指标和苏联技术成为核心。",
+      "国家计委和各工业部集中配置资源，中央权力扩张；苏联顾问深度参与项目，地方在经济管理中的自主性有限，为后来的中央地方关系争议埋下伏笔。");
+    lens("1953-12-five-principles-bandung",
+      "万隆会议把亚非新兴国家的反殖民与种族平等诉求联结起来，华侨、留学生和民族主义者成为交流网络；中国对外形象从革命输出转向和平共处。",
+      "五项原则和万隆精神为中国与亚非国家开展贸易、援助和资源合作提供政治框架，但中国经济自身薄弱，实际经济投入有限。",
+      "周恩来在会议上以“求同存异”化解孤立，尼赫鲁、苏加诺等争夺不结盟领导权；中美对抗和中苏分歧同时塑造中国的外交空间。");
+    lens("1954-09-npc-constitution",
+      "五四宪法赋予公民选举、言论、集会等权利，规定民族区域自治和男女平等；但选举和权利实践受阶级斗争和单位体制限制。",
+      "宪法确认国家所有制、合作社所有制和个体劳动者所有制，为社会主义改造提供法律形式；计划经济和统购统销继续扩张。",
+      "全国人大成为最高国家权力机关，毛泽东任国家主席，周恩来任总理；党对国家机构的领导通过人事和组织体系实现，人大在实际政治中的权限有限。");
+    lens("1956-09-eighth-congress",
+      "八大试图回应人民对经济文化发展的需求，强调知识分子和科学技术的作用；反右运动随即使知识分子和社会表达空间收紧。",
+      "大会提出集中发展生产力、保持农业与工业平衡，试图纠正苏联模式的重工业偏向；但计划指标和地方攀比很快冲破这些约束。",
+      "毛泽东继续掌握最高权威，刘少奇、周恩来、邓小平主持日常工作和党章修改；八大强调集体领导和个人崇拜问题，但这一方向在会后被逆转。");
+    lens("1957-04-anti-rightist",
+      "约 55 万知识分子、干部和民主人士被划为右派，许多人失去工作和名誉；运动制造了长期的政治恐惧，压缩了公共讨论与社会信任。",
+      "大批技术专家和管理者被打倒，削弱经济决策的专业能力；对私营工商业者的批判也加速了国家对市场和社会的控制。",
+      "毛泽东将整风转向反右，挫败了党外批评并强化党内服从；民主党派和统战对象被边缘化，个人权威进一步凌驾于集体讨论。");
+    lens("1958-05-great-leap",
+      "人民公社把农民的家庭生产、消费和迁徙纳入集体控制，公共食堂和军事化劳动改变乡村生活；大饥荒造成大规模死亡、逃荒和家庭破裂。",
+      "资源被集中到土法炼钢和重工业，农业劳动力流失、征购过度和统计浮夸导致生产崩溃；国家财政与粮食系统承受巨大压力。",
+      "毛泽东推动总路线，地方干部在竞赛中层层加码，真实信息难以上达；中央纠偏与反右倾反复，使政策错误长期得不到纠正，个人权威压过制度约束。");
+    lens("1959-07-lushan",
+      "庐山会议主要在党内高层进行，普通农民和基层干部没有参与；反右倾后，基层对灾情和政策的真实反馈进一步被压制。",
+      "彭德怀的信触及粮食征购、钢铁指标和比例失调，会议转向反右倾使经济纠偏中断，困难持续到 1961 年调整。",
+      "毛泽东把政策分歧上升为路线斗争，彭德怀、黄克诚、张闻天、周小舟被打倒；军队和党内不同意见受到震慑，个人权威进一步强化。");
+    lens("1960-07-sino-soviet-adjustment",
+      "苏联专家撤离使工业项目停顿，城市就业和技工培养受影响；经济调整压缩城市人口，大量职工和家属回乡，改变城乡流动。",
+      "外援和专家断供迫使中国转向自力更生，八字方针压缩投资、恢复农业和轻工业；1962 年后经济回升，但结构性问题仍在。",
+      "中苏意识形态争论与毛泽东对赫鲁晓夫的批判交织，刘少奇、周恩来、邓小平主持经济恢复；对外反修与对内防修相互强化。");
+    lens("1964-10-atomic-bomb",
+      "核工程动员了大批科学家、技术人员和士兵，保密与奉献话语塑造了科研文化；试验场周边居民和参与者的健康风险长期少被讨论。",
+      "在物资匮乏时期投入巨资发展核武器，形成军工科研体系，也挤占民生资源；成功增强了国家的战略工业能力。",
+      "毛泽东和周恩来直接领导，二机部与军队协作；苏联援助中断反而强化了自主决策，核试验提升了中国在冷战中的谈判筹码。");
+    lens("1966-05-cultural-revolution",
+      "红卫兵和群众组织把青年、学生和工人卷入政治运动，家庭、学校和邻里关系被阶级标签撕裂；大规模迫害和武斗造成深重创伤。",
+      "夺权、武斗和交通中断干扰工业生产与教育，经济在 1967–1968 年严重下滑；三线建设和农村集体化继续推进，但效率低下。",
+      "毛泽东发动群众运动批判刘少奇、邓小平等党内“走资派”，中央文革小组和地方造反派分享权力；军队介入与派系斗争交织，党和国家机构一度瘫痪。");
+    lens("1971-09-lin-biao",
+      "九一三事件暴露了文革高层的权力斗争，普通民众通过文件传达获知；林彪的接班人形象崩塌，削弱了对文革宣传的信任。",
+      "事件本身对经济影响有限，但军队高层整顿和战备调整影响了国防工业与三线建设；政治动荡继续干扰生产。",
+      "林彪集团与毛泽东围绕权力接班和军队控制发生冲突，林立果等人的政变计划（官方叙述）失败；周恩来主持中央日常工作，军队领导层重新洗牌。");
+    lens("1971-10-un-seat",
+      "恢复联合国席位提升了中国在国际社会中的代表权，海外华侨和友好国家受到鼓舞；台湾当局的国际空间迅速收缩，岛内社会感受到外交孤立。",
+      "联合国席位为中国参与多边经济、卫生和技术合作打开渠道，但在冷战封锁下实际经济收益有限，更多是长期制度性资产。",
+      "亚非拉国家投票支持中国，美国阻挠失败；中国成为安理会常任理事国，中美苏三角关系和中美接近的预期共同改变了投票格局。");
+    lens("1972-02-nixon-visit",
+      "尼克松访华打破了中美社会长期隔绝，后续的学术、体育和人员交流逐步恢复；冷战宣传中的敌我形象开始松动。",
+      "《上海公报》为贸易和投资打开通道，虽然正式经贸关系仍受冷战和台湾问题限制；美国也希望通过改善对华关系缓解越战和苏联压力。",
+      "毛泽东、周恩来主导对美战略调整，尼克松和基辛格借中国制衡苏联；台湾被逐步边缘化，中美苏三角关系发生根本变化。");
+    lens("1976-09-mao-death",
+      "毛泽东逝世引发全国性哀悼，普通人对文革结束和未来走向既期待又不安；四五运动后的社会情绪为粉碎“四人帮”提供背景。",
+      "十年动乱后经济比例失调、民生困难，结束文革为恢复生产和社会秩序创造前提，但经济政策仍受“两个凡是”束缚。",
+      "华国锋、叶剑英等与“四人帮”争夺最高权力，军队和中央办公厅的态度决定结果；毛泽东指定的接班人格局被打破，邓小平随后复出。");
+    lens("1951-02-suppress-counterrevolutionaries",
+      "运动通过群众检举和公审大会重建社区秩序，也制造恐惧与社会撕裂；旧政权人员、会道门成员及其家属成为长期被监控对象。",
+      "收缴枪支、查封会道门财产和稳定城市秩序有利于恢复经济，但大规模抓捕与处决干扰市场与基层生产。",
+      "新政权借运动把国家暴力能力下沉到基层，削弱旧士绅和帮会网络，同时强化公安、法院和群众组织的控制链条。");
+    lens("1954-02-gao-rao-affair",
+      "事件主要在党内高层传达，普通社会几乎不知情；它强化了党员对个人忠诚和党内纪律的敏感度。",
+      "高岗主持国家计委，其去职与一五计划、中央经济权力集中相关；大区撤销和计委体系调整改变了资源配置架构。",
+      "高、饶问题处理伴随着中央领导层权力重组：高岗去职、大区撤销，刘少奇、周恩来等的分工得到重新确认，中央对地方的控制更直接。");
+    lens("1956-04-ten-relationships",
+      "讲话强调兼顾国家、集体和个人利益，试图缓解工业化对农民和消费的挤压；对地方、少数民族和党外人士的政策也提出调整。",
+      "主张多发展农业和轻工业、平衡沿海与内地、扩大地方权力，是对重工业优先和高度集权的有限修正。",
+      "毛泽东以讲话设定政策议程，刘少奇、周恩来等执行；中央与地方、部门间的权限调整成为党内治理议题，但个人权威与集体领导关系未制度化。");
+    lens("1962-10-sino-indian-war",
+      "西藏和新疆边境民众承担支前运输，内地社会在物资匮乏背景下进行民族主义动员；战后退伍军人和边民生活受到影响。",
+      "战争发生在经济调整时期，军费与后勤加剧财政紧张；中国选择速战速撤，也有避免长期经济消耗的考虑。",
+      "毛泽东与周恩来利用美苏古巴导弹危机的窗口决策；印度尼赫鲁政府受挫，中印关系长期恶化，两国在第三世界的影响都受到冲击。");
+    lens("1976-04-april-fifth",
+      "工人、学生、干部和普通市民以悼念周恩来为共同符号，形成跨阶层抗议，显示文革后期的社会疲惫和信任危机。",
+      "群众不满集中于物资短缺、工资停滞和干部特权，经济困难为政治抗议提供日常生活基础。",
+      "运动直接指向“四人帮”，与党内高层权力争斗交织；毛泽东将其定为反革命事件，其后的领导层通过平反争夺合法性。");
+    lens("1978-12-third-plenum",
+      "平反冤假错案、恢复高考和知青返城，使数以千万计的家庭重新获得上升机会；社会从阶级斗争动员转向改善生活，但政治控制并未放松。",
+      "农村承包和经济特区随后成为突破口；计划经济仍占主导，价格、产权和国企改革尚未全面展开，改革呈现先易后难的特征。",
+      "邓小平、陈云等老干部借助中央工作会议取得主导权，华国锋的“两个凡是”被边缘化；工作重心转移的同时完成最高领导层重组。");
+    lens("1980-08-special-economic-zones",
+      "深圳等特区吸引大量农民工和内地干部，形成新的移民城市和工厂社会；土地征收、城中村和外来人口身份问题随之出现。",
+      "特区以税收优惠、土地和市场试验吸引外资，发展出口加工；局部市场化推动增长，也加剧沿海与内地的差距。",
+      "邓小平和改革派借特区突破意识形态阻力，广东、福建获得特殊政策；中央与地方、国家与外资之间的权限调整成为改革新战场。");
+    lens("1981-06-history-resolution",
+      "决议为文革受害者提供部分平反依据，同时重新确立毛泽东的历史地位，试图在否定文革与维护党的合法性之间取得平衡。",
+      "决议本身不设计经济政策，但否定“以阶级斗争为纲”为改革开放清障；稳定的政治叙事对吸引外资和恢复社会信任有间接作用。",
+      "邓小平主导评价毛泽东和建国以来历史，既维护毛的象征权威，又确立以邓为核心的领导；华国锋进一步边缘化，党内路线统一。");
+    lens("1984-10-third-plenum",
+      "城市改革催生个体户、私营企业和新消费群体，单位制松动；收入差距和国企职工的不安全感开始上升。",
+      "从农村承包转向搞活国企、价格改革和双轨制，市场化激励增强，也造成寻租、通货膨胀等结构性问题。",
+      "邓小平、陈云和改革派围绕计划与市场形成妥协；地方获得更多财政与投资权力，中央控制经济的能力面临新挑战。");
+    lens("1989-06-political-turmoil",
+      "学生、市民和部分工人参与抗议，媒体和知识界一度公开讨论改革弊病；清场后社会信任受创，政治表达空间收缩。",
+      "通胀、价格双轨制下的寻租和腐败是抗议的重要经济背景；事件后市场改革放缓，私营企业顾虑增加，外资短期观望。",
+      "邓小平、陈云等元老与赵紫阳等改革派在事件处理上分裂，军队执行戒严和清场；事件巩固了强硬路线，也改变了中国与西方的关系。");
+    lens("1992-01-southern-tour",
+      "南方谈话重启市场化，催生企业家、打工者和城市中产等新群体；国企改革和户籍限制也让大批工人面临下岗和流动。",
+      "十四大确立社会主义市场经济，外资、私营和出口部门迅速扩张；分税制和国企改革增强中央财政，却加剧地方债务和职工成本。",
+      "已退休的邓小平借助政治威望和南方谈话打破改革停滞，江泽民、朱镕基接过市场化议程；保守派与改革派围绕“姓社姓资”的争论以发展优先告一段落。");
+    lens("1997-07-hong-kong",
+      "香港回归改变身份认同和公民权利预期，移民与留港选择并存；新闻、教育和公务员体系在“一国两制”下维持原有制度。",
+      "回归遭遇亚洲金融危机，香港金融体系承受压力；内地企业赴港上市和自由行随后成为经济融合的主要渠道。",
+      "邓小平设定的“一国两制”框架由江泽民、朱镕基等执行，董建华任首任行政长官；英国、香港本地精英与中央政府之间的权限边界成为长期议题。");
+    lens("2001-12-wto",
+      "入世加速农民工进城和制造业就业，也冲击部分农民、国企职工和本土服务业；消费者选择和城市生活方式进一步变化。",
+      "中国成为全球制造和出口中心，外资与加工贸易高速增长；农业和国有企业承受竞争压力，知识产权和劳工标准成为外部关切。",
+      "朱镕基主导艰难谈判，江泽民时期完成入世；美国国会和欧盟的批准是最后关口，中国在国际经济规则中的角色由此上升。");
+    lens("2008-05-earthquake-olympics",
+      "汶川地震激发空前志愿服务和民间捐赠，奥运强化国家认同；校舍质量和地方官员的应对也引发问责要求。",
+      "四万亿刺激稳住增长，却推高地方债务、房地产和产能过剩；全球金融危机使中国出口模式受到冲击，内需转型压力上升。",
+      "胡锦涛、温家宝领导救灾和奥运，展示国家动员能力；中央与地方在重建和投资中的责任划分，以及对外形象管理，成为治理议题。");
+    lens("2012-11-18th-congress",
+      "反腐和“八项规定”回应了民众对特权和腐败的不满；同时，公民社会、媒体和互联网言论空间进一步收紧。",
+      "中国经济进入增速换挡期，房地产、地方债和产能过剩压力上升；供给侧改革和混合所有制试图调整结构，但国企与市场的边界仍模糊。",
+      "习近平接任总书记和军委主席，通过反腐查处周永康、薄熙来、令计划等，重塑党内权力结构；集体领导和派系平衡让位于高度集中。");
+    lens("2013-11-third-plenum-bri",
+      "改革决定触及户籍、土地和公共服务，数亿农民工的城市权利成为核心议题；一带一路也让企业、工人和资本走向海外。",
+      "让市场发挥决定性作用、发展混合所有制和化解产能，是经济改革主轴；一带一路输出基建和产能，也积累债务和汇率风险。",
+      "习近平担任中央全面深化改革领导小组组长，集中改革议程；李克强和部委执行，地方试点与央企扩张并行，中央权威与地方利益重新协调。");
+    lens("2017-10-19th-congress",
+      "十九大将“美好生活需要”与不平衡不充分发展列为主要矛盾，扶贫和环保成为社会政策重点；政治安全和舆论管控同时强化。",
+      "供给侧改革、去杠杆和科技自立成为政策方向，脱贫攻坚投入巨大；民营经济信心、房地产和地方债务风险仍未化解。",
+      "习近平新时代中国特色社会主义思想写入党章，习近平第二个任期巩固核心地位；政治局常委会人事没有显示明确的接班安排，集中度进一步提高。");
+    lens("2018-03-constitution-amendment",
+      "修宪引发知识界、法律界和部分公众关注，公开反对声音迅速受到压制；公民对最高权力更迭的制度预期被改变。",
+      "取消任期限制降低了政治过渡的不确定性，也令部分投资者担忧制度化和法治预期；国企和党的领导进一步嵌入经济治理。",
+      "全国人大以高票通过修正案，删除国家主席连任限制并设立监察委员会；邓小平时代的任期规范和集体领导传统被打破，习近平权力进一步集中。");
+    lens("2019-06-hong-kong-extradition",
+      "抗议跨越年龄和阶层，年轻人和中产对自由、司法独立和身份认同的焦虑成为动员基础；警民冲突和家庭分歧加深社会撕裂。",
+      "香港旅游、零售和金融受到冲击，资本与人才外流压力上升；中央随后强调香港融入大湾区并重振经济。",
+      "特区政府、中央、本地反对派和部分外部力量多线博弈；中央以“一国两制”底线和国家安全名义收紧管治，国际关系随之紧张。");
+    lens("2020-01-covid",
+      "封城和动态清零将社区、家庭和基层干部推入高强度防控，医护与志愿者承担巨大压力；信息控制、次生医疗问题和感染潮造成信任裂痕。",
+      "初期停产和供应链中断冲击增长，随后出口和刺激政策支撑恢复；地方财政、消费和就业承受长期压力，房地产危机加深。",
+      "习近平亲自指挥疫情防控，地方官员的问责与表忠并存；中央与基层的信息失真、专家意见的政治化和对外溯源争议，集中暴露治理体系的张力。");
+    lens("2020-06-hong-kong-nsl",
+      "国安法之后，反对派组织、独立媒体和公民社会团体大量解散，香港公共空间显著收缩；年轻人和专业人士的移民潮改变人口结构。",
+      "国安法稳定了部分秩序，但美国制裁、资本和人才外流、旅游与零售低迷削弱香港的国际金融中心信心；大湾区融合成为政策出口。",
+      "全国人大绕过香港本地程序制定国安法，中央对港管治从“高度自治”转向直接介入；特区政府、建制派与中央的关系重组，国际社会批评加剧。");
+    lens("2021-07-centenary",
+      "官方宣布消除绝对贫困，脱贫地区和脱贫人口的生活条件改善；庆祝活动强化爱国主义，同时公共讨论和历史解释进一步收紧。",
+      "脱贫攻坚投入巨大财政资源，乡村振兴接续；对平台经济、教育和房地产的整顿显示“共同富裕”议程，但也冲击民间投资信心。",
+      "七一庆典和第三个历史决议强化了习近平在百年党史中的核心位置，也为二十大前的政治整合提供叙事基础；毛泽东、邓小平与习近平的历史叙事被重新编排。");
+    lens("2022-10-20th-congress",
+      "二十大前夕的防疫封控、经济放缓和青年失业积累社会不满；大会后放开防疫，感染潮与就业压力继续影响民生。",
+      "房地产下行、地方政府债务和消费疲弱成为主要风险；政策转向扩大内需、支持民企和科技自立，但结构性问题未解。",
+      "习近平打破邓小平时代形成的两届惯例，开启第三个总书记任期；新一届政治局常委会多为习近平任内提拔的干部，集体领导进一步弱化，权力继承安排仍不明确。");
+    lens("2024-07-third-plenum",
+      "青年失业、消费降级和人口老龄化构成社会压力，改革决定承诺改善公共服务和城乡融合；社会政策仍服从安全与稳定目标。",
+      "改革聚焦财税、全国统一大市场、科技自立和房地产新模式，试图稳住增长；地方债务、民企信心和外部技术限制是主要约束。",
+      "习近平主导改革议程，二十届三中全会的人事与文件体现中央集中领导；地方和国企承担执行任务，市场主体的政策预期仍受政治信号影响。");
+    lens("2025-10-15th-five-year-plan",
+      "人口负增长、老龄化和青年就业压力将长期影响家庭、养老和消费；规划承诺改善民生，但财政和社保可持续性承压。",
+      "十五五规划围绕新质生产力、扩大内需和风险化解，试图在科技竞争和贸易摩擦中维持增长；房地产和地方债仍是结构性负担。",
+      "习近平和党中央主导规划编制，强调党的全面领导与安全；地方政府、国企和市场主体的自主空间取决于下一轮财政与考核安排。");
+
+    /* 关键节点的历史影像：外链自 Wikimedia Commons，附作者与授权 */
+const IMAGES = {
+      "1921-07-first-congress": [
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/The_First_National_Congress_of_CPC.jpg/960px-The_First_National_Congress_of_CPC.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:The_First_National_Congress_of_CPC.jpg",
+                  "caption": "上海中共一大会址（今兴业路 76 号）",
+                  "credit": "Pyzhou",
+                  "license": "CC BY-SA 3.0"
+            },
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Mem_Site_for_First_National_Congress_of_the_CPC_Interior_1.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Mem_Site_for_First_National_Congress_of_the_CPC_Interior_1.jpg",
+                  "caption": "一大会址纪念馆内景",
+                  "credit": "WiNG",
+                  "license": "CC BY 3.0"
+            }
+      ],
+      "1927-04-april-twelfth": [
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/4/4b/1927_Nanking_Nationalist_Government.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:1927_Nanking_Nationalist_Government.jpg",
+                  "caption": "1927 年 4 月 18 日，南京国民政府成立，蒋介石任主席",
+                  "credit": "佚名",
+                  "license": "Public domain"
+            },
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/2024-04_Longhua_Revolutionary_Martyr_Memorial_%E9%BE%99%E5%8D%8E%E7%83%88%E5%A3%AB%E9%99%B5%E5%9B%AD_04.jpg/960px-2024-04_Longhua_Revolutionary_Martyr_Memorial_%E9%BE%99%E5%8D%8E%E7%83%88%E5%A3%AB%E9%99%B5%E5%9B%AD_04.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:2024-04_Longhua_Revolutionary_Martyr_Memorial_%E9%BE%99%E5%8D%8E%E7%83%88%E5%A3%AB%E9%99%B5%E5%9B%AD_04.jpg",
+                  "caption": "上海龙华烈士陵园，纪念在国民党清党中遇害的革命者",
+                  "credit": "Chainwit.",
+                  "license": "CC BY 4.0"
+            }
+      ],
+      "1927-08-nanchang-uprising": [
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Nanchang_Bayi_Qiyi_Jinianguan_20120712-03.jpg/960px-Nanchang_Bayi_Qiyi_Jinianguan_20120712-03.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Nanchang_Bayi_Qiyi_Jinianguan_20120712-03.jpg",
+                  "caption": "南昌八一起义纪念馆，原江西大旅社",
+                  "credit": "Zhangzhugang",
+                  "license": "CC BY-SA 4.0"
+            },
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Memorial_tower_of_Nanchang_Uprising.jpg/960px-Memorial_tower_of_Nanchang_Uprising.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Memorial_tower_of_Nanchang_Uprising.jpg",
+                  "caption": "八一南昌起义纪念塔",
+                  "credit": "Marchrius",
+                  "license": "CC BY-SA 4.0"
+            }
+      ],
+      "1927-08-august-seventh": [
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Site_of_Joining_Forces_in_Wenjiashi_of_Autumn_Harvest_Uprising_034.jpg/960px-Site_of_Joining_Forces_in_Wenjiashi_of_Autumn_Harvest_Uprising_034.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Site_of_Joining_Forces_in_Wenjiashi_of_Autumn_Harvest_Uprising_034.jpg",
+                  "caption": "秋收起义文家市会师旧址内的毛泽东塑像",
+                  "credit": "Huangdan2060",
+                  "license": "CC BY 3.0"
+            },
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/%E4%BA%95%E5%86%88%E5%B1%B1%E9%9D%A9%E5%91%BD%E5%8D%9A%E7%89%A9%E9%A6%86_01.jpg/960px-%E4%BA%95%E5%86%88%E5%B1%B1%E9%9D%A9%E5%91%BD%E5%8D%9A%E7%89%A9%E9%A6%86_01.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:%E4%BA%95%E5%86%88%E5%B1%B1%E9%9D%A9%E5%91%BD%E5%8D%9A%E7%89%A9%E9%A6%86_01.jpg",
+                  "caption": "井冈山革命博物馆",
+                  "credit": "Liuxingy",
+                  "license": "CC BY-SA 4.0"
+            }
+      ],
+      "1934-10-long-march": [
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d6/Luding_bridge.jpg/960px-Luding_bridge.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Luding_bridge.jpg",
+                  "caption": "大渡河泸定桥，1935 年红军在此强渡",
+                  "credit": "Rolf Müller",
+                  "license": "CC BY-SA 3.0"
+            },
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/4/49/Long-march.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Long-march.jpg",
+                  "caption": "长征途中的红军干部与战士（历史照片）",
+                  "credit": "佚名",
+                  "license": "Public domain"
+            }
+      ],
+      "1935-01-zunyi": [
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/ZunyiMeeting.jpg/960px-ZunyiMeeting.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:ZunyiMeeting.jpg",
+                  "caption": "遵义会议会址",
+                  "credit": "小小新手",
+                  "license": "CC BY-SA 3.0"
+            },
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Mao_Zedong_%281937%29.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Mao_Zedong_(1937).jpg",
+                  "caption": "毛泽东，1937 年",
+                  "credit": "佚名",
+                  "license": "Public domain"
+            }
+      ],
+      "1936-12-xian-incident": [
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Zhang_Xueliang%2C_Yang_Hucheng_and_Chiang_Kai-shek.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Zhang_Xueliang,_Yang_Hucheng_and_Chiang_Kai-shek.jpg",
+                  "caption": "西安事变前，蒋介石（右）、张学良（左）、杨虎城（中）合影",
+                  "credit": "佚名",
+                  "license": "Public domain"
+            },
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/6/62/Chiang_Kai-shek_after_Xi%27an_incident.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Chiang_Kai-shek_after_Xi%27an_incident.jpg",
+                  "caption": "西安事变后，蒋介石与宋美龄返回南京，国民政府主席林森接机",
+                  "credit": "佚名",
+                  "license": "Public domain"
+            }
+      ],
+      "1937-07-marco-polo-bridge": [
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Marco_Polo_Bridge_air_view.PNG/960px-Marco_Polo_Bridge_air_view.PNG",
+                  "page": "https://commons.wikimedia.org/wiki/File:Marco_Polo_Bridge_air_view.PNG",
+                  "caption": "卢沟桥与宛平城航拍（日方侦察照片）",
+                  "credit": "佚名",
+                  "license": "Public domain"
+            },
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Wanping-Castle-south-wall-3514.jpg/960px-Wanping-Castle-south-wall-3514.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Wanping-Castle-south-wall-3514.jpg",
+                  "caption": "宛平城南墙，1937 年日军炮击痕迹",
+                  "credit": "Vmenkov",
+                  "license": "CC BY-SA 3.0"
+            }
+      ],
+      "1945-04-seventh-congress": [
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/a/a2/7th_National_Congress_of_the_Communist_Party_of_China_1.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:7th_National_Congress_of_the_Communist_Party_of_China_1.jpg",
+                  "caption": "中国共产党第七次全国代表大会会场，延安",
+                  "credit": "佚名",
+                  "license": "Public domain"
+            },
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/%E4%B8%AD%E5%85%B1%E4%B8%83%E5%A4%A7%E6%97%A7%E5%9D%80_%E4%B8%AD%E5%A4%AE%E5%A4%A7%E7%A4%BC%E5%A0%82.jpg/960px-%E4%B8%AD%E5%85%B1%E4%B8%83%E5%A4%A7%E6%97%A7%E5%9D%80_%E4%B8%AD%E5%A4%AE%E5%A4%A7%E7%A4%BC%E5%A0%82.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:%E4%B8%AD%E5%85%B1%E4%B8%83%E5%A4%A7%E6%97%A7%E5%9D%80_%E4%B8%AD%E5%A4%AE%E5%A4%A7%E7%A4%BC%E5%A0%82.jpg",
+                  "caption": "延安杨家岭中共七大会址中央大礼堂",
+                  "credit": "MoAiSang",
+                  "license": "CC0"
+            }
+      ],
+      "1948-09-three-campaigns": [
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/8/87/Final_Attack_on_Jinzhou.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Final_Attack_on_Jinzhou.jpg",
+                  "caption": "辽沈战役中，解放军在炮火掩护下进攻锦州",
+                  "credit": "佚名",
+                  "license": "Public domain"
+            },
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/5/5b/PLAHuaihai.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:PLAHuaihai.jpg",
+                  "caption": "淮海战役中，解放军坦克配合步兵进攻",
+                  "credit": "佚名",
+                  "license": "Public domain"
+            }
+      ],
+      "1949-09-cppcc-founding": [
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/8/85/Mao_Proclaiming_New_China.JPG",
+                  "page": "https://commons.wikimedia.org/wiki/File:Mao_Proclaiming_New_China.JPG",
+                  "caption": "1949 年 10 月 1 日，毛泽东在天安门城楼宣告中华人民共和国成立",
+                  "credit": "Orihara1",
+                  "license": "Public domain"
+            },
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/6/6e/1st_CPPCC_conference.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:1st_CPPCC_conference.jpg",
+                  "caption": "1949 年 9 月，中国人民政治协商会议第一届全体会议",
+                  "credit": "佚名",
+                  "license": "Public domain"
+            }
+      ],
+      "1950-10-korean-war": [
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/2/26/Battle_of_Triangle_Hill_Chinese_Infantrymen.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Battle_of_Triangle_Hill_Chinese_Infantrymen.jpg",
+                  "caption": "朝鲜战争上甘岭战役中的中国人民志愿军步兵",
+                  "credit": "佚名",
+                  "license": "Public domain"
+            },
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/KoreanWarRefugeeWithBaby_%28cropped%29.jpg/960px-KoreanWarRefugeeWithBaby_%28cropped%29.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:KoreanWarRefugeeWithBaby_(cropped).jpg",
+                  "caption": "朝鲜战争中的难民姐弟（1950 年）",
+                  "credit": "Maj. R.V. Spencer, U.S. Army",
+                  "license": "Public domain"
+            }
+      ],
+      "1956-09-eighth-congress": [
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9b/Big_issue_for_600_million_people.jpg/960px-Big_issue_for_600_million_people.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Big_issue_for_600_million_people.jpg",
+                  "caption": "1956 年 9 月，毛泽东在中共八大开幕式上致开幕词",
+                  "credit": "齐观山、吕厚民",
+                  "license": "Public domain"
+            },
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/c/c9/1956-10-01_%E5%9B%BD%E5%BA%86%E6%B8%B8%E8%A1%8C%E7%BE%A4%E4%BC%97%E9%AB%98%E4%B8%BE%E5%BA%86%E7%A5%9D%E4%B8%AD%E5%85%B1%E5%85%AB%E5%A4%A7%E6%88%90%E5%8A%9F%E6%A0%87%E8%AF%AD.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:1956-10-01_%E5%9B%BD%E5%BA%86%E6%B8%B8%E8%A1%8C%E7%BE%A4%E4%BC%97%E9%AB%98%E4%B8%BE%E5%BA%86%E7%A5%9D%E4%B8%AD%E5%85%B1%E5%85%AB%E5%A4%A7%E6%88%90%E5%8A%9F%E6%A0%87%E8%AF%AD.jpg",
+                  "caption": "1956 年国庆游行，群众高举“庆祝中国共产党第八次全国代表大会成功”标语",
+                  "credit": "佚名",
+                  "license": "Public domain"
+            }
+      ],
+      "1958-05-great-leap": [
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Backyard_furnace4.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Backyard_furnace4.jpg",
+                  "caption": "1958 年大炼钢铁中的土高炉",
+                  "credit": "佚名",
+                  "license": "Public domain"
+            },
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/a/a8/People%27s_commone_canteen3.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:People%27s_commone_canteen3.jpg",
+                  "caption": "1958 年人民公社公共食堂",
+                  "credit": "佚名",
+                  "license": "Public domain"
+            }
+      ],
+      "1966-05-cultural-revolution": [
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/9/91/1966-09_1966%E5%B9%B4%E6%AF%9B%E6%B3%BD%E4%B8%9C.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:1966-09_1966%E5%B9%B4%E6%AF%9B%E6%B3%BD%E4%B8%9C.jpg",
+                  "caption": "1966 年 9 月《人民画报》封面上的毛泽东",
+                  "credit": "《人民画报》",
+                  "license": "Public domain"
+            },
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/5/51/1966-11_1966%E5%B9%B4%E6%AF%9B%E6%B3%BD%E4%B8%9C%E6%9E%97%E5%BD%AA%E4%B8%8E%E7%BA%A2%E5%8D%AB%E5%85%B5.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:1966-11_1966%E5%B9%B4%E6%AF%9B%E6%B3%BD%E4%B8%9C%E6%9E%97%E5%BD%AA%E4%B8%8E%E7%BA%A2%E5%8D%AB%E5%85%B5.jpg",
+                  "caption": "1966 年 11 月，毛泽东、林彪与红卫兵",
+                  "credit": "《人民画报》",
+                  "license": "Public domain"
+            }
+      ],
+      "1976-09-mao-death": [
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/China_1976-026_Beijing.jpg/960px-China_1976-026_Beijing.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:China_1976-026_Beijing.jpg",
+                  "caption": "1976 年 9 月，毛泽东逝世后的天安门城楼",
+                  "credit": "Karl-Heinz Wellmann",
+                  "license": "CC BY-SA 4.0"
+            },
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/3/31/Mao_Zedong_1950_Portrait_%283x4_close_cropped%29.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Mao_Zedong_1950_Portrait_(3x4_close_cropped).jpg",
+                  "caption": "毛泽东标准像（1950 年）",
+                  "credit": "陈正青",
+                  "license": "Public domain"
+            }
+      ],
+      "1978-12-third-plenum": [
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/%E9%9D%92%E5%B2%9B%E4%BA%BA%E6%B0%91%E6%AC%A2%E5%BA%86%E5%8D%81%E4%B8%80%E5%B1%8A%E4%B8%89%E4%B8%AD%E5%85%A8%E4%BC%9A%E5%8F%AC%E5%BC%80.jpg/960px-%E9%9D%92%E5%B2%9B%E4%BA%BA%E6%B0%91%E6%AC%A2%E5%BA%86%E5%8D%81%E4%B8%80%E5%B1%8A%E4%B8%89%E4%B8%AD%E5%85%A8%E4%BC%9A%E5%8F%AC%E5%BC%80.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:%E9%9D%92%E5%B2%9B%E4%BA%BA%E6%B0%91%E6%AC%A2%E5%BA%86%E5%8D%81%E4%B8%80%E5%B1%8A%E4%B8%89%E4%B8%AD%E5%85%A8%E4%BC%9A%E5%8F%AC%E5%BC%80.jpg",
+                  "caption": "1978 年 12 月，青岛群众庆祝十一届三中全会召开",
+                  "credit": "青岛市档案馆",
+                  "license": "Public domain"
+            },
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/d/da/%E5%8C%97%E4%BA%AC%E4%BA%AC%E8%A5%BF%E8%B3%93%E9%A4%A8_2010.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:%E5%8C%97%E4%BA%AC%E4%BA%AC%E8%A5%BF%E8%B3%93%E9%A4%A8_2010.jpg",
+                  "caption": "北京京西宾馆，十一届三中全会会场（今貌）",
+                  "credit": "Wpcpey",
+                  "license": "CC BY-SA 4.0"
+            }
+      ],
+      "1989-06-political-turmoil": [
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/North_end_of_Tiananmen_Square_and_Tiananmen_Gate.jpg/960px-North_end_of_Tiananmen_Square_and_Tiananmen_Gate.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:North_end_of_Tiananmen_Square_and_Tiananmen_Gate.jpg",
+                  "caption": "天安门广场北端（今貌），1989 年事件发生地",
+                  "credit": "Daniel Case",
+                  "license": "CC BY-SA 3.0"
+            },
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/Lascar_Monument_to_the_People%27s_Heroes_-_Tiananmen_Square_%284496890458%29.jpg/960px-Lascar_Monument_to_the_People%27s_Heroes_-_Tiananmen_Square_%284496890458%29.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Lascar_Monument_to_the_People%27s_Heroes_-_Tiananmen_Square_(4496890458).jpg",
+                  "caption": "天安门广场人民英雄纪念碑（今貌）",
+                  "credit": "Jorge Láscar",
+                  "license": "CC BY 2.0"
+            }
+      ],
+      "1992-01-southern-tour": [
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/2011_%E6%B7%B1%E5%9C%B3_%E8%8E%B2%E8%8A%B1%E5%B1%B1%E9%A1%B6%EF%BC%8D%E9%82%93%E5%B0%8F%E5%B9%B3%E5%A4%B4%E5%83%8F_-_panoramio.jpg/960px-2011_%E6%B7%B1%E5%9C%B3_%E8%8E%B2%E8%8A%B1%E5%B1%B1%E9%A1%B6%EF%BC%8D%E9%82%93%E5%B0%8F%E5%B9%B3%E5%A4%B4%E5%83%8F_-_panoramio.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:2011_%E6%B7%B1%E5%9C%B3_%E8%8E%B2%E8%8A%B1%E5%B1%B1%E9%A1%B6%EF%BC%8D%E9%82%93%E5%B0%8F%E5%B9%B3%E5%A4%B4%E5%83%8F_-_panoramio.jpg",
+                  "caption": "深圳莲花山山顶的邓小平雕像",
+                  "credit": "张元柏",
+                  "license": "CC BY-SA 3.0"
+            },
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/75/Shenzhen_Stock_Exchange_2.jpg/960px-Shenzhen_Stock_Exchange_2.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Shenzhen_Stock_Exchange_2.jpg",
+                  "caption": "深圳证券交易所",
+                  "credit": "千里走单骑",
+                  "license": "CC BY-SA 3.0"
+            }
+      ],
+      "2012-11-18th-congress": [
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/18th_National_Congress_of_the_Communist_Party_of_China.jpg/960px-18th_National_Congress_of_the_Communist_Party_of_China.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:18th_National_Congress_of_the_Communist_Party_of_China.jpg",
+                  "caption": "中国共产党第十八次全国代表大会会场",
+                  "credit": "Dong Fang / VOA",
+                  "license": "Public domain"
+            },
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/2/28/Xi_Jinping_Sept._19%2C_2012.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Xi_Jinping_Sept._19,_2012.jpg",
+                  "caption": "2012 年 9 月，时任国家副主席习近平在北京会见美国国防部长帕内塔",
+                  "credit": "Erin A. Kirk-Cuomo / U.S. DoD",
+                  "license": "Public domain"
+            }
+      ],
+      "2017-10-19th-congress": [
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/75/A_political_slogan_on_the_wall_in_Longhua_District%2C_Shenzhen%2C_Guangdong%2C_China%2C_picture1.jpg/960px-A_political_slogan_on_the_wall_in_Longhua_District%2C_Shenzhen%2C_Guangdong%2C_China%2C_picture1.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:A_political_slogan_on_the_wall_in_Longhua_District,_Shenzhen,_Guangdong,_China,_picture1.jpg",
+                  "caption": "深圳龙华区街头的十九大标语，写有“高举习近平新时代中国特色社会主义思想伟大旗帜”",
+                  "credit": "Huangdan2060",
+                  "license": "CC0"
+            },
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/GreatHall_auditorium.jpg/960px-GreatHall_auditorium.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:GreatHall_auditorium.jpg",
+                  "caption": "人民大会堂大礼堂，中共十九大在此举行（会场资料图）",
+                  "credit": "AcidBomber / en.wikipedia",
+                  "license": "CC BY 3.0"
+            }
+      ],
+      "2020-01-covid": [
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/2020-1-23_%E6%B9%96%E5%8C%97%E9%BB%84%E5%86%88%E9%BB%84%E5%B7%9E%E5%8C%BA%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%AC%E4%BA%A4%E8%BD%A6%E4%B8%8A.jpg/960px-2020-1-23_%E6%B9%96%E5%8C%97%E9%BB%84%E5%86%88%E9%BB%84%E5%B7%9E%E5%8C%BA%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%AC%E4%BA%A4%E8%BD%A6%E4%B8%8A.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:2020-1-23_%E6%B9%96%E5%8C%97%E9%BB%84%E5%86%88%E9%BB%84%E5%B7%9E%E5%8C%BA%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%AC%E4%BA%A4%E8%BD%A6%E4%B8%8A.jpg",
+                  "caption": "2020 年 1 月 23 日，湖北黄冈黄州区的公交车内，乘客普遍佩戴口罩",
+                  "credit": "Walter Grassroot",
+                  "license": "CC0"
+            },
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/%E7%A2%91%E6%9E%97_%E5%85%B0%E8%92%82%E6%96%AF%E5%9F%8E%E6%A0%B8%E9%85%B8%E6%A3%80%E6%B5%8B%E7%82%B9.jpg/960px-%E7%A2%91%E6%9E%97_%E5%85%B0%E8%92%82%E6%96%AF%E5%9F%8E%E6%A0%B8%E9%85%B8%E6%A3%80%E6%B5%8B%E7%82%B9.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:%E7%A2%91%E6%9E%97_%E5%85%B0%E8%92%82%E6%96%AF%E5%9F%8E%E6%A0%B8%E9%85%B8%E6%A3%80%E6%B5%8B%E7%82%B9.jpg",
+                  "caption": "西安市碑林区一处核酸检测点",
+                  "credit": "Liuxingy",
+                  "license": "CC BY-SA 4.0"
+            }
+      ],
+      "2022-10-20th-congress": [
+            {
+                  "thumb": "https://upload.wikimedia.org/wikipedia/commons/5/55/%E4%B9%A0%E8%BF%91%E5%B9%B3_Xi_Jinping_20221023_01.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:%E4%B9%A0%E8%BF%91%E5%B9%B3_Xi_Jinping_20221023_01.jpg",
+                  "caption": "2022 年 10 月 23 日，习近平在人民大会堂会见中外记者",
+                  "credit": "China News Service",
+                  "license": "CC BY 4.0"
+            },
+            {
+                  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/Publicity_board_of_the_20th_National_Congress_of_the_Chinese_Communist_Party%2C_Xixin_Chan_Temple_2023022401.jpg/960px-Publicity_board_of_the_20th_National_Congress_of_the_Chinese_Communist_Party%2C_Xixin_Chan_Temple_2023022401.jpg",
+                  "page": "https://commons.wikimedia.org/wiki/File:Publicity_board_of_the_20th_National_Congress_of_the_Chinese_Communist_Party,_Xixin_Chan_Temple_2023022401.jpg",
+                  "caption": "中共二十大宣传展板",
+                  "credit": "Huangdan2060",
+                  "license": "CC BY 3.0"
+            }
+      ]
+};
+
+
+    /* ── 页面逻辑：筛选、时间轴、详情抽屉 ── */
+    (function () {
+      "use strict";
+
+      const $ = (sel, root = document) => root.querySelector(sel);
+      const el = (id) => document.getElementById(id);
+      const esc = (value) => String(value ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+      const pad2 = (n) => String(n).padStart(2, "0");
+      const events = DATA.events.slice().sort((a, b) => a.date.localeCompare(b.date));
+      const partName = (part) => part === 1 ? "第一部分" : "第二部分";
+      const partVar = (part) => part === 1 ? "var(--part1)" : "var(--part2)";
+
+      function aliasesFor(e) {
+        const text = [e.title, e.summary, e.background, e.impact, e.note || "", (e.keywords || []).join(" ")].join(" ");
+        const aliases = [];
+        if (text.includes("文化大革命")) aliases.push("文革");
+        if (text.includes("土地改革")) aliases.push("土改");
+        if (text.includes("抗美援朝")) aliases.push("朝鲜战争 韩战");
+        if (text.includes("南方谈话")) aliases.push("南巡");
+        if (text.includes("大跃进")) aliases.push("三年困难时期 大饥荒 三年自然灾害");
+        if (text.includes("世界贸易组织")) aliases.push("WTO 入世");
+        if (text.includes("中国共产党第一次全国代表大会")) aliases.push("中共一大 一大");
+        if (text.includes("第一届全国人大")) aliases.push("人大 五四宪法");
+        if (text.includes("经济特区")) aliases.push("深圳 特区");
+        if (e.id === "1989-06-political-turmoil") aliases.push("六四 八九 天安门事件");
+        return aliases.join(" ");
+      }
+
+      const searchBlobs = new Map(events.map((e) => {
+        const views = LENSES[e.id];
+        const lensText = views ? [views.society, views.economy, views.power].join(" ") : "";
+        return [
+          e.id,
+          [e.title, e.summary, e.background, e.impact, e.note || "", e.category, e.date, e.part === 1 ? "革命与建国 1920 1949" : "执政与现代化 1950 2025", (e.keywords || []).join(" "), aliasesFor(e), lensText]
+            .join(" ")
+            .toLowerCase()
+        ];
+      }));
+
+      const state = { part: "all", tag: "", keyOnly: false, q: "" };
+      const timeline = el("timeline");
+      const filters = el("filters");
+      const qInput = el("q");
+      const drawer = el("drawer");
+      const drawerBody = el("drawerBody");
+      const scrim = el("scrim");
+      let lastFocused = null;
+      let currentEventId = null;
+      let qTimer = 0;
+
+      function parseDate(value) {
+        const parts = value.split("-").map(Number);
+        return { y: parts[0], m: parts[1], d: parts[2] };
+      }
+      function fmtFull(value) {
+        const d = parseDate(value);
+        return d.y + " 年 " + d.m + " 月" + (d.d ? " " + d.d + " 日" : "");
+      }
+      function fmtCard(value) {
+        const d = parseDate(value);
+        return d.d ? pad2(d.m) + "." + pad2(d.d) : pad2(d.m) + " 月";
+      }
+
+      function matches(e) {
+        if (state.part !== "all" && String(e.part) !== state.part) return false;
+        if (state.tag && e.category !== state.tag) return false;
+        if (state.keyOnly && e.importance !== 5) return false;
+        if (state.q) {
+          const hay = searchBlobs.get(e.id) || "";
+          const tokens = state.q.toLowerCase().split(/\s+/).filter(Boolean);
+          if (!tokens.every((token) => hay.includes(token))) return false;
+        }
+        return true;
+      }
+
+      function renderKpis() {
+        const keyCount = events.filter((e) => e.importance === 5).length;
+        const imageCount = Object.values(IMAGES).reduce((total, list) => total + list.length, 0);
+        const items = [
+          [DATA.meta.end - DATA.meta.start, "年跨度"],
+          [events.length, "个收录节点"],
+          [imageCount, "幅历史影像"],
+          [keyCount, "个关键节点"]
+        ];
+        el("kpis").innerHTML = items.map(([value, label]) => (
+          '<div class="kpi"><span class="kpi-v">' + value + '</span><span class="kpi-l">' + label + "</span></div>"
+        )).join("");
+        document.querySelectorAll("[data-part-count]").forEach((node) => {
+          const part = Number(node.dataset.partCount);
+          node.textContent = events.filter((e) => e.part === part).length;
+        });
+      }
+
+      function buildFilters() {
+        const usedCategories = DATA.categories.filter((cat) => events.some((e) => e.category === cat));
+        const partButtons = [
+          ["all", "全部"],
+          ["1", "1920–1949"],
+          ["2", "1950–2025"]
+        ].map(([value, label]) => (
+          '<button class="chip" type="button" data-part="' + value + '" aria-pressed="' + (state.part === value) + '">' + label + "</button>"
+        )).join("");
+        const catButtons = ['<button class="chip" type="button" data-tag="" aria-pressed="' + (state.tag === "") + '">全部</button>']
+          .concat(usedCategories.map((cat) => (
+            '<button class="chip" type="button" data-tag="' + esc(cat) + '" aria-pressed="' + (state.tag === cat) + '">' + esc(cat) + "</button>"
+          ))).join("");
+
+        filters.innerHTML =
+          '<div class="fgroup"><span>时段</span>' + partButtons + "</div>" +
+          '<div class="fgroup"><span>主题</span>' + catButtons + "</div>" +
+          '<div class="fgroup"><button class="chip" type="button" data-key aria-pressed="' + state.keyOnly + '">仅看关键节点</button><button class="chip reset" type="button" data-reset>重置</button></div>' +
+          '<div class="count" id="count" aria-live="polite"></div>';
+      }
+
+      function syncFilters() {
+        filters.querySelectorAll("[data-part]").forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.part === state.part));
+        });
+        filters.querySelectorAll("[data-tag]").forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.tag === state.tag));
+        });
+        const keyButton = filters.querySelector("[data-key]");
+        if (keyButton) keyButton.setAttribute("aria-pressed", String(state.keyOnly));
+        const count = events.filter(matches).length;
+        const countBox = el("count");
+        if (countBox) countBox.innerHTML = "显示 <b>" + count + "</b> / " + events.length;
+      }
+
+      function eventCard(e) {
+        const key = e.importance === 5;
+        const imageCount = (IMAGES[e.id] || []).length;
+        return '<button class="cp-ev' + (key ? " is-key" : "") + '" type="button" data-id="' + esc(e.id) + '" aria-haspopup="dialog" aria-label="打开事件详情：' + esc(e.title) + '，含社会、经济、权力三重视角' + (imageCount ? "和 " + imageCount + " 幅历史影像" : "") + '">' +
+          '<span class="ev-date">' + fmtCard(e.date) + "</span>" +
+          '<span class="ev-body">' +
+            '<span class="ev-top"><span class="ev-title">' + esc(e.title) + "</span>" +
+              '<span class="ev-badges">' + (key ? '<span class="keybadge">关键节点</span>' : "") +
+                '<span class="ev-cat">' + esc(e.category) + "</span>" +
+                '<span class="lens-dots" title="社会、经济、权力三重视角" aria-hidden="true"><i class="lz-society"></i><i class="lz-economy"></i><i class="lz-power"></i></span>' +
+                (imageCount ? '<span class="ev-img">影像 ' + imageCount + "</span>" : "") +
+              "</span>" +
+            "</span>" +
+            '<span class="ev-sum">' + esc(e.summary) + "</span>" +
+          "</span>" +
+          '<span class="ev-arrow" aria-hidden="true">→</span>' +
+        "</button>";
+      }
+
+      function partHeader(part, shown, total) {
+        return '<header class="part-head">' +
+          '<div class="part-index">' +
+            '<span class="part-no">0' + part.id + "</span>" +
+            '<span class="part-range">' + esc(part.years) + "</span>" +
+            '<span class="part-rule" aria-hidden="true"></span>' +
+          "</div>" +
+          '<div class="part-copy">' +
+            '<p class="part-kicker">' + esc(part.kicker) + "</p>" +
+            '<h2 id="part-title-' + part.id + '">' + esc(part.title) + "</h2>" +
+            '<p class="part-lede">' + esc(part.lede) + "</p>" +
+            '<div class="threads">' + part.threads.map((t) => '<span class="thread">' + esc(t) + "</span>").join("") + "</div>" +
+            '<p class="part-count">当前显示 <b>' + shown + "</b> / " + total + " 个节点</p>" +
+          "</div>" +
+        "</header>";
+      }
+
+      function eraBand(era, shown, total) {
+        return '<div class="era-band">' +
+          '<div class="era-side">' +
+            '<span class="era-index">分期 ' + pad2(era.id) + "</span>" +
+            '<span class="era-years">' + era.start + "–" + era.end + "</span>" +
+          "</div>" +
+          '<div class="era-main">' +
+            '<h3 class="era-name">' + esc(era.name) + "</h3>" +
+            '<span class="era-count">' + (shown === total ? shown + " 个节点" : "显示 " + shown + " / " + total + " 个节点") + "</span>" +
+          "</div>" +
+        "</div>";
+      }
+
+      function renderTimeline() {
+        const visible = events.filter(matches);
+        if (!visible.length) {
+          timeline.innerHTML = '<div class="empty"><strong>没有匹配的节点</strong>试试更换关键词，或清除当前的筛选条件。<button class="chip" type="button" data-reset>清除筛选</button></div>';
+          return;
+        }
+
+        let html = "";
+        DATA.parts.forEach((part) => {
+          const list = visible.filter((e) => e.part === part.id);
+          if (!list.length) return;
+          const total = events.filter((e) => e.part === part.id).length;
+          html += '<section class="part-block" id="part-' + part.id + '" style="--c: ' + partVar(part.id) + '" aria-labelledby="part-title-' + part.id + '">';
+          html += partHeader(part, list.length, total);
+
+          ERAS.filter((era) => era.part === part.id).forEach((era) => {
+            const eraEvents = list.filter((e) => {
+              const year = parseDate(e.date).y;
+              return year >= era.start && year <= era.end;
+            });
+            if (!eraEvents.length) return;
+            const totalEra = events.filter((e) => {
+              const year = parseDate(e.date).y;
+              return e.part === part.id && year >= era.start && year <= era.end;
+            }).length;
+            html += eraBand(era, eraEvents.length, totalEra);
+
+            const years = new Map();
+            eraEvents.forEach((e) => {
+              const y = parseDate(e.date).y;
+              if (!years.has(y)) years.set(y, []);
+              years.get(y).push(e);
+            });
+            [...years.entries()].sort((a, b) => a[0] - b[0]).forEach(([year, yearEvents]) => {
+              html += '<div class="year-group">' +
+                '<div class="year-label"><strong>' + year + "</strong><span>" + yearEvents.length + " 个节点</span></div>" +
+                '<div class="year-events">' + yearEvents.map(eventCard).join("") + "</div>" +
+              "</div>";
+            });
+          });
+          html += "</section>";
+        });
+        timeline.innerHTML = html;
+      }
+
+      function drawerHTML(e) {
+        const index = events.findIndex((item) => item.id === e.id);
+        const prev = events[index - 1];
+        const next = events[index + 1];
+        const process = (e.process && e.process.length) ? (
+          '<section class="sec"><h4>关键节点</h4><ol class="steps">' +
+            e.process.map((p) => '<li><span class="sd">' + esc(p.when) + '</span><span class="sn" aria-hidden="true"></span><span>' + esc(p.text) + "</span></li>").join("") +
+          "</ol></section>"
+        ) : "";
+        const note = e.note ? (
+          '<section class="sec"><h4>史学注记</h4><div class="note"><b>注：</b>' + esc(e.note) + "</div></section>"
+        ) : "";
+        const pictures = IMAGES[e.id] || [];
+        const imageSection = pictures.length ? (
+          '<section class="sec"><h4>历史影像 · ' + pictures.length + " 张</h4>" +
+            '<div class="image-grid">' +
+              pictures.map((pic) => (
+                '<figure class="image-card">' +
+                  '<a class="image-frame" href="' + esc(pic.page) + '" target="_blank" rel="noopener noreferrer" aria-label="查看图片原始页面：' + esc(pic.caption) + '">' +
+                    '<img src="' + esc(pic.thumb) + '" alt="' + esc(pic.caption) + '" loading="eager" decoding="async" referrerpolicy="no-referrer" />' +
+                    '<span class="image-open" aria-hidden="true">↗</span>' +
+                  "</a>" +
+                  "<figcaption>" +
+                    '<span class="image-caption">' + esc(pic.caption) + "</span>" +
+                    '<span class="image-meta"><span>' + esc(pic.credit) + " · " + esc(pic.license) + '</span><a class="image-source" href="' + esc(pic.page) + '" target="_blank" rel="noopener noreferrer">来源 ↗</a></span>' +
+                  "</figcaption>" +
+                "</figure>"
+              )).join("") +
+            "</div>" +
+            '<p class="image-note">图片来自 Wikimedia Commons，点击图片或“来源”可查看原始页面与授权信息。</p>' +
+          "</section>"
+        ) : "";
+        const views = LENSES[e.id];
+        const lenses = views ? (
+          '<section class="sec"><h4>三重视角</h4><div class="lens-grid">' +
+            '<article class="lens-panel lz-society">' +
+              '<div class="lens-top"><span class="lens-mark" aria-hidden="true">社</span><h5>社会学</h5></div>' +
+              "<p>" + esc(views.society) + "</p>" +
+            "</article>" +
+            '<article class="lens-panel lz-economy">' +
+              '<div class="lens-top"><span class="lens-mark" aria-hidden="true">经</span><h5>经济学</h5></div>' +
+              "<p>" + esc(views.economy) + "</p>" +
+            "</article>" +
+            '<article class="lens-panel lz-power">' +
+              '<div class="lens-top"><span class="lens-mark" aria-hidden="true">权</span><h5>权力博弈</h5></div>' +
+              "<p>" + esc(views.power) + "</p>" +
+            "</article>" +
+          "</div>" +
+          '<p class="lens-note">三重视角是分析工具，不是对事件的唯一定论；事实与评价应分别核验。</p>' +
+          "</section>"
+        ) : "";
+        const keywords = (e.keywords && e.keywords.length) ? (
+          '<section class="sec"><h4>关键词</h4><div class="kw">' + e.keywords.map((k) => "<span>" + esc(k) + "</span>").join("") + "</div></section>"
+        ) : "";
+        return '<div class="d-head">' +
+            '<button class="d-close" type="button" aria-label="关闭详情">×</button>' +
+            '<div class="d-kicker">' + partName(e.part) + " · " + fmtFull(e.date) + "</div>" +
+            '<h2 class="d-title" id="drawer-title">' + esc(e.title) + "</h2>" +
+            '<div class="d-meta">' +
+              (e.importance === 5 ? '<span class="keybadge">关键节点</span>' : "") +
+              '<span class="ev-cat">' + esc(e.category) + "</span>" +
+            "</div>" +
+          "</div>" +
+          '<p class="d-lead">' + esc(e.summary) + "</p>" +
+          imageSection +
+          '<section class="sec"><h4>历史背景</h4><p>' + esc(e.background) + "</p></section>" +
+          process +
+          '<section class="sec"><h4>影响与评价</h4><div class="impact"><p>' + esc(e.impact) + "</p></div></section>" +
+          lenses +
+          note +
+          keywords +
+          '<div class="drawer-nav">' +
+            '<button type="button" data-nav="prev"' + (prev ? "" : " disabled") + ">← " + (prev ? esc(prev.title) : "已是第一条") + "</button>" +
+            '<button type="button" data-nav="next"' + (next ? "" : " disabled") + ">" + (next ? esc(next.title) : "已是最后一条") + " →</button>" +
+          "</div>";
+      }
+
+      function openDrawer(id, trigger) {
+        const e = events.find((item) => item.id === id);
+        if (!e) return;
+        lastFocused = trigger || document.activeElement;
+        currentEventId = e.id;
+        drawer.style.setProperty("--c", partVar(e.part));
+        drawerBody.innerHTML = drawerHTML(e);
+        drawer.classList.add("open");
+        drawer.removeAttribute("inert");
+        drawer.setAttribute("aria-hidden", "false");
+        scrim.hidden = false;
+        document.body.classList.add("locked");
+        drawer.scrollTop = 0;
+        requestAnimationFrame(() => {
+          const close = drawer.querySelector(".d-close");
+          if (close) close.focus();
+        });
+      }
+
+      function closeDrawer() {
+        if (!drawer.classList.contains("open")) return;
+        drawer.classList.remove("open");
+        drawer.setAttribute("aria-hidden", "true");
+        drawer.setAttribute("inert", "");
+        scrim.hidden = true;
+        document.body.classList.remove("locked");
+        if (lastFocused && document.contains(lastFocused)) lastFocused.focus();
+        lastFocused = null;
+        currentEventId = null;
+      }
+
+      function resetState() {
+        state.part = "all";
+        state.tag = "";
+        state.keyOnly = false;
+        state.q = "";
+        qInput.value = "";
+      }
+
+      function refresh() {
+        renderTimeline();
+        syncFilters();
+      }
+
+      function scrollToPart(id) {
+        const target = el("part-" + id);
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      /* 初始化筛选按钮 */
+      buildFilters();
+      renderKpis();
+      refresh();
+
+      /* 时期、主题、关键节点筛选 */
+      filters.addEventListener("click", (ev) => {
+        const button = ev.target.closest("button");
+        if (!button) return;
+        if (button.hasAttribute("data-part")) {
+          state.part = button.dataset.part;
+        } else if (button.hasAttribute("data-tag")) {
+          state.tag = button.dataset.tag === state.tag ? "" : button.dataset.tag;
+        } else if (button.hasAttribute("data-key")) {
+          state.keyOnly = !state.keyOnly;
+        } else if (button.hasAttribute("data-reset")) {
+          resetState();
+        } else {
+          return;
+        }
+        refresh();
+      });
+
+      /* 搜索：短延迟，避免每次按键都重建 */
+      qInput.addEventListener("input", () => {
+        clearTimeout(qTimer);
+        qTimer = window.setTimeout(() => {
+          state.q = qInput.value.trim();
+          refresh();
+        }, 140);
+      });
+
+      /* 两个阶段的入口卡：清空筛选，跳转至对应部分 */
+      document.querySelectorAll("[data-jump-part]").forEach((link) => {
+        link.addEventListener("click", (ev) => {
+          ev.preventDefault();
+          const part = link.dataset.jumpPart;
+          resetState();
+          state.part = part;
+          refresh();
+          requestAnimationFrame(() => scrollToPart(part));
+        });
+      });
+
+      /* 时间轴上的事件卡与空状态按钮 */
+      timeline.addEventListener("click", (ev) => {
+        if (ev.target.closest("[data-reset]")) {
+          resetState();
+          refresh();
+          timeline.focus({ preventScroll: true });
+          return;
+        }
+        const card = ev.target.closest(".cp-ev");
+        if (card) openDrawer(card.dataset.id, card);
+      });
+
+      /* 抽屉内部：关闭、上一条 / 下一条 */
+      drawerBody.addEventListener("click", (ev) => {
+        if (ev.target.closest(".d-close")) {
+          closeDrawer();
+          return;
+        }
+        const nav = ev.target.closest("[data-nav]");
+        if (!nav || nav.disabled) return;
+        const index = events.findIndex((e) => e.id === currentEventId);
+        if (index < 0) return;
+        const target = events[index + (nav.dataset.nav === "next" ? 1 : -1)];
+        if (!target) return;
+        currentEventId = target.id;
+        drawer.style.setProperty("--c", partVar(target.part));
+        drawerBody.innerHTML = drawerHTML(target);
+        drawer.scrollTop = 0;
+        requestAnimationFrame(() => drawer.querySelector(".d-close")?.focus());
+      });
+
+      /* 图片加载失败时显示来源提示 */
+      drawerBody.addEventListener("error", (ev) => {
+        if (ev.target.tagName === "IMG") ev.target.closest(".image-card")?.classList.add("is-broken");
+      }, true);
+
+      /* 遮罩、Esc 与焦点约束 */
+      scrim.addEventListener("click", closeDrawer);
+      document.addEventListener("keydown", (ev) => {
+        if (ev.key === "Escape" && drawer.classList.contains("open")) closeDrawer();
+      });
+      drawer.addEventListener("keydown", (ev) => {
+        if (ev.key !== "Tab" || !drawer.classList.contains("open")) return;
+        const focusable = [...drawer.querySelectorAll("button:not(:disabled), a[href], [tabindex]:not([tabindex=\"-1\"])")]
+          .filter((node) => node.offsetParent !== null);
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (ev.shiftKey && document.activeElement === first) {
+          ev.preventDefault();
+          last.focus();
+        } else if (!ev.shiftKey && document.activeElement === last) {
+          ev.preventDefault();
+          first.focus();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
