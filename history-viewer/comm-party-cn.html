@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light dark" />
   <title>中国共产党党史纲要 · 1920–2025</title>
-  <meta name="description" content="中国共产党党史大事记，分为 1920–1949 年革命与建国、1950–2025 年执政与现代化两个部分，并从社会学、经济学、权力博弈三个角度分析各事件。" />
+  <meta name="description" content="中国共产党党史大事记，分为 1920–1949 年革命与建国、1950–2025 年执政与现代化两个部分，并从社会学、经济学、权力博弈三个角度分析各事件；另附党史考试自测，多套试卷随机抽取 20 道选择题。" />
   <style>
     /* ── 设计变量：沿用近代史时间轴的纸张色与红色主调 ── */
     :root {
@@ -70,6 +70,17 @@
     ::selection { background: var(--accent-soft); color: var(--ink); }
     .wrap { width: min(1120px, 100%); margin: 0 auto; padding-left: 20px; padding-right: 20px; }
     .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
     [hidden] { display: none !important; }
 
     .skip-link {
@@ -158,6 +169,32 @@
       font-size: 13px;
     }
     .search input::placeholder { color: var(--ink-3); }
+    .top-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 12px; min-width: 0; }
+
+    /* ── 顶部视图切换：大事记 / 考试 ── */
+    .view-nav {
+      display: flex;
+      flex: none;
+      align-items: center;
+      gap: 2px;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+    }
+    .view-tab {
+      padding: 4px 12px;
+      border-radius: 999px;
+      color: var(--ink-3);
+      font-size: 12.5px;
+      line-height: 1.6;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color .15s, background .15s;
+    }
+    .view-tab:hover { color: var(--ink); }
+    .view-tab[aria-current="page"] { background: var(--ink); color: var(--bg); }
+    .exam-mode .search { display: none; }
 
     /* ── 开篇 ── */
     .hero {
@@ -850,6 +887,315 @@
     .drawer-nav button:hover { border-color: var(--ink-3); color: var(--ink); }
     .drawer-nav button:disabled { opacity: .35; cursor: default; }
 
+    /* ── 考试自测 ── */
+    .exam { padding: 26px 0 20px; scroll-margin-top: 78px; }
+    .exam-hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 28px;
+      align-items: center;
+      padding: 34px 36px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background:
+        linear-gradient(120deg,
+          color-mix(in srgb, var(--part1) 6%, var(--surface)) 0%,
+          var(--surface) 54%,
+          color-mix(in srgb, var(--gold) 5%, var(--surface)) 100%);
+      box-shadow: var(--shadow);
+    }
+    .exam-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--part1), var(--gold));
+    }
+    .exam-hero h2 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(30px, 4.4vw, 44px);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      line-height: 1.2;
+    }
+    .hero h2:focus, .exam-hero h2:focus { outline: none; }
+    .exam-lede { max-width: 700px; margin: 12px 0 0; color: var(--ink-2); font-size: 13.5px; line-height: 1.85; }
+    .exam-stats { display: grid; grid-template-columns: repeat(2, 108px); gap: 8px; }
+    .exam-stat {
+      padding: 11px 13px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
+    }
+    .exam-stat b { display: block; font-size: 23px; font-weight: 650; line-height: 1.2; letter-spacing: -.02em; font-variant-numeric: normal; }
+    .exam-stat span { display: block; margin-top: 1px; color: var(--ink-3); font-size: 10.5px; line-height: 1.5; }
+
+    .exam-picker { margin-top: 16px; }
+    .paper-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .paper-card {
+      position: relative;
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      padding: 17px 19px 15px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform .16s, border-color .16s;
+    }
+    .paper-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--c); }
+    .paper-card:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--c) 42%, var(--line)); }
+    .paper-card:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
+    .paper-top { display: flex; justify-content: space-between; gap: 10px; color: var(--c); font-family: var(--mono); font-size: 10.5px; letter-spacing: .09em; }
+    .paper-title { display: block; margin-top: 7px; font-family: var(--serif); font-size: 21px; font-weight: 700; line-height: 1.4; }
+    .paper-desc { display: block; margin-top: 4px; color: var(--ink-2); font-size: 12.5px; line-height: 1.7; }
+    .paper-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px 10px;
+      margin-top: 11px;
+      padding-top: 9px;
+      border-top: 1px solid var(--line);
+      color: var(--ink-3);
+      font-size: 10.5px;
+      line-height: 1.6;
+    }
+    .paper-meta .paper-best { margin-left: auto; color: var(--c); font-family: var(--mono); font-size: 10px; }
+    .paper-best.is-empty { color: var(--ink-3); }
+    .exam-note { margin: 12px 0 0; color: var(--ink-3); font-size: 11px; line-height: 1.7; }
+
+    .exam-runner { margin-top: 18px; scroll-margin-top: 84px; }
+    .exam-topbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; padding: 10px 0 9px; border-bottom: 1px solid var(--line); }
+    .exam-run-title { font-family: var(--serif); font-size: 18px; font-weight: 700; line-height: 1.4; }
+    .exam-run-title:focus { outline: none; }
+    .exam-run-count { margin-left: auto; color: var(--ink-3); font-family: var(--mono); font-size: 11px; white-space: nowrap; }
+    .exam-run-count b { color: var(--ink-2); font-weight: 600; }
+    .exam-track { height: 5px; margin-top: 9px; overflow: hidden; border-radius: 999px; background: var(--surface-2); }
+    .exam-track i { display: block; width: 0; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--part1), var(--gold) 55%, var(--part2)); transition: width .25s ease; }
+    .exam-dots { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 12px; }
+    .exam-dot {
+      width: 27px;
+      height: 27px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--ink-3);
+      font-family: var(--mono);
+      font-size: 10.5px;
+      line-height: 1;
+      cursor: pointer;
+      transition: border-color .15s, background .15s, color .15s;
+    }
+    .exam-dot:hover { border-color: var(--ink-3); color: var(--ink); }
+    .exam-dot.is-done { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+    .exam-dot.is-ok { border-color: var(--part2); background: color-mix(in srgb, var(--part2) 16%, var(--surface)); color: var(--part2); }
+    .exam-dot.is-bad { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+
+    .exam-list { display: grid; gap: 12px; margin-top: 14px; }
+    .exam-q {
+      padding: 17px 18px 16px;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--line);
+      border-radius: 11px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      scroll-margin-top: 84px;
+    }
+    .exam-q:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .exam-q.is-correct { border-left-color: var(--part2); }
+    .exam-q.is-wrong, .exam-q.is-unanswered { border-left-color: var(--accent); }
+    .exam-q-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+    .exam-q-no {
+      display: inline-grid;
+      place-items: center;
+      min-width: 26px;
+      height: 22px;
+      padding: 0 5px;
+      border-radius: 5px;
+      background: var(--surface-2);
+      color: var(--ink-2);
+      font-family: var(--mono);
+      font-size: 10.5px;
+      line-height: 1;
+    }
+    .exam-q-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; }
+    .exam-part { border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; color: var(--ink-3); font-size: 10px; line-height: 1.7; }
+    .exam-verdict { margin-left: auto; font-size: 11px; font-weight: 600; }
+    .exam-verdict.is-ok { color: var(--part2); }
+    .exam-verdict.is-bad { color: var(--accent); }
+    .exam-q-text { margin: 9px 0 0; font-size: 14.5px; font-weight: 600; line-height: 1.7; }
+    .exam-options { display: grid; gap: 6px; margin-top: 11px; }
+    .exam-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--ink-2);
+      font-size: 13px;
+      line-height: 1.65;
+      cursor: pointer;
+      transition: border-color .15s, background .15s, color .15s;
+    }
+    .exam-option:hover { border-color: var(--ink-3); color: var(--ink); }
+    .exam-option input { flex: none; margin: 4px 0 0; accent-color: var(--accent); }
+    .exam-option .opt-letter {
+      display: grid;
+      place-items: center;
+      flex: none;
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      color: var(--ink-3);
+      font-family: var(--mono);
+      font-size: 10px;
+      line-height: 1;
+    }
+    .exam-option .opt-text { min-width: 0; }
+    .exam-option.is-picked { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
+    .exam-option.is-picked .opt-letter { border-color: var(--accent); color: var(--accent); }
+    .exam-option.is-correct { border-color: color-mix(in srgb, var(--part2) 55%, var(--line)); background: color-mix(in srgb, var(--part2) 9%, var(--surface)); color: var(--ink); }
+    .exam-option.is-correct .opt-letter { border-color: var(--part2); color: var(--part2); }
+    .exam-option.is-wrong { border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); background: var(--accent-soft); color: var(--ink); }
+    .exam-option:has(input:disabled) { cursor: default; }
+    .exam-explain {
+      margin-top: 12px;
+      padding: 11px 13px;
+      border-left: 3px solid var(--line);
+      border-radius: 0 7px 7px 0;
+      background: var(--surface-2);
+      color: var(--ink-2);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+    .exam-q.is-correct .exam-explain { border-left-color: var(--part2); }
+    .exam-q.is-wrong .exam-explain, .exam-q.is-unanswered .exam-explain { border-left-color: var(--accent); }
+    .exam-explain p { margin: 0; }
+    .exam-explain p + p { margin-top: 5px; }
+    .exam-explain b { color: var(--ink); font-weight: 600; }
+    .review-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 7px;
+      padding: 0 0 1px;
+      border: 0;
+      border-bottom: 1px dotted var(--ink-3);
+      background: none;
+      color: var(--ink-2);
+      font-size: 11.5px;
+      line-height: 1.6;
+      cursor: pointer;
+    }
+    .review-link:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+    .exam-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 10px 14px; margin-top: 16px; padding: 15px 0 4px; border-top: 1px solid var(--line); }
+    .exam-warn { margin: 0 auto 0 0; color: var(--accent); font-size: 12px; line-height: 1.7; }
+    .exam-submit { padding: 10px 22px; border-color: var(--accent); background: var(--accent); color: var(--bg); font-size: 13.5px; font-weight: 600; }
+    .exam-submit:disabled { opacity: .45; cursor: default; transform: none; }
+
+    .exam-result { margin-top: 18px; }
+    .result-card {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      scroll-margin-top: 84px;
+    }
+    .result-score {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 26px 24px;
+      border-right: 1px solid var(--line);
+      background: linear-gradient(160deg, color-mix(in srgb, var(--part1) 9%, var(--surface)), color-mix(in srgb, var(--gold) 7%, var(--surface)));
+    }
+    .result-kicker { margin: 0; color: var(--ink-3); font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; }
+    .result-number { display: flex; align-items: baseline; gap: 6px; margin-top: 4px; }
+    .result-number b { font-size: 56px; font-weight: 700; line-height: .95; letter-spacing: -.04em; font-variant-numeric: normal; }
+    .result-number span { color: var(--ink-3); font-size: 13px; }
+    .result-grade {
+      display: inline-flex;
+      align-self: flex-start;
+      margin-top: 8px;
+      padding: 1px 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.8;
+    }
+    .result-grade.is-ok { background: color-mix(in srgb, var(--part2) 13%, transparent); color: var(--part2); }
+    .result-grade.is-warn { background: color-mix(in srgb, var(--gold) 14%, transparent); color: color-mix(in srgb, var(--gold) 78%, var(--ink)); }
+    .result-counts { margin: 9px 0 0; color: var(--ink-3); font-size: 11px; line-height: 1.7; }
+    .result-body { padding: 22px 24px 18px; }
+    .result-body h3 { margin: 0; font-family: var(--serif); font-size: 22px; font-weight: 700; line-height: 1.35; letter-spacing: -.01em; }
+    .result-body h3:focus { outline: none; }
+    .result-lede { margin: 5px 0 0; color: var(--ink-2); font-size: 12.5px; line-height: 1.75; }
+    .result-section { margin-top: 16px; }
+    .result-section h4 { margin: 0 0 8px; color: var(--ink-3); font-size: 10.5px; font-weight: 600; letter-spacing: .1em; }
+    .meter-list { display: grid; gap: 7px; }
+    .meter-row { --m: var(--part2); display: grid; grid-template-columns: 96px minmax(0, 1fr) 88px; align-items: center; gap: 10px; }
+    .meter-row.is-warn { --m: var(--gold); }
+    .meter-row.is-bad { --m: var(--accent); }
+    .meter-name { overflow: hidden; color: var(--ink-2); font-size: 11.5px; line-height: 1.5; text-overflow: ellipsis; white-space: nowrap; }
+    .meter-track { height: 8px; overflow: hidden; border-radius: 999px; background: color-mix(in srgb, var(--m) 15%, var(--surface-2)); }
+    .meter-track i { display: block; height: 100%; border-radius: 999px; background: var(--m); }
+    .meter-val { color: var(--ink-3); font-family: var(--mono); font-size: 10px; line-height: 1; text-align: right; white-space: nowrap; }
+    .meter-val b { color: var(--ink-2); font-weight: 600; }
+    .weak-note {
+      margin: 12px 0 0;
+      padding: 10px 12px;
+      border: 1px dashed color-mix(in srgb, var(--accent) 35%, var(--line));
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 4%, transparent);
+      color: var(--ink-2);
+      font-size: 11.5px;
+      line-height: 1.75;
+    }
+    .weak-note b { color: var(--accent); font-weight: 600; }
+    .weak-note.is-clear { border-color: color-mix(in srgb, var(--part2) 35%, var(--line)); background: color-mix(in srgb, var(--part2) 5%, transparent); }
+    .weak-note.is-clear b { color: var(--part2); }
+    .result-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .result-actions .btn { font-size: 12px; }
+
+    .exam-cta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 0 0 26px;
+      padding: 16px 20px;
+      border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line));
+      border-radius: var(--radius);
+      background: linear-gradient(110deg, color-mix(in srgb, var(--accent) 6%, var(--surface)), var(--surface));
+      color: inherit;
+      text-decoration: none;
+      box-shadow: var(--shadow);
+      transition: transform .15s, border-color .15s;
+    }
+    .exam-cta:hover { transform: translateY(-1px); border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); }
+    .exam-cta b { display: block; font-family: var(--serif); font-size: 18px; line-height: 1.4; }
+    .exam-cta small { display: block; margin-top: 2px; color: var(--ink-3); font-size: 11.5px; line-height: 1.6; }
+    .exam-cta-arrow { flex: none; color: var(--accent); font-family: var(--mono); font-size: 12px; }
+
     .noscript { margin: 30px auto; padding: 12px 16px; border: 1px dashed var(--line); color: var(--ink-2); text-align: center; }
 
     @media (max-width: 900px) {
@@ -859,9 +1205,12 @@
       .phase-mini, .hero-note { grid-column: 1 / -1; }
       .part-head, .year-group, .era-band { grid-template-columns: 104px minmax(0, 1fr); gap: 22px; }
       .part-no { font-size: 32px; }
+      .exam-hero { grid-template-columns: 1fr; gap: 20px; padding: 28px 24px; }
+      .exam-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     }
     @media (max-width: 720px) {
       .top-inner { align-items: flex-start; flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; }
+      .top-tools { flex: 1 1 100%; justify-content: space-between; }
       .search { width: min(330px, 100%); }
       .hero { margin-top: 18px; }
       .kpis { grid-template-columns: repeat(2, 1fr); }
@@ -889,6 +1238,13 @@
       .lens-grid, .lens-guide { grid-template-columns: 1fr; }
       .lens-guide { gap: 12px; }
       .count { width: 100%; margin-left: 0; }
+      .exam-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .paper-grid { grid-template-columns: 1fr; }
+      .exam-q { padding: 15px 14px; }
+      .exam-run-count { margin-left: 0; width: 100%; }
+      .result-card { grid-template-columns: 1fr; }
+      .result-score { border-right: 0; border-bottom: 1px solid var(--line); }
+      .meter-row { grid-template-columns: 84px minmax(0, 1fr) 82px; }
       .drawer-inner { padding: 0 18px 42px; }
       .d-head { margin: 0 -18px; padding: 15px 18px 12px; }
       .d-close { right: 13px; top: 13px; }
@@ -917,6 +1273,18 @@
       .steps .sd { font-size: 9.5px; }
       .image-grid { grid-template-columns: 1fr; }
       .notes h2 { font-size: 23px; }
+      .exam-hero { padding: 24px 18px; }
+      .exam-stats { gap: 6px; }
+      .exam-stat { padding: 9px 11px; }
+      .exam-stat b { font-size: 20px; }
+      .exam-option { padding: 8px 9px; font-size: 12.5px; }
+      .result-score { padding: 20px 18px; }
+      .result-body { padding: 18px 16px 15px; }
+      .result-number b { font-size: 48px; }
+      .meter-row { grid-template-columns: 76px minmax(0, 1fr) 74px; gap: 7px; }
+      .meter-name { font-size: 11px; }
+      .exam-cta { display: block; }
+      .exam-cta-arrow { display: block; margin-top: 8px; }
       .site-foot { display: block; }
       .site-foot span { display: block; margin-bottom: 4px; }
     }
@@ -925,9 +1293,10 @@
       *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
     }
     @media print {
-      .top, .filters, .hero-actions, .drawer, .scrim, .skip-link, .ev-arrow { display: none !important; }
+      .top, .filters, .hero-actions, .drawer, .scrim, .skip-link, .ev-arrow,
+      .view-nav, .paper-grid, .exam-dots, .exam-actions, .exam-cta { display: none !important; }
       body { background: #fff; color: #000; }
-      .hero, .kpi, .part-card, .cp-ev, .notes { box-shadow: none; break-inside: avoid; }
+      .hero, .kpi, .part-card, .cp-ev, .notes, .exam-q, .result-card, .exam-hero { box-shadow: none; break-inside: avoid; }
       .cp-ev { break-inside: avoid; }
     }
   </style>
@@ -944,23 +1313,31 @@
           <p class="sub">1920–2025 · 两段历史 · 三重视角</p>
         </div>
       </div>
-      <label class="search">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
-        <input id="q" type="search" placeholder="搜索事件、年份、关键词…" aria-label="搜索党史事件" autocomplete="off" />
-      </label>
+      <div class="top-tools">
+        <nav class="view-nav" aria-label="页面导航">
+          <a class="view-tab" href="#timeline" data-view-tab="timeline" aria-current="page">大事记</a>
+          <a class="view-tab" href="#exam" data-view-tab="exam">考试自测</a>
+        </nav>
+        <label class="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+          <input id="q" type="search" placeholder="搜索事件、年份、关键词…" aria-label="搜索党史事件" autocomplete="off" />
+        </label>
+      </div>
     </div>
   </header>
 
   <main class="wrap">
+    <div class="view" id="viewTimeline">
     <section class="hero" aria-labelledby="hero-title">
       <div>
         <p class="eyebrow">党史纲要 / 1920—2025</p>
-        <h2 id="hero-title">从革命建国<br /><em>到改革开放</em></h2>
+        <h2 id="hero-title" tabindex="-1">从革命建国<br /><em>到改革开放</em></h2>
         <p class="hero-lede">
           把一百零五年的党史放在两个时段里阅读：1920–1949 年，重点是从早期组织、国共合作、农村根据地与抗战，走向全国政权；1950–2025 年，重点是执政后的制度建设、工业化、市场化、社会转型与对外关系。每个事件另从社会学、经济学和权力博弈三个角度展开，帮助区分“发生了什么”和“怎样理解它”。
         </p>
         <div class="hero-actions">
           <a class="btn" href="#timeline">浏览大事记 <span aria-hidden="true">↓</span></a>
+          <a class="text-link" href="#exam">做一套自测题 →</a>
           <a class="text-link" href="#sources">阅读说明与参考 →</a>
         </div>
       </div>
@@ -1004,6 +1381,14 @@
 
     <section class="timeline" id="timeline" tabindex="-1" aria-live="polite" aria-label="党史大事记"></section>
 
+    <a class="exam-cta" href="#exam">
+      <span>
+        <b>用考试检验记忆</b>
+        <small>4 套试卷随机抽题 · 每卷 20 题 · 每题 5 分 · 交卷后查看得分与薄弱主题</small>
+      </span>
+      <span class="exam-cta-arrow" aria-hidden="true">开始自测 →</span>
+    </a>
+
     <section class="notes" id="sources" aria-labelledby="sources-title">
       <p class="eyebrow">阅读说明</p>
       <h2 id="sources-title">怎样读懂这份时间轴</h2>
@@ -1046,6 +1431,50 @@
       </div>
       <p class="disclaimer">说明：本页为独立整理的公开学习资料，不代表任何机构立场。历史数字、地名、职务与评价在不同文献中可能存在差异；涉及争议事件时，页面只陈述基本时间线并标出分歧。三重视角是分析工具，不是对事件的唯一定论；读者应进一步查核原始文献。内容截至 2025 年。</p>
     </section>
+    </div>
+
+    <div class="view" id="viewExam" hidden>
+      <section class="exam" id="exam" aria-labelledby="exam-title">
+        <header class="exam-hero">
+          <div>
+            <p class="eyebrow">记忆检验 / 随机组卷</p>
+            <h2 id="exam-title" tabindex="-1">党史考试</h2>
+            <p class="exam-lede">从页面知识点中随机抽题，每卷 20 道单选题，每题 5 分，满分 100 分。共 4 套试卷，每次组卷抽到的题目和选项顺序都会变化；交卷后给出分数、逐题解析与按主题统计的薄弱点，并可回到时间轴复习对应事件。</p>
+          </div>
+          <div class="exam-stats" role="group" aria-label="考试构成">
+            <div class="exam-stat"><b id="examBankCount">—</b><span>题库题量</span></div>
+            <div class="exam-stat"><b>20</b><span>每卷题数</span></div>
+            <div class="exam-stat"><b>5</b><span>每题分值</span></div>
+            <div class="exam-stat"><b>100</b><span>满分</span></div>
+          </div>
+        </header>
+
+        <div class="exam-picker" id="examPicker">
+          <div class="paper-grid" id="paperGrid" role="group" aria-label="选择试卷"></div>
+          <p class="exam-note">试卷由题库随机抽取生成，同一套试卷每次重做都可能遇到不同题目；最佳成绩保存在当前浏览器中。</p>
+        </div>
+
+        <div class="exam-result" id="examResult" hidden></div>
+        <p class="sr-only" id="examLive" aria-live="polite"></p>
+
+        <div class="exam-runner" id="examRunner" hidden>
+          <div class="exam-topbar">
+            <button class="chip" type="button" id="examBack">← 返回选卷</button>
+            <div class="exam-run-title" id="examRunTitle" tabindex="-1"></div>
+            <div class="exam-run-count" id="examRunCount" aria-live="polite">已答 0 / 20</div>
+          </div>
+          <div class="exam-track" aria-hidden="true"><i id="examTrackBar"></i></div>
+          <div class="exam-dots" id="examDots" role="group" aria-label="答题卡"></div>
+          <form id="examForm" novalidate>
+            <div class="exam-list" id="examList"></div>
+            <div class="exam-actions" id="examSubmitRow">
+              <p class="exam-warn" id="examWarn" role="status" hidden></p>
+              <button class="btn exam-submit" type="submit" id="examSubmit">交卷 · 查看成绩</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
   </main>
 
   <footer class="site-foot wrap">
@@ -1059,7 +1488,7 @@
   </aside>
 
   <noscript>
-    <div class="wrap noscript">本页的大事记由 JavaScript 生成，请在浏览器中启用 JavaScript 后查看。</div>
+    <div class="wrap noscript">本页的大事记与考试均由 JavaScript 生成，请在浏览器中启用 JavaScript 后查看。</div>
   </noscript>
 
   <script>
@@ -2860,6 +3289,699 @@ const IMAGES = {
 };
 
 
+    /*
+     * 考试题库：每题 5 分，每卷随机抽取 20 题。题目只考察页面中出现的知识点。
+     * 每题字段：part 所属部分、category 与页面主题一致、event 回链时间轴条目、
+     * q 题干、options 选项、answer 正确项下标（组卷时会打乱选项）、explain 解析。
+     */
+    const EXAM = {
+      bestKey: "comm-party-cn-exam-best-v1",
+      papers: [
+        {
+          id: "mixed",
+          volume: "卷一",
+          title: "综合卷",
+          desc: "两段历史各随机抽取 10 题，兼顾革命建国与执政现代化，适合完整复盘。",
+          rule: "第一部分 10 题 + 第二部分 10 题",
+          draws: [{ part: 1, n: 10 }, { part: 2, n: 10 }]
+        },
+        {
+          id: "part1",
+          volume: "卷二",
+          title: "革命与建国卷",
+          desc: "1920–1949：从早期组织、国共合作、武装斗争到抗战与解放战争。",
+          rule: "第一部分随机 20 题",
+          draws: [{ part: 1, n: 20 }]
+        },
+        {
+          id: "part2",
+          volume: "卷三",
+          title: "执政与现代化卷",
+          desc: "1950–2025：从社会主义改造、曲折探索到改革开放与新时代治理。",
+          rule: "第二部分随机 20 题",
+          draws: [{ part: 2, n: 20 }]
+        },
+        {
+          id: "random",
+          volume: "卷四",
+          title: "全库随机卷",
+          desc: "不设范围，从全部题库中随机抽取 20 题，用来检验长期记忆。",
+          rule: "全题库随机 20 题",
+          draws: [{ part: "all", n: 20 }]
+        }
+      ],
+      questions: [
+        /* ── 第一部分：1920–1949 ── */
+        {
+          id: "p1-01", part: 1, category: "建党与组织", event: "1920-08-shanghai-group",
+          q: "1920 年上海共产党早期组织以谁的活动为中心？",
+          options: ["李大钊", "陈独秀", "毛泽东", "李达"],
+          answer: 1,
+          explain: "上海组织以陈独秀寓所为活动中心，成员包括李达、李汉俊、陈望道、俞秀松等，创办《共产党》月刊并参与工人运动。"
+        },
+        {
+          id: "p1-02", part: 1, category: "建党与组织", event: "1920-08-shanghai-group",
+          q: "1920 年来华推动建党、先后会见李大钊和陈独秀的共产国际代表是谁？",
+          options: ["马林", "尼克尔斯基", "维经斯基", "鲍罗廷"],
+          answer: 2,
+          explain: "共产国际代表维经斯基 1920 年来华，先后会见李大钊、陈独秀，推动各地共产党早期组织建立。"
+        },
+        {
+          id: "p1-03", part: 1, category: "建党与组织", event: "1921-07-first-congress",
+          q: "中共一大的开幕地点和后来转移继续会议的地点分别是？",
+          options: ["上海望志路 106 号；嘉兴南湖游船", "上海法租界；南京", "广州；武汉", "北京大学红楼；嘉兴南湖"],
+          answer: 0,
+          explain: "一大在上海望志路 106 号开幕，因法租界巡捕搜查，会议转移到浙江嘉兴南湖的游船上继续举行。"
+        },
+        {
+          id: "p1-04", part: 1, category: "建党与组织", event: "1921-07-first-congress",
+          q: "中共一大开幕时到会代表人数和所代表的全国党员人数分别是？",
+          options: ["12 人；50 多人", "13 人；50 多人", "13 人；100 多人", "15 人；80 多人"],
+          answer: 1,
+          explain: "到会代表 13 人，代表全国 50 多名党员；大会选举陈独秀为中央局书记。"
+        },
+        {
+          id: "p1-05", part: 1, category: "建党与组织", event: "1922-07-second-congress",
+          q: "中共二大的主要贡献是？",
+          options: ["决定共产党员以个人身份加入国民党", "首次提出反帝反封建的民主革命纲领并通过第一部党章", "确立毛泽东思想为党的指导思想", "确定武装反抗国民党的总方针"],
+          answer: 1,
+          explain: "1922 年 7 月中共二大在上海举行，首次提出反帝反封建的民主革命纲领，并通过第一部党章。"
+        },
+        {
+          id: "p1-06", part: 1, category: "统一战线", event: "1923-06-third-congress",
+          q: "中共三大决定以什么方式实现国共合作？",
+          options: ["两党合并", "共产党员以个人身份加入国民党，同时保持政治、组织上的独立", "建立平等党际联盟，互不吸收党员", "由共产国际直接领导两党"],
+          answer: 1,
+          explain: "中共三大决定共产党员以个人身份加入国民党，同时保持党在政治上、组织上的独立性，推动第一次国共合作。"
+        },
+        {
+          id: "p1-07", part: 1, category: "统一战线", event: "1924-01-first-united-front",
+          q: "第一次国共合作正式形成的标志是？",
+          options: ["中共三大召开", "国民党一大召开", "黄埔军校建立", "北伐战争开始"],
+          answer: 1,
+          explain: "1924 年 1 月国民党一大在广州召开，孙中山重新解释三民主义，第一次国共合作正式形成；黄埔军校随后建立。"
+        },
+        {
+          id: "p1-08", part: 1, category: "军事与战争", event: "1926-07-northern-expedition",
+          q: "北伐战争的主要打击对象是？",
+          options: ["日本关东军", "吴佩孚、孙传芳等北洋军阀", "国民党右派", "地方土豪劣绅"],
+          answer: 1,
+          explain: "1926 年 7 月国民革命军从广东出师北伐，先后击溃吴佩孚、孙传芳等部，占领长江流域。"
+        },
+        {
+          id: "p1-09", part: 1, category: "经济与社会", event: "1925-05-may-thirtieth",
+          q: "五卅运动的直接导火索是？",
+          options: ["顾正红被日本纱厂枪杀", "九一八事变爆发", "南京国民政府成立", "巴黎和会外交失败"],
+          answer: 0,
+          explain: "1925 年 5 月 15 日工人顾正红被日商纱厂枪杀，5 月 30 日上海学生和市民在南京路示威遭巡捕开枪，运动由此爆发。"
+        },
+        {
+          id: "p1-10", part: 1, category: "危机与转折", event: "1927-04-april-twelfth",
+          q: "1927 年 4 月 12 日在上海发动清党、导致第一次国共合作破裂的是？",
+          options: ["汪精卫", "蒋介石", "张学良", "孙传芳"],
+          answer: 1,
+          explain: "蒋介石在上海发动四一二清党，包围上海总工会、解除工人纠察队武装；7 月武汉汪精卫集团分共，合作全面破裂。"
+        },
+        {
+          id: "p1-11", part: 1, category: "军事与战争", event: "1927-08-nanchang-uprising",
+          q: "南昌起义发生在哪一天，后来成为什么纪念日？",
+          options: ["1927 年 8 月 1 日；建军节", "1927 年 8 月 7 日；建党节", "1927 年 9 月 9 日；秋收起义纪念日", "1927 年 10 月 1 日；国庆节"],
+          answer: 0,
+          explain: "1927 年 8 月 1 日南昌起义；1933 年中共中央确定 8 月 1 日为中国工农红军成立纪念日，后成为建军节。"
+        },
+        {
+          id: "p1-12", part: 1, category: "军事与战争", event: "1927-08-nanchang-uprising",
+          q: "下列人物中，不属于南昌起义主要领导者的是？",
+          options: ["周恩来", "贺龙", "叶挺", "彭德怀"],
+          answer: 3,
+          explain: "南昌起义由周恩来、贺龙、叶挺、朱德、刘伯承等领导；彭德怀是平江起义和百团大战的领导者。"
+        },
+        {
+          id: "p1-13", part: 1, category: "危机与转折", event: "1927-08-august-seventh",
+          q: "八七会议确定的总方针是？",
+          options: ["建立抗日民族统一战线", "实行土地革命和武装反抗国民党反动派", "进行城市工人武装起义", "与国民党实行党内合作"],
+          answer: 1,
+          explain: "八七会议确定实行土地革命和武装起义的方针；毛泽东在会上提出“枪杆子里面出政权”。"
+        },
+        {
+          id: "p1-14", part: 1, category: "危机与转折", event: "1927-08-august-seventh",
+          q: "秋收起义进攻长沙受挫后，毛泽东率部转向哪里？",
+          options: ["广州", "井冈山", "瑞金", "南昌"],
+          answer: 1,
+          explain: "1927 年 9 月秋收起义受挫后，起义部队转向井冈山，开始建立农村革命根据地。"
+        },
+        {
+          id: "p1-15", part: 1, category: "建党与组织", event: "1929-12-gutian",
+          q: "古田会议确立的原则是？",
+          options: ["思想建党、政治建军", "农村包围城市", "党外合作、民主联合", "自力更生、艰苦奋斗"],
+          answer: 0,
+          explain: "古田会议通过毛泽东起草的决议，强调党对军队的绝对领导、支部建在连上和政治工作制度。"
+        },
+        {
+          id: "p1-16", part: 1, category: "政权与制度", event: "1931-11-chinese-soviet",
+          q: "1931 年中华苏维埃共和国临时中央政府成立于哪里，主席是谁？",
+          options: ["瑞金；毛泽东", "井冈山；朱德", "延安；毛泽东", "遵义；周恩来"],
+          answer: 0,
+          explain: "1931 年 11 月中华苏维埃第一次全国代表大会在江西瑞金召开，成立临时中央政府，毛泽东任主席。"
+        },
+        {
+          id: "p1-17", part: 1, category: "军事与战争", event: "1934-10-long-march",
+          q: "中央红军开始长征的时间和出发地是？",
+          options: ["1934 年 10 月；江西瑞金等地", "1935 年 1 月；贵州遵义", "1936 年 10 月；甘肃会宁", "1934 年 8 月；湖南通道"],
+          answer: 0,
+          explain: "1934 年 10 月，中央红军被迫从江西瑞金等地出发，开始战略转移。"
+        },
+        {
+          id: "p1-18", part: 1, category: "军事与战争", event: "1934-10-long-march",
+          q: "湘江战役后，中央红军人数由约 8.6 万人锐减到多少？",
+          options: ["约 6 万人", "约 3 万余人", "约 1 万人", "约 5 万人"],
+          answer: 1,
+          explain: "湘江战役后中央红军由 8.6 万人锐减至 3 万余人，促使党内对军事路线产生强烈不满。"
+        },
+        {
+          id: "p1-19", part: 1, category: "危机与转折", event: "1935-01-zunyi",
+          q: "遵义会议召开的时间和地点是？",
+          options: ["1935 年 1 月；贵州遵义", "1934 年 10 月；江西瑞金", "1935 年 10 月；陕北吴起镇", "1936 年 12 月；陕西西安"],
+          answer: 0,
+          explain: "1935 年 1 月，中共中央政治局扩大会议在贵州遵义举行，集中批评博古、李德的军事指挥错误。"
+        },
+        {
+          id: "p1-20", part: 1, category: "危机与转折", event: "1935-01-zunyi",
+          q: "遵义会议后，党和红军开始确立谁在党中央的领导地位？",
+          options: ["博古", "李德", "毛泽东", "张国焘"],
+          answer: 2,
+          explain: "会议增选毛泽东为政治局常委；1981 年历史决议称遵义会议开始确立以毛泽东为主要代表的正确路线在党中央的领导地位。"
+        },
+        {
+          id: "p1-21", part: 1, category: "军事与战争", event: "1934-10-long-march",
+          q: "红军三大主力会师的地点和时间是？",
+          options: ["1935 年 10 月；陕北吴起镇", "1936 年 10 月；甘肃会宁、将台堡", "1935 年 1 月；贵州遵义", "1936 年 12 月；陕西西安"],
+          answer: 1,
+          explain: "1936 年 10 月，红一、红二、红四方面军在甘肃会宁、静宁将台堡会师，三大主力长征结束。"
+        },
+        {
+          id: "p1-22", part: 1, category: "统一战线", event: "1936-12-xian-incident",
+          q: "西安事变的发动者是？",
+          options: ["张学良、杨虎城", "蒋介石、汪精卫", "朱德、彭德怀", "李宗仁、白崇禧"],
+          answer: 0,
+          explain: "1936 年 12 月 12 日，张学良、杨虎城在西安扣押蒋介石，要求停止内战、一致抗日。"
+        },
+        {
+          id: "p1-23", part: 1, category: "统一战线", event: "1936-12-xian-incident",
+          q: "西安事变和平解决后，时局主要发生了什么变化？",
+          options: ["全面内战立即爆发", "内战基本停止、第二次国共合作初步形成", "日本立即投降", "中共放弃武装斗争"],
+          answer: 1,
+          explain: "事变成为时局转换的枢纽，内战基本停止，为全面抗战和第二次国共合作准备了条件。"
+        },
+        {
+          id: "p1-24", part: 1, category: "危机与转折", event: "1931-09-mukden-incident",
+          q: "九一八事变发生在哪一年、哪座城市？",
+          options: ["1931 年；沈阳", "1937 年；北平", "1932 年；上海", "1928 年；济南"],
+          answer: 0,
+          explain: "1931 年 9 月 18 日，关东军制造柳条湖事件并进攻沈阳，东北迅速沦陷。"
+        },
+        {
+          id: "p1-25", part: 1, category: "军事与战争", event: "1937-07-marco-polo-bridge",
+          q: "七七事变爆发于何地，中国守军哪支部队奋起抵抗？",
+          options: ["卢沟桥；第 29 军", "沈阳北大营；东北军", "上海闸北；第 19 路军", "台儿庄；第 5 战区部队"],
+          answer: 0,
+          explain: "1937 年 7 月 7 日，日军在卢沟桥附近挑起事端，第 29 军奋起抵抗，全民族抗战爆发。"
+        },
+        {
+          id: "p1-26", part: 1, category: "军事与战争", event: "1937-07-marco-polo-bridge",
+          q: "全面抗战爆发后，红军主力改编为哪支部队，南方红军游击队改编为哪支部队？",
+          options: ["八路军；新四军", "新四军；八路军", "解放军；志愿军", "东北军；西北军"],
+          answer: 0,
+          explain: "1937 年 8 月洛川会议后，红军改编为八路军，南方红军游击队改编为新四军。"
+        },
+        {
+          id: "p1-27", part: 1, category: "军事与战争", event: "1940-08-hundred-regiments",
+          q: "百团大战的指挥者和参战兵力是？",
+          options: ["彭德怀；105 个团", "朱德；100 个师", "林彪；80 个团", "刘伯承；120 个旅"],
+          answer: 0,
+          explain: "1940 年 8 月至 12 月，彭德怀和八路军总部指挥华北破袭战，参战兵力达 105 个团。"
+        },
+        {
+          id: "p1-28", part: 1, category: "危机与转折", event: "1941-01-southern-anhui",
+          q: "皖南事变中，新四军军部在何处遭到国民党军围攻？",
+          options: ["安徽泾县茂林", "江苏盐城", "江西上饶", "浙江温州"],
+          answer: 0,
+          explain: "1941 年 1 月，新四军军部及所属部队约 9000 人在安徽泾县茂林地区遭围攻，损失惨重。"
+        },
+        {
+          id: "p1-29", part: 1, category: "思想与文化", event: "1942-02-yanan-rectification",
+          q: "延安整风运动主要反对的三股风气是？",
+          options: ["主观主义、宗派主义、党八股", "自由主义、平均主义、官僚主义", "教条主义、投降主义、冒险主义", "个人主义、享乐主义、形式主义"],
+          answer: 0,
+          explain: "整风反对主观主义、宗派主义和党八股，确立实事求是的思想路线。"
+        },
+        {
+          id: "p1-30", part: 1, category: "建党与组织", event: "1945-04-seventh-congress",
+          q: "中共七大在哪一年、哪座城市召开，确立了什么为党的指导思想？",
+          options: ["1945 年；延安；毛泽东思想", "1945 年；重庆；三民主义", "1949 年；西柏坡；毛泽东思想", "1935 年；遵义；马克思主义"],
+          answer: 0,
+          explain: "1945 年 4 至 6 月，中共七大在延安召开，将毛泽东思想确定为党的指导思想。"
+        },
+        {
+          id: "p1-31", part: 1, category: "外交", event: "1945-08-victory-chongqing",
+          q: "1945 年重庆谈判达成的成果是？",
+          options: ["《双十协定》", "《停战协定》", "《共同纲领》", "《上海公报》"],
+          answer: 0,
+          explain: "1945 年 10 月 10 日，国共双方签署《政府与中共代表会谈纪要》（双十协定），但军队和解放区政权问题悬而未决。"
+        },
+        {
+          id: "p1-32", part: 1, category: "军事与战争", event: "1946-06-civil-war",
+          q: "全面内战爆发的标志是？",
+          options: ["1946 年 6 月国民党军进攻中原解放区", "1945 年日本投降", "1947 年刘邓大军挺进大别山", "1949 年渡江战役"],
+          answer: 0,
+          explain: "1946 年 6 月，国民党军大举进攻中原解放区，全面内战爆发。"
+        },
+        {
+          id: "p1-33", part: 1, category: "军事与战争", event: "1947-06-strategic-offensive",
+          q: "1947 年刘伯承、邓小平率部挺进大别山，标志着什么？",
+          options: ["人民解放军转入战略进攻", "三大战役开始", "解放战争结束", "抗美援朝开始"],
+          answer: 0,
+          explain: "刘邓大军强渡黄河、挺进大别山，揭开人民解放军战略进攻的序幕。"
+        },
+        {
+          id: "p1-34", part: 1, category: "经济与社会", event: "1947-10-land-reform",
+          q: "1947 年《中国土地法大纲》规定实行什么政策？",
+          options: ["减租减息", "耕者有其田", "农业集体化", "包产到户"],
+          answer: 1,
+          explain: "《中国土地法大纲》公布后，解放区实行“耕者有其田”，推动土地改革。"
+        },
+        {
+          id: "p1-35", part: 1, category: "军事与战争", event: "1948-09-three-campaigns",
+          q: "解放战争三大战役是？",
+          options: ["辽沈、淮海、平津", "辽沈、渡江、上海", "淮海、平津、太原", "济南、辽沈、淮海"],
+          answer: 0,
+          explain: "1948 年 9 月至 1949 年 1 月，人民解放军先后进行辽沈、淮海、平津三大战役。"
+        },
+        {
+          id: "p1-36", part: 1, category: "军事与战争", event: "1948-09-three-campaigns",
+          q: "三大战役共消灭和改编国民党军约多少人？",
+          options: ["54 万", "104 万", "154 万", "254 万"],
+          answer: 2,
+          explain: "三大战役共消灭和改编国民党军约 154 万人，基本摧毁其精锐力量，为渡江战役奠定基础。"
+        },
+        {
+          id: "p1-37", part: 1, category: "政权与制度", event: "1949-03-second-plenum",
+          q: "七届二中全会决定党的工作重心如何转移，并提出什么要求？",
+          options: ["由城市转向乡村；“两个务必”", "由乡村转向城市；“两个务必”", "由军事转向经济；“三反五反”", "由国内转向国际；“一边倒”"],
+          answer: 1,
+          explain: "1949 年 3 月七届二中全会在西柏坡召开，决定工作重心由乡村转向城市，提出谦虚谨慎、不骄不躁和艰苦奋斗的“两个务必”。"
+        },
+        {
+          id: "p1-38", part: 1, category: "政权与制度", event: "1949-09-cppcc-founding",
+          q: "1949 年 9 月政协第一届全体会议通过的文件中，起临时宪法作用的是？",
+          options: ["《共同纲领》", "《五四宪法》", "《土地改革法》", "《论联合政府》"],
+          answer: 0,
+          explain: "政协一届全体会议通过《共同纲领》、政府组织法和政协组织法；《共同纲领》起临时宪法作用。"
+        },
+        {
+          id: "p1-39", part: 1, category: "建党与组织", event: "1928-06-sixth-congress",
+          q: "中共六大是党史上唯一一次在哪里召开的全国代表大会？",
+          options: ["莫斯科", "上海", "延安", "广州"],
+          answer: 0,
+          explain: "1928 年 6 月至 7 月，中共六大在莫斯科近郊召开，是党史上唯一一次在境外举行的全国代表大会。"
+        },
+        {
+          id: "p1-40", part: 1, category: "外交", event: "1945-08-victory-chongqing",
+          q: "日本宣布无条件投降的日期是？",
+          options: ["1945 年 8 月 15 日", "1945 年 9 月 2 日", "1945 年 10 月 10 日", "1945 年 12 月 25 日"],
+          answer: 0,
+          explain: "1945 年 8 月 15 日日本宣布无条件投降，9 月 2 日正式签署投降书。"
+        },
+
+        /* ── 第二部分：1950–2025 ── */
+        {
+          id: "p2-01", part: 2, category: "经济与社会", event: "1950-06-land-reform",
+          q: "1950 年《中华人民共和国土地改革法》在新解放区废除什么制度？",
+          options: ["地主阶级封建剥削的土地所有制，实行农民土地所有制", "农民土地所有制，实行集体所有制", "资本主义工商业私有制", "封建君主制度"],
+          answer: 0,
+          explain: "1950 年 6 月土地改革法公布，在新解放区废除地主阶级封建剥削的土地所有制，实行农民的土地所有制。"
+        },
+        {
+          id: "p2-02", part: 2, category: "军事与战争", event: "1950-10-korean-war",
+          q: "抗美援朝战争中，中国人民志愿军的司令员兼政治委员是？",
+          options: ["彭德怀", "林彪", "刘伯承", "陈毅"],
+          answer: 0,
+          explain: "1950 年 10 月志愿军跨过鸭绿江，彭德怀任司令员兼政治委员。"
+        },
+        {
+          id: "p2-03", part: 2, category: "军事与战争", event: "1950-10-korean-war",
+          q: "《朝鲜停战协定》于何时何地签署？",
+          options: ["1953 年 7 月；板门店", "1950 年 10 月；平壤", "1951 年 7 月；开城", "1954 年 7 月；日内瓦"],
+          answer: 0,
+          explain: "1953 年 7 月 27 日《朝鲜停战协定》在板门店签署，战争在三八线附近结束。"
+        },
+        {
+          id: "p2-04", part: 2, category: "经济与社会", event: "1953-01-first-five-year-plan",
+          q: "第一个五年计划以什么为中心，苏联援建的重点项目有多少个？",
+          options: ["重工业；156 个", "轻工业；100 个", "农业；200 个", "商业；50 个"],
+          answer: 0,
+          explain: "一五计划以重工业为中心，苏联援建的 156 个重点项目构成工业化骨架。"
+        },
+        {
+          id: "p2-05", part: 2, category: "外交", event: "1953-12-five-principles-bandung",
+          q: "1953 年底提出和平共处五项原则的是？",
+          options: ["毛泽东", "周恩来", "刘少奇", "陈毅"],
+          answer: 1,
+          explain: "周恩来会见印度代表团时提出五项原则；1954 年中印、中缅总理联合声明确认五项原则。"
+        },
+        {
+          id: "p2-06", part: 2, category: "外交", event: "1953-12-five-principles-bandung",
+          q: "1955 年万隆会议上，周恩来提出的方针是？",
+          options: ["求同存异", "一边倒", "另起炉灶", "打扫干净屋子再请客"],
+          answer: 0,
+          explain: "周恩来在万隆会议补充发言中提出“求同存异”，推动会议通过和平共处十项原则。"
+        },
+        {
+          id: "p2-07", part: 2, category: "政权与制度", event: "1954-09-npc-constitution",
+          q: "1954 年《中华人民共和国宪法》由哪一机关通过？",
+          options: ["第一届全国人民代表大会", "中国人民政治协商会议", "中共八大", "中央人民政府委员会"],
+          answer: 0,
+          explain: "1954 年 9 月第一届全国人大第一次会议通过《中华人民共和国宪法》，确立人民代表大会制度。"
+        },
+        {
+          id: "p2-08", part: 2, category: "政权与制度", event: "1954-09-npc-constitution",
+          q: "五四宪法确立的根本政治制度是？",
+          options: ["人民代表大会制度", "多党合作与政治协商制度", "民族区域自治制度", "基层群众自治制度"],
+          answer: 0,
+          explain: "五四宪法确立人民代表大会制度，规定国体、政体、民族区域自治和公民基本权利。"
+        },
+        {
+          id: "p2-09", part: 2, category: "建党与组织", event: "1956-09-eighth-congress",
+          q: "中共八大对国内主要矛盾的判断是？",
+          options: ["人民对经济文化发展的需要同落后社会生产之间的矛盾", "无产阶级同资产阶级的矛盾", "帝国主义与中华民族的矛盾", "人民日益增长的美好生活需要同不平衡不充分发展之间的矛盾"],
+          answer: 0,
+          explain: "1956 年八大判断主要矛盾已变为人民对经济文化发展的需要同落后社会生产之间的矛盾，提出集中力量发展社会生产力。"
+        },
+        {
+          id: "p2-10", part: 2, category: "危机与转折", event: "1957-04-anti-rightist",
+          q: "1957 年反右派斗争扩大化，约多少人被划为右派？",
+          options: ["5 万", "55 万", "155 万", "500 万"],
+          answer: 1,
+          explain: "反右派斗争严重扩大化，约 55 万人被划为右派分子；1978 年后绝大多数被改正。"
+        },
+        {
+          id: "p2-11", part: 2, category: "经济与社会", event: "1958-05-great-leap",
+          q: "1958 年社会主义建设总路线的内容是？",
+          options: ["鼓足干劲、力争上游、多快好省地建设社会主义", "调整、巩固、充实、提高", "以阶级斗争为纲", "一个中心、两个基本点"],
+          answer: 0,
+          explain: "1958 年 5 月八大二次会议通过总路线，随后发动大跃进和人民公社化运动。"
+        },
+        {
+          id: "p2-12", part: 2, category: "经济与社会", event: "1958-05-great-leap",
+          q: "人民公社化运动是在哪次会议上决定建立的？",
+          options: ["1958 年 8 月北戴河会议", "1958 年 5 月八大二次会议", "1956 年中共八大", "1959 年庐山会议"],
+          answer: 0,
+          explain: "1958 年 8 月北戴河会议决定在农村建立人民公社，随后掀起大炼钢铁和“放高产卫星”的高潮。"
+        },
+        {
+          id: "p2-13", part: 2, category: "危机与转折", event: "1959-07-lushan",
+          q: "1959 年庐山会议转向“反右倾”的直接原因是？",
+          options: ["彭德怀上书批评大跃进", "苏联撤走专家", "中印边境冲突", "自然灾害"],
+          answer: 0,
+          explain: "彭德怀给毛泽东写信指出比例失调、浮夸等问题，会议方向转为反右倾，彭德怀等被撤职。"
+        },
+        {
+          id: "p2-14", part: 2, category: "经济与社会", event: "1960-07-sino-soviet-adjustment",
+          q: "为恢复国民经济，1961 年中共提出的八字方针是？",
+          options: ["调整、巩固、充实、提高", "调整、改革、整顿、提高", "抓革命、促生产", "多快好省、力争上游"],
+          answer: 0,
+          explain: "1961 年八届九中全会通过“调整、巩固、充实、提高”方针，恢复国民经济。"
+        },
+        {
+          id: "p2-15", part: 2, category: "经济与社会", event: "1960-07-sino-soviet-adjustment",
+          q: "1960 年 7 月苏联采取的什么行动使中苏分歧公开化？",
+          options: ["撤走全部在华专家、撕毁合同", "出兵中国东北", "断绝外交关系", "停止对华广播"],
+          answer: 0,
+          explain: "1960 年 7 月苏联撤走全部在华专家，撕毁数百个合同和合作项目，中苏分歧公开化。"
+        },
+        {
+          id: "p2-16", part: 2, category: "科技与国防", event: "1964-10-atomic-bomb",
+          q: "中国第一颗原子弹于何时何地爆炸成功？",
+          options: ["1964 年 10 月；新疆罗布泊", "1967 年 6 月；内蒙古额济纳", "1960 年 10 月；甘肃酒泉", "1964 年 10 月；青海金银滩"],
+          answer: 0,
+          explain: "1964 年 10 月 16 日，中国在新疆罗布泊成功爆炸第一颗原子弹，1967 年又试爆氢弹。"
+        },
+        {
+          id: "p2-17", part: 2, category: "危机与转折", event: "1966-05-cultural-revolution",
+          q: "文化大革命全面发动的标志是？",
+          options: ["1966 年 5 月《五一六通知》通过", "1966 年 8 月《十六条》通过", "1967 年“一月风暴”", "1969 年中共九大召开"],
+          answer: 0,
+          explain: "1966 年 5 月中央政治局扩大会议通过《五一六通知》，文化大革命全面发动。"
+        },
+        {
+          id: "p2-18", part: 2, category: "危机与转折", event: "1966-05-cultural-revolution",
+          q: "持续十年的文化大革命于何时结束？",
+          options: ["1976 年 10 月粉碎“四人帮”", "1971 年九一三事件", "1976 年 9 月毛泽东逝世", "1978 年十一届三中全会"],
+          answer: 0,
+          explain: "1976 年 10 月 6 日，华国锋、叶剑英等粉碎“四人帮”，文化大革命结束。"
+        },
+        {
+          id: "p2-19", part: 2, category: "危机与转折", event: "1971-09-lin-biao",
+          q: "林彪事件又称什么，发生在何处？",
+          options: ["九一三事件；蒙古温都尔汗", "一月风暴；上海", "四五运动；北京", "九一三事件；广州"],
+          answer: 0,
+          explain: "1971 年 9 月 13 日，林彪等乘飞机外逃，在蒙古温都尔汗坠毁身亡，史称九一三事件。"
+        },
+        {
+          id: "p2-20", part: 2, category: "外交", event: "1971-10-un-seat",
+          q: "恢复中华人民共和国在联合国合法席位的决议是？",
+          options: ["第 2758 号决议", "第 2755 号决议", "《上海公报》", "《联合国家宣言》"],
+          answer: 0,
+          explain: "1971 年 10 月 25 日，联合国大会通过第 2758 号决议，恢复中华人民共和国在联合国的一切合法权利。"
+        },
+        {
+          id: "p2-21", part: 2, category: "外交", event: "1972-02-nixon-visit",
+          q: "尼克松访华期间中美发表的公报是？",
+          options: ["《上海公报》", "《北京公报》", "《联合声明》", "《中美建交公报》"],
+          answer: 0,
+          explain: "1972 年 2 月尼克松访华，2 月 28 日中美发表《上海公报》，两国关系开始正常化。"
+        },
+        {
+          id: "p2-22", part: 2, category: "外交", event: "1972-02-nixon-visit",
+          q: "中美正式建立外交关系的时间是？",
+          options: ["1972 年 2 月", "1979 年 1 月 1 日", "1971 年 10 月", "1978 年 12 月"],
+          answer: 1,
+          explain: "1979 年 1 月 1 日中美正式建立外交关系；《上海公报》采用各自表述一个中国的措辞。"
+        },
+        {
+          id: "p2-23", part: 2, category: "危机与转折", event: "1976-04-april-fifth",
+          q: "1976 年四五运动发生的直接背景是？",
+          options: ["周恩来逝世，民众到天安门悼念并表达政治诉求", "毛泽东逝世", "粉碎“四人帮”", "中苏边境冲突"],
+          answer: 0,
+          explain: "周恩来 1 月逝世后，清明前夕大量群众到天安门献花圈、张贴诗词，悼念周恩来并反对“四人帮”。"
+        },
+        {
+          id: "p2-24", part: 2, category: "危机与转折", event: "1978-12-third-plenum",
+          q: "十一届三中全会作出的历史性决策是？",
+          options: ["把工作重点转移到社会主义现代化建设，实行改革开放", "发动大跃进", "确立“两个凡是”", "加入世界贸易组织"],
+          answer: 0,
+          explain: "1978 年 12 月十一届三中全会停止使用“以阶级斗争为纲”，把工作重点转移到社会主义现代化建设，实行改革开放。"
+        },
+        {
+          id: "p2-25", part: 2, category: "危机与转折", event: "1978-12-third-plenum",
+          q: "1978 年真理标准问题讨论针对的是？",
+          options: ["“两个凡是”", "“以阶级斗争为纲”", "“一边倒”", "“多快好省”"],
+          answer: 0,
+          explain: "粉碎“四人帮”后华国锋提出“两个凡是”，真理标准讨论推动思想解放，为十一届三中全会作了准备。"
+        },
+        {
+          id: "p2-26", part: 2, category: "经济与社会", event: "1980-08-special-economic-zones",
+          q: "1980 年首批设立的经济特区不包括下列哪座城市？",
+          options: ["深圳", "珠海", "汕头", "上海"],
+          answer: 3,
+          explain: "1980 年 8 月批准在深圳、珠海、汕头、厦门设置经济特区；1988 年海南建省并设经济特区。"
+        },
+        {
+          id: "p2-27", part: 2, category: "思想与文化", event: "1981-06-history-resolution",
+          q: "1981 年《关于建国以来党的若干历史问题的决议》对毛泽东的评价是？",
+          options: ["功绩是第一位的，错误是第二位的", "功过各半", "错误是主要的", "不作评价"],
+          answer: 0,
+          explain: "决议否定文化大革命，维护毛泽东和毛泽东思想的历史地位，评价其功绩第一位、错误第二位。"
+        },
+        {
+          id: "p2-28", part: 2, category: "思想与文化", event: "1981-06-history-resolution",
+          q: "1982 年中共十二大提出的核心命题是？",
+          options: ["建设有中国特色的社会主义", "建立社会主义市场经济体制", "中国式现代化", "构建人类命运共同体"],
+          answer: 0,
+          explain: "十二大提出“建设有中国特色的社会主义”，进一步确定社会主义现代化建设的方向。"
+        },
+        {
+          id: "p2-29", part: 2, category: "经济与社会", event: "1984-10-third-plenum",
+          q: "1984 年十二届三中全会提出什么，改革重点由农村转向城市？",
+          options: ["有计划的商品经济", "社会主义市场经济", "新民主主义经济", "战时共产主义"],
+          answer: 0,
+          explain: "十二届三中全会通过关于经济体制改革的决定，提出有计划的商品经济、政企分开和企业自主经营。"
+        },
+        {
+          id: "p2-30", part: 2, category: "危机与转折", event: "1989-06-political-turmoil",
+          q: "1989 年春夏之交政治风波的直接导火索是？",
+          options: ["胡耀邦逝世", "周恩来逝世", "毛泽东逝世", "邓小平逝世"],
+          answer: 0,
+          explain: "1989 年 4 月胡耀邦逝世成为导火索，北京高校学生聚集天安门广场，抗议扩展到全国多地。"
+        },
+        {
+          id: "p2-31", part: 2, category: "经济与社会", event: "1992-01-southern-tour",
+          q: "1992 年邓小平南方谈话强调的核心观点不包括？",
+          options: ["计划和市场都是手段", "发展才是硬道理", "“三个有利于”", "以阶级斗争为纲"],
+          answer: 3,
+          explain: "南方谈话强调计划和市场都是手段、“发展才是硬道理”和“三个有利于”，推动市场化改革重启。"
+        },
+        {
+          id: "p2-32", part: 2, category: "经济与社会", event: "1992-01-southern-tour",
+          q: "中共十四大明确经济体制改革的目标是？",
+          options: ["建立社会主义市场经济体制", "建立计划经济体制", "实行有计划的商品经济", "加入世界贸易组织"],
+          answer: 0,
+          explain: "1992 年 10 月十四大明确经济体制改革的目标是建立社会主义市场经济体制。"
+        },
+        {
+          id: "p2-33", part: 2, category: "外交", event: "1997-07-hong-kong",
+          q: "香港回归祖国的时间是？",
+          options: ["1997 年 7 月 1 日", "1999 年 12 月 20 日", "1997 年 10 月 1 日", "2000 年 1 月 1 日"],
+          answer: 0,
+          explain: "1997 年 7 月 1 日中国对香港恢复行使主权，香港特别行政区成立，是“一国两制”的首次实践。"
+        },
+        {
+          id: "p2-34", part: 2, category: "外交", event: "1997-07-hong-kong",
+          q: "1997 年十五大将什么理论写入党章？",
+          options: ["邓小平理论", "毛泽东思想", "“三个代表”重要思想", "科学发展观"],
+          answer: 0,
+          explain: "十五大将邓小平理论写入党章，确认社会主义初级阶段的基本经济制度。"
+        },
+        {
+          id: "p2-35", part: 2, category: "经济与社会", event: "2001-12-wto",
+          q: "中国正式加入世界贸易组织的时间是？",
+          options: ["1999 年 11 月", "2001 年 12 月 11 日", "2008 年 8 月", "2013 年 11 月"],
+          answer: 1,
+          explain: "2001 年 12 月 11 日，中国正式加入世界贸易组织，深度融入全球贸易体系。"
+        },
+        {
+          id: "p2-36", part: 2, category: "经济与社会", event: "2008-05-earthquake-olympics",
+          q: "2008 年全球金融危机后，中国推出的大规模应对计划通常被称为？",
+          options: ["四万亿刺激计划", "一五计划", "西部大开发", "供给侧改革"],
+          answer: 0,
+          explain: "四万亿刺激计划稳住了增长，也留下地方债务、产能过剩和房地产依赖等后遗症。"
+        },
+        {
+          id: "p2-37", part: 2, category: "建党与组织", event: "2012-11-18th-congress",
+          q: "2015 年军队改革建立的新格局是？",
+          options: ["军委管总、战区主战、军种主建", "总部管总、军区主战、兵种主建", "中央管总、地方主战、军区主建", "军委主战、战区管总、军种主建"],
+          answer: 0,
+          explain: "2015 年军队改革全面展开，建立军委管总、战区主战、军种主建的新格局。"
+        },
+        {
+          id: "p2-38", part: 2, category: "经济与社会", event: "2013-11-third-plenum-bri",
+          q: "2013 年十八届三中全会对市场作用的表述是？",
+          options: ["使市场在资源配置中起决定性作用", "使市场在资源配置中起基础性作用", "国家在资源配置中起决定性作用", "计划在资源配置中起决定性作用"],
+          answer: 0,
+          explain: "十八届三中全会提出全面深化改革，使市场在资源配置中起决定性作用；同年提出“一带一路”倡议。"
+        },
+        {
+          id: "p2-39", part: 2, category: "建党与组织", event: "2017-10-19th-congress",
+          q: "2017 年中共十九大将什么思想写入党章？",
+          options: ["习近平新时代中国特色社会主义思想", "邓小平理论", "“三个代表”重要思想", "科学发展观"],
+          answer: 0,
+          explain: "十九大将习近平新时代中国特色社会主义思想写入党章，并提出到 2035 年基本实现现代化等目标。"
+        },
+        {
+          id: "p2-40", part: 2, category: "政权与制度", event: "2018-03-constitution-amendment",
+          q: "2018 年宪法修正案删去了什么限制？",
+          options: ["国家主席、副主席连续任职不得超过两届", "总理任期不得超过两届", "人大代表连任限制", "军委主席任期限制"],
+          answer: 0,
+          explain: "2018 年 3 月全国人大通过宪法修正案，删去国家主席、副主席连续任职不得超过两届的限制，并写入习近平新时代中国特色社会主义思想。"
+        },
+        {
+          id: "p2-41", part: 2, category: "经济与社会", event: "2020-01-covid",
+          q: "武汉实施封城的时间是？",
+          options: ["2020 年 1 月 23 日", "2019 年 12 月 31 日", "2020 年 3 月 11 日", "2022 年 12 月 7 日"],
+          answer: 0,
+          explain: "2020 年 1 月 23 日武汉实施封城，全国调集医疗资源驰援湖北。"
+        },
+        {
+          id: "p2-42", part: 2, category: "经济与社会", event: "2020-01-covid",
+          q: "2022 年底标志着防控政策转向放开的事件是？",
+          options: ["“新十条”发布", "武汉封城", "世界卫生组织宣布全球大流行", "开展大规模疫苗接种"],
+          answer: 0,
+          explain: "2022 年 12 月“新十条”发布，防控政策迅速转向放开，随后出现大规模感染。"
+        },
+        {
+          id: "p2-43", part: 2, category: "政权与制度", event: "2020-06-hong-kong-nsl",
+          q: "《香港国安法》由全国人大常委会通过于何时？",
+          options: ["2020 年 6 月", "2019 年 6 月", "2021 年 7 月", "2022 年 10 月"],
+          answer: 0,
+          explain: "2020 年 6 月全国人大常委会通过《香港国安法》，针对分裂国家、颠覆政权、恐怖活动和勾结外国势力。"
+        },
+        {
+          id: "p2-44", part: 2, category: "建党与组织", event: "2021-07-centenary",
+          q: "中共第三个历史决议通过于哪一年？",
+          options: ["2021 年", "2019 年", "2020 年", "2022 年"],
+          answer: 0,
+          explain: "2021 年 7 月中共庆祝成立 100 周年、宣布全面建成小康社会；11 月通过第三个历史决议。"
+        },
+        {
+          id: "p2-45", part: 2, category: "建党与组织", event: "2022-10-20th-congress",
+          q: "2022 年中共二十大提出的核心表述是？",
+          options: ["中国式现代化", "社会主义市场经济", "科学发展观", "构建和谐社会"],
+          answer: 0,
+          explain: "二十大提出“中国式现代化”和全面建成社会主义现代化强国的两步走安排，习近平第三次担任总书记。"
+        },
+        {
+          id: "p2-46", part: 2, category: "经济与社会", event: "2024-07-third-plenum",
+          q: "二十届三中全会通过全面深化改革决定的时间是？",
+          options: ["2024 年 7 月", "2023 年 11 月", "2024 年 3 月", "2025 年 10 月"],
+          answer: 0,
+          explain: "2024 年 7 月二十届三中全会通过《关于进一步全面深化改革、推进中国式现代化的决定》，提出 300 多项改革举措。"
+        },
+        {
+          id: "p2-47", part: 2, category: "经济与社会", event: "2025-10-15th-five-year-plan",
+          q: "关于“十四五”与“十五五”规划，下列表述正确的是？",
+          options: ["2025 年是“十四五”收官之年；“十五五”规划期为 2026–2030 年", "2024 年是“十四五”收官之年；“十五五”规划期为 2025–2030 年", "2025 年是“十四五”收官之年；“十五五”规划期为 2025–2029 年", "2026 年是“十四五”收官之年；“十五五”规划期为 2026–2031 年"],
+          answer: 0,
+          explain: "2025 年是“十四五”规划收官之年，也是“十五五”规划谋篇布局之年；“十五五”规划期为 2026–2030 年。"
+        },
+        {
+          id: "p2-48", part: 2, category: "政权与制度", event: "1951-02-suppress-counterrevolutionaries",
+          q: "1951 年镇压反革命运动的法律依据是？",
+          options: ["《中华人民共和国惩治反革命条例》", "《中华人民共和国土地改革法》", "《中华人民共和国宪法》", "《关于正确处理人民内部矛盾的问题》"],
+          answer: 0,
+          explain: "1951 年 2 月《中华人民共和国惩治反革命条例》公布，全国开展镇压反革命运动。"
+        },
+        {
+          id: "p2-49", part: 2, category: "危机与转折", event: "1954-02-gao-rao-affair",
+          q: "1954 年七届四中全会批评的是谁的分裂活动？",
+          options: ["高岗、饶漱石", "彭德怀、黄克诚", "刘少奇、邓小平", "林彪、叶群"],
+          answer: 0,
+          explain: "1954 年 2 月七届四中全会批评高岗、饶漱石进行分裂活动，成为建国后首次高层权力危机。"
+        },
+        {
+          id: "p2-50", part: 2, category: "思想与文化", event: "1956-04-ten-relationships",
+          q: "毛泽东作《论十大关系》讲话是在哪一年？",
+          options: ["1956 年", "1953 年", "1957 年", "1962 年"],
+          answer: 0,
+          explain: "1956 年 4 月毛泽东作《论十大关系》讲话，提出调动一切积极因素，处理重工业与轻工业、农业等关系。"
+        },
+        {
+          id: "p2-51", part: 2, category: "外交", event: "1962-10-sino-indian-war",
+          q: "1962 年中印边境自卫反击战后，中国采取的行动是？",
+          options: ["主动停火并后撤", "占领新德里", "长期驻守藏南", "请求苏联调停"],
+          answer: 0,
+          explain: "1962 年 11 月 21 日中国宣布单方面停火，随后将部队后撤至 1959 年实际控制线附近，并归还部分缴获物资。"
+        },
+        {
+          id: "p2-52", part: 2, category: "危机与转折", event: "2019-06-hong-kong-extradition",
+          q: "2019 年香港修例风波的直接起因是？",
+          options: ["《逃犯条例》修订", "《基本法》修改", "香港国安法立法", "政改方案被否决"],
+          answer: 0,
+          explain: "2019 年 6 月香港因《逃犯条例》修订爆发大规模抗议，成为回归后最严重的政治危机。"
+        }
+      ]
+    };
+
+
     /* ── 页面逻辑：筛选、时间轴、详情抽屉 ── */
     (function () {
       "use strict";
@@ -3308,6 +4430,455 @@ const IMAGES = {
           first.focus();
         }
       });
+
+      /* ── 视图切换：大事记 / 考试自测 ── */
+      const viewTimeline = el("viewTimeline");
+      const viewExam = el("viewExam");
+      const viewTabs = [...document.querySelectorAll("[data-view-tab]")];
+
+      function showView(name, scroll) {
+        const isExam = name === "exam";
+        viewTimeline.hidden = isExam;
+        viewExam.hidden = !isExam;
+        document.body.classList.toggle("exam-mode", isExam);
+        viewTabs.forEach((tab) => {
+          if (tab.dataset.viewTab === name) tab.setAttribute("aria-current", "page");
+          else tab.removeAttribute("aria-current");
+        });
+        if (scroll) window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function viewFromHash() {
+        return location.hash === "#exam" ? "exam" : "timeline";
+      }
+
+      function focusViewHeading(name) {
+        const target = name === "exam" ? el("exam-title") : el("hero-title");
+        if (target) target.focus({ preventScroll: true });
+      }
+
+      viewTabs.forEach((tab) => {
+        tab.addEventListener("click", (ev) => {
+          ev.preventDefault();
+          const name = tab.dataset.viewTab;
+          showView(name, true);
+          focusViewHeading(name);
+          if (location.hash !== "#" + name) history.pushState(null, "", "#" + name);
+        });
+      });
+
+      /* 首页、时间轴末尾的考试入口：切换到考试视图 */
+      document.addEventListener("click", (ev) => {
+        const link = ev.target.closest('a[href="#exam"]');
+        if (!link || link.hasAttribute("data-view-tab")) return;
+        ev.preventDefault();
+        showView("exam", true);
+        focusViewHeading("exam");
+        if (location.hash !== "#exam") history.pushState(null, "", "#exam");
+      });
+
+      /* 考试视图中使用“跳到大事记”时，先切回时间轴 */
+      document.addEventListener("click", (ev) => {
+        const skip = ev.target.closest("a.skip-link");
+        if (!skip) return;
+        ev.preventDefault();
+        showView("timeline", false);
+        if (location.hash !== "#timeline") history.pushState(null, "", "#timeline");
+        el("timeline").focus();
+      });
+
+      window.addEventListener("popstate", () => showView(viewFromHash(), false));
+      window.addEventListener("hashchange", () => showView(viewFromHash(), false));
+
+      /* ── 考试：随机组卷、作答、评分与薄弱点分析 ── */
+      const examEl = el("exam");
+      const examBank = EXAM.questions.slice();
+      const examState = { paper: null, items: [], answers: new Map(), submitted: false };
+      let examUid = 0;
+
+      function shuffled(list) {
+        const arr = list.slice();
+        for (let i = arr.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      function poolFor(part) {
+        return part === "all" ? examBank.slice() : examBank.filter((q) => q.part === part);
+      }
+
+      function makeExamItem(q) {
+        const ordered = shuffled(q.options.map((text, index) => ({ text, index })));
+        examUid += 1;
+        return {
+          uid: "e" + examUid,
+          source: q,
+          options: ordered.map((option) => option.text),
+          answer: ordered.findIndex((option) => option.index === q.answer)
+        };
+      }
+
+      function drawExam(paper) {
+        const items = [];
+        paper.draws.forEach((draw) => {
+          const used = new Set(items.map((item) => item.source.id));
+          const pool = shuffled(poolFor(draw.part).filter((q) => !used.has(q.id)));
+          pool.slice(0, draw.n).forEach((q) => items.push(makeExamItem(q)));
+        });
+        return shuffled(items);
+      }
+
+      function readBest() {
+        try {
+          const parsed = JSON.parse(localStorage.getItem(EXAM.bestKey) || "{}");
+          return parsed && typeof parsed === "object" ? parsed : {};
+        } catch {
+          return {};
+        }
+      }
+
+      function saveBest(paperId, score) {
+        try {
+          const best = readBest();
+          best[paperId] = Math.max(Number(best[paperId]) || 0, score);
+          localStorage.setItem(EXAM.bestKey, JSON.stringify(best));
+        } catch {
+          /* 隐私模式或禁用存储时忽略，不影响作答与评分 */
+        }
+      }
+
+      function renderPapers() {
+        const best = readBest();
+        const colors = ["var(--gold)", "var(--part1)", "var(--part2)", "var(--ink-2)"];
+        el("paperGrid").innerHTML = EXAM.papers.map((paper, index) => {
+          const bestScore = Number(best[paper.id]);
+          const hasBest = Number.isFinite(bestScore) && best[paper.id] !== undefined && best[paper.id] !== null;
+          const bestText = hasBest
+            ? '<span class="paper-best">最佳 ' + bestScore + " 分</span>"
+            : '<span class="paper-best is-empty">尚未作答</span>';
+          return '<button class="paper-card" type="button" data-paper="' + paper.id + '" style="--c: ' + colors[index % colors.length] + '">' +
+            '<span class="paper-top"><span>' + paper.volume + ' / 随机组卷</span><span aria-hidden="true">开始 →</span></span>' +
+            '<span class="paper-title">' + esc(paper.title) + "</span>" +
+            '<span class="paper-desc">' + esc(paper.desc) + "</span>" +
+            '<span class="paper-meta"><span>' + esc(paper.rule) + "</span><span>20 题 × 5 分</span>" + bestText + "</span>" +
+          "</button>";
+        }).join("");
+        el("examBankCount").textContent = examBank.length;
+      }
+
+      function startExam(paperId) {
+        const paper = EXAM.papers.find((item) => item.id === paperId);
+        if (!paper) return;
+        examState.paper = paper;
+        examState.items = drawExam(paper);
+        examState.answers = new Map();
+        examState.submitted = false;
+        el("examPicker").hidden = true;
+        el("examResult").hidden = true;
+        el("examResult").innerHTML = "";
+        el("examRunner").hidden = false;
+        el("examRunTitle").textContent = paper.volume + " · " + paper.title;
+        el("examWarn").hidden = true;
+        el("examSubmitRow").hidden = false;
+        el("examSubmit").disabled = false;
+        el("examSubmit").textContent = "交卷 · 查看成绩";
+        renderExamQuestions();
+        updateExamProgress();
+        el("examLive").textContent = "已生成" + paper.title + "，共 " + examState.items.length + " 题，每题 5 分，满分 100 分。";
+        el("examRunner").scrollIntoView({ behavior: "smooth", block: "start" });
+        el("examRunTitle").focus({ preventScroll: true });
+      }
+
+      function examExplainHTML(item, picked) {
+        const letters = "ABCD";
+        const correctText = letters[item.answer] + ". " + item.options[item.answer];
+        const bits = [];
+        if (picked === undefined) bits.push("<b>未作答</b>");
+        else if (picked !== item.answer) bits.push("<b>你的答案：</b>" + esc(letters[picked] + ". " + item.options[picked]));
+        bits.push("<b>正确答案：</b>" + esc(correctText) + (picked === item.answer ? "（答对）" : ""));
+        return '<div class="exam-explain">' +
+          "<p>" + bits.join(" · ") + "</p>" +
+          "<p><b>解析：</b>" + esc(item.source.explain) + "</p>" +
+          '<button class="review-link" type="button" data-review-event="' + esc(item.source.event) + '">查看相关时间轴条目 →</button>' +
+        "</div>";
+      }
+
+      function renderExamQuestions() {
+        const submitted = examState.submitted;
+        el("examList").innerHTML = examState.items.map((item, idx) => {
+          const picked = examState.answers.get(item.uid);
+          const stateClass = submitted
+            ? (picked === undefined ? " is-unanswered" : picked === item.answer ? " is-correct" : " is-wrong")
+            : "";
+          const options = item.options.map((text, i) => {
+            const classes = ["exam-option"];
+            if (submitted) {
+              if (i === item.answer) classes.push("is-correct");
+              if (picked === i && i !== item.answer) classes.push("is-wrong");
+            } else if (picked === i) {
+              classes.push("is-picked");
+            }
+            return '<label class="' + classes.join(" ") + '">' +
+              '<input type="radio" name="exam-q-' + idx + '" value="' + i + '" data-exam-uid="' + item.uid + '"' +
+                (picked === i ? " checked" : "") + (submitted ? " disabled" : "") + " />" +
+              '<span class="opt-letter" aria-hidden="true">' + "ABCD"[i] + "</span>" +
+              '<span class="opt-text">' + esc(text) + "</span>" +
+            "</label>";
+          }).join("");
+          let verdict = "";
+          if (submitted) {
+            verdict = picked === item.answer
+              ? '<span class="exam-verdict is-ok">✓ 正确</span>'
+              : '<span class="exam-verdict is-bad">× ' + (picked === undefined ? "未作答" : "答错") + "</span>";
+          }
+          return '<article class="exam-q' + stateClass + '" id="exam-q-' + idx + '" tabindex="-1">' +
+            '<div class="exam-q-head">' +
+              '<span class="exam-q-no">' + pad2(idx + 1) + "</span>" +
+              '<div class="exam-q-tags"><span class="ev-cat">' + esc(item.source.category) + '</span><span class="exam-part">' + partName(item.source.part) + "</span></div>" +
+              verdict +
+            "</div>" +
+            '<h3 class="exam-q-text" id="exam-q-title-' + idx + '">' + esc(item.source.q) + "</h3>" +
+            '<div class="exam-options" role="radiogroup" aria-labelledby="exam-q-title-' + idx + '">' + options + "</div>" +
+            (submitted ? examExplainHTML(item, picked) : "") +
+          "</article>";
+        }).join("");
+      }
+
+      function renderExamDots() {
+        const submitted = examState.submitted;
+        el("examDots").innerHTML = examState.items.map((item, idx) => {
+          const picked = examState.answers.get(item.uid);
+          const classes = ["exam-dot"];
+          let status = "未作答";
+          if (submitted) {
+            if (picked === item.answer) {
+              classes.push("is-ok");
+              status = "答对";
+            } else {
+              classes.push("is-bad");
+              status = picked === undefined ? "未作答" : "答错";
+            }
+          } else if (picked !== undefined) {
+            classes.push("is-done");
+            status = "已作答";
+          }
+          return '<button type="button" class="' + classes.join(" ") + '" data-exam-dot="' + idx + '" aria-label="第 ' + (idx + 1) + " 题，" + status + '">' + (idx + 1) + "</button>";
+        }).join("");
+      }
+
+      function updateExamProgress() {
+        const total = examState.items.length;
+        const answered = examState.answers.size;
+        el("examRunCount").innerHTML = "已答 <b>" + answered + "</b> / " + total;
+        el("examTrackBar").style.width = (total ? (answered / total) * 100 : 0) + "%";
+        renderExamDots();
+      }
+
+      function gradeMeta(score) {
+        if (score >= 90) return { label: "优秀", tone: "is-ok" };
+        if (score >= 75) return { label: "良好", tone: "is-ok" };
+        if (score >= 60) return { label: "及格", tone: "is-warn" };
+        return { label: "需要复习", tone: "is-bad" };
+      }
+
+      function resultMessage(score) {
+        if (score >= 90) return "记忆非常扎实，本卷只在少数细节上失分。可以挑战全库随机卷，检验跨时段的掌握程度。";
+        if (score >= 75) return "整体掌握良好。优先复习下方列出的薄弱主题，再重做同卷巩固。";
+        if (score >= 60) return "达到及格线，但仍有明显薄弱点。建议按薄弱主题回到时间轴逐条阅读，再做一套。";
+        return "本卷失分较多。先回到时间轴复习相关事件，重点记忆时间、人物与标志性表述，再重新作答。";
+      }
+
+      function meterRow(name, got, total) {
+        const pct = total ? Math.round((got / total) * 100) : 0;
+        const tone = pct >= 80 ? "" : pct >= 50 ? " is-warn" : " is-bad";
+        return '<div class="meter-row' + tone + '" role="img" aria-label="' + esc(name) + "：" + total + " 题中答对 " + got + " 题，正确率 " + pct + '%">' +
+          '<span class="meter-name">' + esc(name) + "</span>" +
+          '<span class="meter-track" aria-hidden="true"><i style="width: ' + pct + '%"></i></span>' +
+          '<span class="meter-val" aria-hidden="true"><b>' + got + "</b>/" + total + " · " + pct + "%</span>" +
+        "</div>";
+      }
+
+      function examResultHTML(correct, total, score) {
+        const answered = examState.answers.size;
+        const unanswered = total - answered;
+        const wrong = total - correct - unanswered;
+        const grade = gradeMeta(score);
+        const partRows = [1, 2].map((part) => {
+          const list = examState.items.filter((item) => item.source.part === part);
+          if (!list.length) return "";
+          const got = list.filter((item) => examState.answers.get(item.uid) === item.answer).length;
+          return meterRow(partName(part), got, list.length);
+        }).join("");
+        const categories = new Map();
+        examState.items.forEach((item) => {
+          const key = item.source.category;
+          if (!categories.has(key)) categories.set(key, { total: 0, got: 0 });
+          const row = categories.get(key);
+          row.total += 1;
+          if (examState.answers.get(item.uid) === item.answer) row.got += 1;
+        });
+        const sortedCategories = [...categories.entries()].sort((a, b) => (a[1].got / a[1].total) - (b[1].got / b[1].total));
+        const categoryRows = sortedCategories.map(([name, row]) => meterRow(name, row.got, row.total)).join("");
+        const weak = sortedCategories.filter(([, row]) => row.got < row.total)
+          .map(([name, row]) => name + "（" + row.got + "/" + row.total + "）");
+        const weakText = weak.length
+          ? '<p class="weak-note"><b>薄弱主题：</b>' + esc(weak.join("、")) + '。建议打开下方错题解析中的“查看相关时间轴条目”，复习后再做一套。</p>'
+          : '<p class="weak-note is-clear"><b>没有明显薄弱主题：</b>本卷全部答对，可以换一套试卷或选择全库随机卷继续检验。</p>';
+        return '<section class="result-card" role="region" aria-labelledby="result-title">' +
+          '<div class="result-score">' +
+            '<p class="result-kicker">本卷得分</p>' +
+            '<div class="result-number"><b>' + score + "</b><span>/ 100</span></div>" +
+            '<p class="result-grade ' + grade.tone + '">' + grade.label + "</p>" +
+            '<p class="result-counts">答对 ' + correct + " · 答错 " + wrong + " · 未答 " + unanswered + "</p>" +
+          "</div>" +
+          '<div class="result-body">' +
+            '<h3 id="result-title" tabindex="-1">成绩与薄弱点</h3>' +
+            '<p class="result-lede">' + resultMessage(score) + "</p>" +
+            '<div class="result-section"><h4>按部分</h4><div class="meter-list">' + partRows + "</div></div>" +
+            '<div class="result-section"><h4>按主题（由弱到强）</h4><div class="meter-list">' + categoryRows + "</div></div>" +
+            weakText +
+            '<div class="result-actions">' +
+              '<button class="btn" type="button" data-exam-retry>同卷再抽一套</button>' +
+              '<button class="chip" type="button" data-exam-picker>返回选卷</button>' +
+              '<button class="chip" type="button" data-exam-timeline>去时间轴复习</button>' +
+              '<button class="review-link" type="button" data-exam-review>查看逐题解析 ↓</button>' +
+            "</div>" +
+          "</div>" +
+        "</section>";
+      }
+
+      function gradeExam() {
+        examState.submitted = true;
+        let correct = 0;
+        examState.items.forEach((item) => {
+          if (examState.answers.get(item.uid) === item.answer) correct += 1;
+        });
+        const total = examState.items.length;
+        const score = correct * 5;
+        const unanswered = total - examState.answers.size;
+        const wrong = total - correct - unanswered;
+        saveBest(examState.paper.id, score);
+        renderExamQuestions();
+        updateExamProgress();
+        el("examSubmitRow").hidden = true;
+        el("examResult").innerHTML = examResultHTML(correct, total, score);
+        el("examResult").hidden = false;
+        el("examLive").textContent = "本卷得分 " + score + " 分，答对 " + correct + " 题，答错 " + wrong + " 题，未答 " + unanswered + " 题。";
+        el("examResult").scrollIntoView({ behavior: "smooth", block: "start" });
+        const title = el("examResult").querySelector("h3");
+        if (title) title.focus({ preventScroll: true });
+      }
+
+      function showExamPicker() {
+        examState.paper = null;
+        examState.items = [];
+        examState.answers = new Map();
+        examState.submitted = false;
+        el("examRunner").hidden = true;
+        el("examResult").hidden = true;
+        el("examResult").innerHTML = "";
+        el("examPicker").hidden = false;
+        renderPapers();
+        el("examPicker").scrollIntoView({ behavior: "smooth", block: "start" });
+        const first = el("paperGrid").querySelector(".paper-card");
+        if (first) first.focus({ preventScroll: true });
+      }
+
+      /* 选卷 */
+      el("paperGrid").addEventListener("click", (ev) => {
+        const card = ev.target.closest("[data-paper]");
+        if (card) startExam(card.dataset.paper);
+      });
+
+      el("examBack").addEventListener("click", () => {
+        if (!examState.submitted && examState.answers.size && !window.confirm("当前作答尚未交卷，确定返回选卷吗？")) return;
+        showExamPicker();
+      });
+
+      /* 选项变化：不重绘整份试卷，只同步题卡与答题卡状态 */
+      el("examForm").addEventListener("change", (ev) => {
+        const input = ev.target.closest('input[type="radio"]');
+        if (!input || examState.submitted) return;
+        const uid = input.dataset.examUid;
+        if (!uid) return;
+        examState.answers.set(uid, Number(input.value));
+        const card = input.closest(".exam-q");
+        if (card) {
+          card.querySelectorAll(".exam-option").forEach((label) => {
+            label.classList.toggle("is-picked", label.contains(input));
+          });
+        }
+        el("examWarn").hidden = true;
+        el("examSubmit").textContent = "交卷 · 查看成绩";
+        updateExamProgress();
+      });
+
+      /* 交卷：有未答题时先提示，再次点击仍可交卷 */
+      el("examForm").addEventListener("submit", (ev) => {
+        ev.preventDefault();
+        if (examState.submitted || !examState.items.length) return;
+        const missing = examState.items.filter((item) => !examState.answers.has(item.uid));
+        if (missing.length && el("examWarn").hidden) {
+          el("examWarn").hidden = false;
+          el("examWarn").innerHTML = "还有 <b>" + missing.length + "</b> 题未作答。再次点击交卷将按未答计 0 分。";
+          el("examSubmit").textContent = "仍然交卷 · 按未答计分";
+          const firstIndex = examState.items.indexOf(missing[0]);
+          const firstCard = el("exam-q-" + firstIndex);
+          if (firstCard) {
+            firstCard.scrollIntoView({ behavior: "smooth", block: "center" });
+            firstCard.focus({ preventScroll: true });
+          }
+          return;
+        }
+        gradeExam();
+      });
+
+      /* 答题卡跳转 */
+      el("examDots").addEventListener("click", (ev) => {
+        const dot = ev.target.closest("[data-exam-dot]");
+        if (!dot) return;
+        const card = el("exam-q-" + dot.dataset.examDot);
+        if (!card) return;
+        card.scrollIntoView({ behavior: "smooth", block: "start" });
+        card.focus({ preventScroll: true });
+      });
+
+      /* 成绩区：重做、换卷、去时间轴、查看逐题解析 */
+      el("examResult").addEventListener("click", (ev) => {
+        if (ev.target.closest("[data-exam-retry]")) {
+          if (examState.paper) startExam(examState.paper.id);
+          return;
+        }
+        if (ev.target.closest("[data-exam-picker]")) {
+          showExamPicker();
+          return;
+        }
+        if (ev.target.closest("[data-exam-timeline]")) {
+          showView("timeline", true);
+          focusViewHeading("timeline");
+          if (location.hash !== "#timeline") history.pushState(null, "", "#timeline");
+          return;
+        }
+        if (ev.target.closest("[data-exam-review]")) {
+          const first = el("examList").querySelector(".exam-q");
+          if (first) {
+            first.scrollIntoView({ behavior: "smooth", block: "start" });
+            first.focus({ preventScroll: true });
+          }
+        }
+      });
+
+      /* 解析中的“查看相关时间轴条目”：在考试页上直接打开详情抽屉 */
+      examEl.addEventListener("click", (ev) => {
+        const button = ev.target.closest("[data-review-event]");
+        if (button) openDrawer(button.dataset.reviewEvent, button);
+      });
+
+      /* 初始化考试题库与当前视图 */
+      renderPapers();
+      showView(viewFromHash(), false);
     })();
   </script>
 </body>
