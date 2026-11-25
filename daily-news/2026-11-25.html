@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>The Daily Ledger — 25 November 2026</title>
+  <style>
+    :root {
+      --paper: #f4efe5;
+      --ink: #171512;
+      --muted: #625d54;
+      --rule: #28241f;
+      --wash: #e6ddca;
+      --wash-strong: #d9cbb2;
+      --accent: #7b2019;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+      --sans: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    html[data-theme="dark"] {
+      --paper: #171717;
+      --ink: #f0eadf;
+      --muted: #bdb5a8;
+      --rule: #d7cfc2;
+      --wash: #292723;
+      --wash-strong: #3a352e;
+      --accent: #e48d7f;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      background: var(--paper);
+      color: var(--ink);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, color-mix(in srgb, var(--paper) 96%, black 4%) 0, var(--paper) 9%, var(--paper) 91%, color-mix(in srgb, var(--paper) 96%, black 4%) 100%);
+      color: var(--ink);
+      font-family: var(--serif);
+      line-height: 1.52;
+      text-rendering: optimizeLegibility;
+    }
+
+    .edition {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding:
+        max(1rem, env(safe-area-inset-top))
+        max(1rem, env(safe-area-inset-right))
+        max(2rem, env(safe-area-inset-bottom))
+        max(1rem, env(safe-area-inset-left));
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: .55rem;
+      margin-bottom: .75rem;
+      font-family: var(--sans);
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid var(--rule);
+      background: transparent;
+      color: var(--ink);
+      min-height: 42px;
+      padding: .55rem .9rem;
+      font: 700 .78rem/1 var(--sans);
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    button:hover,
+    button:focus-visible {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .masthead {
+      text-align: center;
+      border-top: 5px solid var(--rule);
+      border-bottom: 6px double var(--rule);
+      padding: .5rem 0 .9rem;
+    }
+
+    .kicker {
+      margin: 0 0 .25rem;
+      font: 700 clamp(.66rem, 1.2vw, .82rem)/1.2 var(--sans);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(3.4rem, 10.7vw, 8.4rem);
+      font-weight: 900;
+      line-height: .8;
+      letter-spacing: -.055em;
+      text-transform: uppercase;
+    }
+
+    .strap {
+      max-width: 780px;
+      margin: .7rem auto 0;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-style: italic;
+    }
+
+    .dateline {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: .5rem 1.25rem;
+      margin: .85rem 0 1.25rem;
+      padding: .48rem 0;
+      border-bottom: 1px solid var(--rule);
+      font: 700 .72rem/1.3 var(--sans);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .section {
+      margin: 0 0 1.75rem;
+    }
+
+    .section-banner {
+      margin: 0 0 .9rem;
+      padding: .55rem .8rem;
+      background: var(--ink);
+      color: var(--paper);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      break-after: avoid;
+    }
+
+    .section-banner h2 {
+      margin: 0;
+      font: 900 clamp(1.45rem, 4vw, 2.55rem)/1 var(--serif);
+      letter-spacing: .045em;
+      text-transform: uppercase;
+    }
+
+    .section-banner span {
+      font: 700 .65rem/1.25 var(--sans);
+      letter-spacing: .11em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .story {
+      column-count: 2;
+      column-gap: 2rem;
+      column-rule: 1px solid color-mix(in srgb, var(--rule) 65%, transparent);
+      orphans: 3;
+      widows: 3;
+    }
+
+    .story > * {
+      margin-top: 0;
+    }
+
+    .headline,
+    .dek,
+    .byline,
+    .source,
+    .watch {
+      column-span: all;
+    }
+
+    .headline {
+      margin-bottom: .35rem;
+      font-size: clamp(2rem, 5vw, 4.15rem);
+      font-weight: 900;
+      line-height: .98;
+      letter-spacing: -.03em;
+      text-wrap: balance;
+    }
+
+    .dek {
+      margin-bottom: .45rem;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2.3vw, 1.45rem);
+      font-style: italic;
+      line-height: 1.3;
+    }
+
+    .byline {
+      margin-bottom: .95rem;
+      padding-bottom: .65rem;
+      border-bottom: 1px solid var(--rule);
+      font: 700 .7rem/1.4 var(--sans);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .story p {
+      margin: 0 0 .75rem;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .story p.dropcap::first-letter {
+      float: left;
+      margin: .08em .11em 0 0;
+      color: var(--accent);
+      font-size: 4.3em;
+      font-weight: 900;
+      line-height: .72;
+    }
+
+    .data-box {
+      break-inside: avoid;
+      margin: .25rem 0 1rem;
+      padding: .8rem .9rem;
+      border: 1px solid var(--rule);
+      border-top: 5px solid var(--rule);
+      background: var(--wash);
+      font-family: var(--sans);
+    }
+
+    .data-box h3 {
+      margin: 0 0 .45rem;
+      font-size: .78rem;
+      line-height: 1.2;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .data-box dl {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: .3rem .7rem;
+      margin: 0;
+      font-size: .79rem;
+      line-height: 1.25;
+    }
+
+    .data-box dt { font-weight: 700; }
+    .data-box dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+
+    .data-box small {
+      display: block;
+      margin-top: .55rem;
+      font-size: .62rem;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+
+    .watch {
+      margin: .2rem 0 .75rem;
+      padding: .68rem .8rem;
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--wash) 72%, transparent);
+      font-size: .93rem;
+      line-height: 1.35;
+      break-inside: avoid;
+    }
+
+    .source {
+      margin: .2rem 0 0;
+      padding-top: .6rem;
+      border-top: 1px solid var(--rule);
+      color: var(--muted);
+      font: 600 .66rem/1.45 var(--sans);
+      letter-spacing: .035em;
+    }
+
+    .inside {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+      padding: .9rem 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .inside p { margin: 0; }
+    .inside .lead { font-size: 1.12rem; }
+    .inside .note { color: var(--muted); font-style: italic; }
+
+    footer {
+      margin-top: 2rem;
+      padding-top: .8rem;
+      border-top: 5px double var(--rule);
+      font-family: var(--sans);
+      font-size: .69rem;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme]) {
+        --paper: #171717;
+        --ink: #f0eadf;
+        --muted: #bdb5a8;
+        --rule: #d7cfc2;
+        --wash: #292723;
+        --wash-strong: #3a352e;
+        --accent: #e48d7f;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .edition {
+        padding-left: max(.75rem, env(safe-area-inset-left));
+        padding-right: max(.75rem, env(safe-area-inset-right));
+      }
+
+      .controls { justify-content: stretch; }
+      .controls button { flex: 1 1 45%; }
+      .story { column-count: 1; }
+      .dateline { display: block; }
+      .dateline span { display: block; margin-top: .3rem; }
+      .section-banner { align-items: flex-start; flex-direction: column; gap: .35rem; }
+      .section-banner span { text-align: left; }
+      .inside { grid-template-columns: 1fr; }
+      .story p { text-align: left; }
+    }
+
+    @page {
+      size: A4;
+      margin: 11mm;
+    }
+
+    @media print {
+      .section + .section {
+        break-before: page;
+        page-break-before: always;
+      }
+      :root,
+      html,
+      html[data-theme],
+      html:not([data-theme]) {
+        --paper: #fff;
+        --ink: #000;
+        --muted: #222;
+        --rule: #000;
+        --wash: #eee;
+        --wash-strong: #ddd;
+        --accent: #000;
+        color-scheme: light;
+      }
+
+      html, body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+
+      body {
+        font-size: 9.65pt;
+        line-height: 1.34;
+      }
+
+      .edition {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+      }
+
+      .controls,
+      .inside {
+        display: none !important;
+      }
+
+      .masthead {
+        border-top-width: 3px;
+        border-bottom: 5px double #000;
+        padding-top: 0;
+      }
+
+      h1 {
+        font-size: 54pt;
+        line-height: .85;
+      }
+
+      .strap {
+        font-size: 10pt;
+      }
+
+      .dateline {
+        margin: 3mm 0 4mm;
+        font-size: 6.2pt;
+      }
+
+      .section { margin-bottom: 5mm; }
+
+      .section-banner {
+        margin-bottom: 3mm;
+        padding: 1.4mm 2mm;
+        break-after: avoid;
+      }
+
+      .section-banner h2 {
+        font-size: 17pt;
+      }
+
+      .section-banner span {
+        font-size: 5.8pt;
+      }
+
+      .story {
+        column-count: 2;
+        column-gap: 7mm;
+        column-rule: .4pt solid #000;
+      }
+
+      .headline {
+        font-size: 25pt;
+        line-height: 1;
+        break-after: avoid;
+      }
+
+      .dek {
+        font-size: 10pt;
+        break-after: avoid;
+      }
+
+      .byline {
+        font-size: 6pt;
+        margin-bottom: 2.5mm;
+      }
+
+      .story p {
+        font-size: 9.65pt;
+        text-align: justify;
+      }
+
+      .story p.dropcap::first-letter {
+        font-size: 4em;
+      }
+
+      .data-box {
+        border: .8pt solid #000;
+        border-top-width: 3pt;
+        background: #eee !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .data-box dl { font-size: 7.3pt; }
+      .data-box h3 { font-size: 7.2pt; }
+      .data-box small { font-size: 5.8pt; color: #222; }
+
+      .watch {
+        border-left: 2.5pt solid #000;
+        background: #f1f1f1 !important;
+        font-size: 8.6pt;
+        break-inside: avoid;
+      }
+
+      .source {
+        font-size: 6pt;
+        color: #222;
+      }
+
+      footer {
+        font-size: 6.2pt;
+        color: #222;
+      }
+    }
+
+    .subhead {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin: 1.15rem 0 .9rem;
+      padding-top: .9rem;
+      border-top: 5px double var(--rule);
+      break-before: avoid;
+    }
+    .subhead h2 {
+      margin: 0;
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    .subhead span {
+      font: 700 .65rem/1.25 var(--sans);
+      letter-spacing: .11em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+    @media (max-width: 700px) {
+      .subhead { align-items: flex-start; flex-direction: column; }
+      .subhead span { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <main class="edition">
+    <nav class="controls" aria-label="Edition controls">
+      <button type="button" id="theme-toggle">Dark theme</button>
+      <button type="button" onclick="window.print()">Print this edition</button>
+    </nav>
+    <header class="masthead">
+      <p class="kicker">Independent daily digest · Verified close to publication</p>
+      <h1>The Daily Ledger</h1>
+      <p class="strap">The world, the markets and the streets beyond the closing bell</p>
+    </header>
+    <div class="dateline">
+      <span>Wednesday, 25 November 2026</span>
+      <span>Edition compiled in London</span>
+      <span>All story times are stated at source</span>
+    </div>
+    <div class="inside">
+      <p class="lead"><strong>Today at a glance:</strong> Japanese chip shares lead another global retreat from AI risk, while Dell’s server backlog shows the infrastructure boom remains intense. A Houthi strike damages Riyadh’s financial district, and a new review finds the Met still institutionally discriminatory.</p>
+      <p class="note">This edition uses bylined reports with visible dates and articles that were opened and read in full. Market figures are labelled by session; official claims and unresolved damage reports are identified as such.</p>
+    </div>
+
+    <section class="section" aria-labelledby="markets">
+      <header class="section-banner">
+        <h2 id="markets">Markets &amp; Technology</h2>
+        <span>Wednesday markets · Asia session</span>
+      </header>
+
+      <article class="story" data-story="markets">
+        <h2 class="headline">Japan’s chip shares lead a fresh AI rout across Asia</h2>
+        <p class="dek">SoftBank falls 14% and major semiconductor suppliers drop by double digits as Wall Street’s latest reversal reaches the region’s technology trade.</p>
+        <p class="byline">Markets desk · CNBC report published 25 November 2026 at 00:52 GMT</p>
+        <p class="dropcap">Asian technology shares fell sharply on Wednesday after another reversal on Wall Street exposed how fragile the previous session’s AI rebound had been. Japanese semiconductor companies led the decline because they sit at several points in the supply chain linking chipmaking equipment, testing and Nvidia’s products. Advantest, which supplies chip-testing equipment to Nvidia, fell 12.7%, while Tokyo Electron, a supplier to Nvidia manufacturing partner TSMC, dropped 11.82%.</p>
+        <p>SoftBank Group shed 13.8%, and semiconductor-inspection company Lasertec lost 10.15%. Disco fell 9.41% and Renesas Electronics declined 9%. The moves showed that investors were not making a narrow judgment about one company. They were reducing exposure across companies whose revenue and valuations are tied to the pace of AI infrastructure spending, regardless of whether their direct ties run to Nvidia, TSMC or a broader portfolio of technology holdings.</p>
+        <p>South Korea’s memory-chip producers also suffered. Samsung Electronics and SK Hynix each fell more than 7%. Their high-bandwidth memory products are used in AI accelerators, making their earnings especially sensitive to the schedules of data-centre builders. LG Innotek lost 3.8%. In Taiwan, TSMC fell 6.73%, Hon Hai Precision Industry dropped 9.05% and Foxconn Technology lost 6.13%.</p>
+        <p>Some Chinese technology shares in Hong Kong moved the other way. Xiaomi rose 5.66%, Kuaishou gained 3.5%, Alibaba added 1.4% and Tencent gained 0.82%, while Meituan and Baidu slipped. The divergence may reflect company-specific expectations, but it also shows how difficult it is to treat “Asian tech” as one trade. Investors are separating businesses exposed to AI hardware demand from platforms whose earnings depend more heavily on domestic consumers.</p>
+        <p>The sell-off followed renewed questions about capital expenditure, returns on AI investment and the web of financing relationships among major technology companies. Jensen Huang’s removal and reinstatement at Nvidia have amplified those concerns because the company sits at the centre of the industry as supplier, investor and customer. A single political or leadership decision can now move semiconductor markets across several countries before the US session opens.</p>
+        <aside class="data-box" aria-label="Asia technology moves · Wednesday">
+          <h3>Asia technology moves · Wednesday</h3>
+          <dl><dt>SoftBank Group</dt><dd>−13.8%</dd><dt>Advantest</dt><dd>−12.7%</dd><dt>Tokyo Electron</dt><dd>−11.82%</dd><dt>Lasertec</dt><dd>−10.15%</dd><dt>Samsung Electronics</dt><dd>more than −7%</dd><dt>SK Hynix</dt><dd>more than −7%</dd><dt>TSMC</dt><dd>−6.73%</dd></dl>
+          <small>CNBC report published 25 November 2026. Figures are intraday at the publication time, not a closing snapshot.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch whether the sell-off broadens into a second day and whether Nvidia’s US trading stabilises; the region’s chip complex is now highly sensitive to Washington’s handling of the company.</p>
+        <p class="source">Source: CNBC, “SoftBank drops 14% as Wall Street AI sell-off ripples across Asian tech names,” by Lee Ying Shan, published 25 November 2026 and read in full.</p>
+      </article>
+      <div class="subhead">
+        <h2>Technology</h2>
+        <span>Infrastructure · Cybersecurity</span>
+      </div>
+
+      <article class="story" data-story="outages">
+        <h2 class="headline">Dell’s AI servers double sales and unlock a $25bn buyback</h2>
+        <p class="dek">Demand for machines built around Nvidia and AMD chips turns Dell into an infrastructure company, even as its PC business misses expectations.</p>
+        <p class="byline">Technology desk · CNBC report published 24 November 2026 at 21:29 GMT</p>
+        <p class="dropcap">Dell reported quarterly earnings and sales above Wall Street expectations and issued a fourth-quarter forecast well ahead of analyst estimates. Revenue more than doubled from a year earlier, powered by demand for servers designed to run artificial-intelligence workloads. The company also authorised $25 billion of share repurchases, a signal that management expects the AI infrastructure boom to generate enough cash to return capital while it continues investing.</p>
+        <p>Dell guided investors to fourth-quarter earnings of $8.40 a share on about $56.3 billion in revenue. Analysts surveyed by LSEG had expected $7.50 a share and $53.61 billion in revenue. Its Infrastructure Solutions Group, the division that builds AI servers and systems using chips from companies such as Nvidia and AMD, generated $41.97 billion in sales, far above the $35.27 billion consensus estimate.</p>
+        <p>AI-optimised servers produced $22 billion of that revenue, an increase of 291% from a year earlier. The infrastructure group now accounts for 85% of Dell’s total revenue. Chief operating officer Jeff Clarke said the company had 7,500 customers buying AI servers and argued that Dell could bring systems into operation within hours of delivery, allowing customers to convert backlog into revenue more quickly.</p>
+        <p>The order pipeline is large but also a source of risk. Dell raised its AI-server forecast for the coming fiscal year to $78 billion from $74 billion and said it had $132.3 billion of AI-server orders waiting to be filled. Clarke said every order was checked for access to capital, customer quality, trade and export compliance, land and power. Those qualifications show that AI demand now depends on financing and physical infrastructure, not merely on the desire to buy more computers.</p>
+        <p>The older personal-computer business was weaker. Dell’s Client Solutions Group reported $12.89 billion of sales, below the $14.33 billion expected, as higher memory prices pushed up device costs and consumers held on to older machines. The contrast explains Dell’s shift: its future is increasingly tied to data centres, while the PC market remains in a prolonged lull. Dell shares had already risen more than 135% this year before the results.</p>
+        <aside class="data-box" aria-label="Dell third-quarter results">
+          <h3>Dell third-quarter results</h3>
+          <dl><dt>Infrastructure revenue</dt><dd>$41.97bn</dd><dt>AI-server revenue</dt><dd>$22bn</dd><dt>AI-server annual growth</dt><dd>+291%</dd><dt>AI-server backlog</dt><dd>$132.3bn</dd><dt>FY2027 AI-server forecast</dt><dd>$78bn</dd><dt>New share-buyback authorisation</dt><dd>$25bn</dd></dl>
+          <small>CNBC report published 24 November 2026. Dell’s fiscal year and quarterly comparisons follow the company’s reporting.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch whether Dell converts its large backlog fast enough to meet guidance and whether rising memory costs keep dragging on PC sales; both will determine how smoothly the company completes its shift to infrastructure.</p>
+        <p class="source">Source: CNBC, “Dell earnings beat on AI strength, company authorizes $25 billion buyback,” by Kif Leswing, published 24 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="rates">
+      <header class="section-banner">
+        <h2 id="rates">Interest Rates &amp; Economy</h2>
+        <span>Household finance · Retirement savings</span>
+      </header>
+
+      <article class="story" data-story="rates">
+        <h2 class="headline">Trump Accounts pass $1bn in family and friend donations</h2>
+        <p class="dek">More than three million people have contributed to the children’s investment accounts, with total deposits now above $9 billion.</p>
+        <p class="byline">Economy desk · CNBC report published 24 November 2026 at 17:56 GMT</p>
+        <p class="dropcap">Families and friends have contributed more than $1 billion to Trump Accounts since the programme launched on 4 July, the US Treasury said. More than three million people have made those deposits. When government seed money and larger philanthropic gifts are included, total deposits exceed $9 billion. The accounts, formally known as 530A accounts, are open to any American child under 18 who has a Social Security number.</p>
+        <p>Parents, guardians, grandparents and others can combine to contribute up to $5,000 per child each year in after-tax money until the year before the beneficiary turns 18. The annual limit is indexed to inflation after 2027. Children born between 2025 and 2028 may receive a one-time $1,000 government deposit, and additional funds can depend on other criteria. Treasury Secretary Scott Bessent described the public response as evidence of generosity toward the next generation.</p>
+        <p>The programme is moving beyond cash. Temporary regulations issued at the end of September allow the accounts to receive donated stock. Treasury officials say that makes philanthropy easier because founders and shareholders can give appreciated shares without first selling them and triggering capital gains tax. The trade-off is that a child’s savings may become concentrated in the fortunes of a single company rather than a diversified portfolio.</p>
+        <p>Recent pledges illustrate the scale of that issue. Frank Slootman and his wife, Brenda, plan to give $1,000 to every child in Montana born in 2023 and 2024. A person briefed on the matter confirmed that Anthropic co-founder Tom Brown intends a large gift, while SpaceX president Gwynne Shotwell said she will donate about two million SpaceX shares. Elon Musk has separately said he wants to give every American child a share of SpaceX in 2027.</p>
+        <p>The accounts combine a savings policy, an inheritance-like transfer of private wealth and a new distribution channel for technology founders. Supporters see wider stock ownership and a long-term stake in economic growth. Critics may ask whether children’s benefits should depend on the decisions and market fortunes of a small group of donors, and whether families without wealthy connections will receive comparable sums. The Treasury’s figures measure deposits, not investment returns or fees.</p>
+        <aside class="data-box" aria-label="Trump Accounts">
+          <h3>Trump Accounts</h3>
+          <dl><dt>Family and friend donations</dt><dd>more than $1bn</dd><dt>Total deposits</dt><dd>more than $9bn</dd><dt>People contributing</dt><dd>more than 3 million</dd><dt>Annual family contribution cap</dt><dd>$5,000 per child</dd><dt>Government seed deposit</dt><dd>$1,000 for eligible births</dd><dt>Launch date</dt><dd>4 July 2026</dd></dl>
+          <small>CNBC report published 24 November 2026, citing US Treasury figures. Total deposits include government and philanthropic money.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch the next Treasury disclosures for the share of accounts receiving private donations and how donated shares are diversified; concentration is the main difference between this programme and a conventional savings account.</p>
+        <p class="source">Source: CNBC, “Trump Account contributions from friends and family pass $1 billion mark, Treasury says,” by Jessica Dickler and Kate Dore, published 24 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="world">
+      <header class="section-banner">
+        <h2 id="world">World</h2>
+        <span>Saudi Arabia · Regional conflict</span>
+      </header>
+
+      <article class="story" data-story="world">
+        <h2 class="headline">Houthi strike damages Riyadh financial tower and injures 11</h2>
+        <p class="dek">The second attack on the Public Investment Fund tower in six days widens the war’s reach into the Saudi capital’s financial district.</p>
+        <p class="byline">World desk · CNBC report published 25 November 2026 at 02:30 GMT</p>
+        <p class="dropcap">A Houthi attack damaged a tower used by Saudi Arabia’s Public Investment Fund in Riyadh and injured 11 people, according to the kingdom’s civil defence directorate and witness reports cited by CNBC. The injured included two Saudi citizens, two Indians, three Nepalis and four Egyptians. The Saudi-led coalition called the strike on the financial centre a terrorist attack and said an investigation was under way.</p>
+        <p>It was the second Houthi attack on the tower in six days, although the earlier incident caused no casualties. Eyewitness accounts reported by Al Jazeera identified the damaged building as the PIF Tower. The fund is a central vehicle for Saudi Crown Prince Mohammed bin Salman’s economic diversification programme, making the location a symbolic as well as physical target in the conflict.</p>
+        <p>The strike occurred against a widening campaign. The Iran-aligned Houthis said they had attacked a Saudi oil refinery on Sunday. They have also launched drones and ballistic missiles at airports, including King Khalid International Airport on 25 October. On Wednesday, a Houthi military spokesman warned that Jeddah and every Saudi Red Sea port would become targets if Riyadh attacked the Yemeni port of Hodeidah.</p>
+        <p>The Saudi-led coalition asked civilians to leave Hodeidah’s port on 20 November for their safety, a warning that preceded the latest escalation. The conflict involves Yemen’s internationally recognised government, which was forced to flee the capital in 2015, and the Houthi movement that now controls large parts of the north. Gulf states have been drawn in through air defences, shipping lanes and the movement’s missile and drone capacity.</p>
+        <p>Bahrain also reported an attack by Iranian-linked forces over the weekend. Its interior ministry said a civilian industrial facility was hit and a fire broke out; one Bahraini citizen and one Pakistani resident were injured. Bahrain hosts the US Navy’s Fifth Fleet, so an attack there adds military significance to a conflict already affecting airports, ports, refineries and the political headquarters of Saudi economic policy.</p>
+        <aside class="data-box" aria-label="Riyadh tower attack">
+          <h3>Riyadh tower attack</h3>
+          <dl><dt>Injured</dt><dd>11</dd><dt>Saudi citizens injured</dt><dd>2</dd><dt>Indian citizens injured</dt><dd>2</dd><dt>Nepali citizens injured</dt><dd>3</dd><dt>Egyptian citizens injured</dt><dd>4</dd><dt>Attacks on tower in six days</dt><dd>2</dd></dl>
+          <small>CNBC report published 25 November 2026. Building identification came from witness accounts; the civil-defence directorate did not name the tower.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch whether the Houthis follow through on threats against Saudi Red Sea ports and whether the coalition moves against Hodeidah; either step could affect shipping, oil facilities and civilian access.</p>
+        <p class="source">Source: CNBC, “Houthi attack on Saudi Arabian sovereign wealth fund PIF’s tower injures 11,” by Lim Hui Jie, published 25 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="us">
+      <header class="section-banner">
+        <h2 id="us">United States</h2>
+        <span>Nvidia · Corporate governance</span>
+      </header>
+
+      <article class="story" data-story="us">
+        <h2 class="headline">Huang apologises to staff and rejects a succession plan</h2>
+        <p class="dek">Nvidia’s reinstated chief executive admits he hurt employees, while saying the company’s internal structure makes a conventional succession plan unnecessary.</p>
+        <p class="byline">US desk · CNBC report published 24 November 2026 at 19:24 GMT</p>
+        <p class="dropcap">Jensen Huang used his first employee meeting since returning as Nvidia’s chief executive to apologise and promise to do better. According to people familiar with the internal event, he told staff that he had let them down and was sorry for what he had done. Huang resigned on 12 November after multiple reported affairs, including one with a Chinese businesswoman alleged to be a spy for Beijing, and returned through a board decision that received input from senior US government officials.</p>
+        <p>The meeting addressed the human consequences of a corporate crisis that had become a national-security and market event. Huang thanked chief financial officer Colette Kress for serving as interim chief executive and described the session as one of the hardest meetings of his life. He also said he was receiving therapy. The remarks were reported indirectly because attendees spoke on condition of anonymity, and Nvidia did not immediately respond to requests for comment.</p>
+        <p>The governance question remains succession. Huang told workers that Nvidia did not need a conventional succession plan because its business model spreads responsibility among several capable leaders who run different parts of the company. He argued that imposing a formal hierarchy would create unnecessary structure. That position may reassure employees who see him as the architect of Nvidia’s rise, but it is unlikely to satisfy investors worried about how quickly the company became dependent on one executive.</p>
+        <p>The board reinstated him after receiving assurances about any national-security risk. President Donald Trump later said he helped persuade the board. Nvidia shares rose more than 30% when the return was announced, reversing part of the prior week’s collapse, then fell again on Tuesday. The sequence shows how rapidly investors cycle between relief that the company has its founder back and anxiety that the leadership crisis exposed deeper governance and information gaps.</p>
+        <p>No public evidence has shown that a permanent replacement was considered. Nvidia’s board chair previously said Huang resigned for personal conduct inconsistent with the company’s code. Reinstatement without a disclosed review of that decision leaves two questions open: whether the board’s governance response was adequate, and whether the company can reassure customers and governments without a publicly defined succession process.</p>
+        <aside class="data-box" aria-label="Nvidia leadership timeline">
+          <h3>Nvidia leadership timeline</h3>
+          <dl><dt>Huang resigns</dt><dd>12 November</dd><dt>Huang reinstated</dt><dd>23 November</dd><dt>Share move on return</dt><dd>more than +30%</dd><dt>Share move next session</dt><dd>fell</dd><dt>Public succession plan</dt><dd>none announced</dd></dl>
+          <small>CNBC report published 24 November 2026. Internal meeting details came from people present who requested anonymity.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch whether the board publishes a governance review or succession framework in response to investor pressure; continued ambiguity will make every future absence or controversy a market event.</p>
+        <p class="source">Source: CNBC, “Jensen Huang tells staff that Nvidia doesn’t need a succession plan,” by Kif Leswing and Seema Mody, published 24 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="uk">
+      <header class="section-banner">
+        <h2 id="uk">United Kingdom</h2>
+        <span>London · Policing</span>
+      </header>
+
+      <article class="story" data-story="uk">
+        <h2 class="headline">Review says the Met remains institutionally discriminatory</h2>
+        <p class="dek">Three years after the Casey report, inspectors find none of its recommendations has seen good progress and warn further scandals are highly likely.</p>
+        <p class="byline">UK desk · Metro report published 25 November 2026 at 00:02 GMT</p>
+        <p class="dropcap">The Metropolitan Police remains institutionally racist, misogynistic and homophobic, according to an independent review published three years after Baroness Louise Casey’s examination of the force. Dr Gillian Fairfield was asked to assess progress after the 2021 murder of Sarah Everard by serving officer Wayne Couzens. Her review found that the Met had demonstrated some of the best and worst policing but had not made good progress on any of Casey’s recommendations.</p>
+        <p>The review said the underlying systemic issues remained and that it had heard evidence disturbingly similar to the Casey findings. Although the force had taken steps on racism, it still struggled to treat discrimination as a structural problem rather than something that could be trained away. Fairfield’s team found that difficult issues were too often managed as reputational threats rather than opportunities for learning.</p>
+        <p>Women in the workforce and the public remain unconvinced by change. One officer told reviewers that predatory behaviour toward younger women and recruits persisted. Trust among LGBT+ communities had not improved since the catastrophic failures surrounding serial killer Stephen Port, and the report said officers still sometimes blamed victims or made false assumptions about them. Fairfield said she was shocked by how many LGBT+ people would not report crimes to police.</p>
+        <p>The report described institutional defensiveness as deeply embedded. It found no adequate change in the Met’s tendency to seek positive spin, blame individual “bad apples,” treat official inquiries as box-ticking and overstate progress. Less than half of staff, 44%, felt confident raising concerns about a senior officer; 17% were not confident at all. About half of people who experienced bullying or harassment did not report it, and two thirds of those who did said no action followed.</p>
+        <p>The Met accepted the recommendations. Commissioner Sir Mark Rowley said 1,800 officers and staff had been removed during an integrity overhaul and pointed to lower violence, stronger criminal-justice outcomes for sexual-violence victims and a safer London. Mayor Sadiq Khan said the report should not be spun or cherry-picked and urged senior leaders to reflect with humility. The force cannot claim progress while denying the structural problems identified by both reviews, he argued.</p>
+        <aside class="data-box" aria-label="Met review findings">
+          <h3>Met review findings</h3>
+          <dl><dt>Casey report published</dt><dd>2023</dd><dt>Recommendations with good progress</dt><dd>none</dd><dt>Staff removed in standards drive</dt><dd>1,800</dd><dt>Confident raising senior-officer concerns</dt><dd>44%</dd><dt>Not confident at all</dt><dd>17%</dd><dt>Unreported bullying or harassment</dt><dd>about half</dd></dl>
+          <small>Metro report published 25 November 2026, quoting the Fairfield Review and responses from the Met and mayor.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch which recommendations the force publishes as completed, how quickly its new misconduct systems produce outcomes and whether independent oversight is given enough access to verify the claimed cultural change.</p>
+        <p class="source">Source: Metro, “More Met Police scandals ‘highly likely’ and force still racist, report says,” published 25 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <footer>
+      <strong>Editorial note.</strong> Stories were selected only when the complete article could be read and its publication time checked. Figures retain their source dates and attribution. Market moves are labelled by session, internal corporate accounts are identified as anonymous sourcing, and witness identification of the damaged Riyadh tower is separated from the official statement. No unverified political round-up was added merely to fill the UK section.
+    </footer>
+  </main>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const button = document.getElementById("theme-toggle");
+      const media = window.matchMedia("(prefers-color-scheme: dark)");
+      const current = () => root.dataset.theme || (media.matches ? "dark" : "light");
+      const label = () => { button.textContent = current() === "dark" ? "Light theme" : "Dark theme"; };
+      button.addEventListener("click", () => {
+        root.dataset.theme = current() === "dark" ? "light" : "dark";
+        label();
+      });
+      media.addEventListener("change", label);
+      label();
+    })();
+  </script>
+</body>
+</html>
