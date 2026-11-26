@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>The Daily Ledger — 26 November 2026</title>
+  <style>
+    :root {
+      --paper: #f4efe5;
+      --ink: #171512;
+      --muted: #625d54;
+      --rule: #28241f;
+      --wash: #e6ddca;
+      --wash-strong: #d9cbb2;
+      --accent: #7b2019;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+      --sans: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    html[data-theme="dark"] {
+      --paper: #171717;
+      --ink: #f0eadf;
+      --muted: #bdb5a8;
+      --rule: #d7cfc2;
+      --wash: #292723;
+      --wash-strong: #3a352e;
+      --accent: #e48d7f;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      background: var(--paper);
+      color: var(--ink);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, color-mix(in srgb, var(--paper) 96%, black 4%) 0, var(--paper) 9%, var(--paper) 91%, color-mix(in srgb, var(--paper) 96%, black 4%) 100%);
+      color: var(--ink);
+      font-family: var(--serif);
+      line-height: 1.52;
+      text-rendering: optimizeLegibility;
+    }
+
+    .edition {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding:
+        max(1rem, env(safe-area-inset-top))
+        max(1rem, env(safe-area-inset-right))
+        max(2rem, env(safe-area-inset-bottom))
+        max(1rem, env(safe-area-inset-left));
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: .55rem;
+      margin-bottom: .75rem;
+      font-family: var(--sans);
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid var(--rule);
+      background: transparent;
+      color: var(--ink);
+      min-height: 42px;
+      padding: .55rem .9rem;
+      font: 700 .78rem/1 var(--sans);
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    button:hover,
+    button:focus-visible {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .masthead {
+      text-align: center;
+      border-top: 5px solid var(--rule);
+      border-bottom: 6px double var(--rule);
+      padding: .5rem 0 .9rem;
+    }
+
+    .kicker {
+      margin: 0 0 .25rem;
+      font: 700 clamp(.66rem, 1.2vw, .82rem)/1.2 var(--sans);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(3.4rem, 10.7vw, 8.4rem);
+      font-weight: 900;
+      line-height: .8;
+      letter-spacing: -.055em;
+      text-transform: uppercase;
+    }
+
+    .strap {
+      max-width: 780px;
+      margin: .7rem auto 0;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-style: italic;
+    }
+
+    .dateline {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: .5rem 1.25rem;
+      margin: .85rem 0 1.25rem;
+      padding: .48rem 0;
+      border-bottom: 1px solid var(--rule);
+      font: 700 .72rem/1.3 var(--sans);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .section {
+      margin: 0 0 1.75rem;
+    }
+
+    .section-banner {
+      margin: 0 0 .9rem;
+      padding: .55rem .8rem;
+      background: var(--ink);
+      color: var(--paper);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      break-after: avoid;
+    }
+
+    .section-banner h2 {
+      margin: 0;
+      font: 900 clamp(1.45rem, 4vw, 2.55rem)/1 var(--serif);
+      letter-spacing: .045em;
+      text-transform: uppercase;
+    }
+
+    .section-banner span {
+      font: 700 .65rem/1.25 var(--sans);
+      letter-spacing: .11em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .story {
+      column-count: 2;
+      column-gap: 2rem;
+      column-rule: 1px solid color-mix(in srgb, var(--rule) 65%, transparent);
+      orphans: 3;
+      widows: 3;
+    }
+
+    .story > * {
+      margin-top: 0;
+    }
+
+    .headline,
+    .dek,
+    .byline,
+    .source,
+    .watch {
+      column-span: all;
+    }
+
+    .headline {
+      margin-bottom: .35rem;
+      font-size: clamp(2rem, 5vw, 4.15rem);
+      font-weight: 900;
+      line-height: .98;
+      letter-spacing: -.03em;
+      text-wrap: balance;
+    }
+
+    .dek {
+      margin-bottom: .45rem;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2.3vw, 1.45rem);
+      font-style: italic;
+      line-height: 1.3;
+    }
+
+    .byline {
+      margin-bottom: .95rem;
+      padding-bottom: .65rem;
+      border-bottom: 1px solid var(--rule);
+      font: 700 .7rem/1.4 var(--sans);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .story p {
+      margin: 0 0 .75rem;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .story p.dropcap::first-letter {
+      float: left;
+      margin: .08em .11em 0 0;
+      color: var(--accent);
+      font-size: 4.3em;
+      font-weight: 900;
+      line-height: .72;
+    }
+
+    .data-box {
+      break-inside: avoid;
+      margin: .25rem 0 1rem;
+      padding: .8rem .9rem;
+      border: 1px solid var(--rule);
+      border-top: 5px solid var(--rule);
+      background: var(--wash);
+      font-family: var(--sans);
+    }
+
+    .data-box h3 {
+      margin: 0 0 .45rem;
+      font-size: .78rem;
+      line-height: 1.2;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .data-box dl {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: .3rem .7rem;
+      margin: 0;
+      font-size: .79rem;
+      line-height: 1.25;
+    }
+
+    .data-box dt { font-weight: 700; }
+    .data-box dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+
+    .data-box small {
+      display: block;
+      margin-top: .55rem;
+      font-size: .62rem;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+
+    .watch {
+      margin: .2rem 0 .75rem;
+      padding: .68rem .8rem;
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--wash) 72%, transparent);
+      font-size: .93rem;
+      line-height: 1.35;
+      break-inside: avoid;
+    }
+
+    .source {
+      margin: .2rem 0 0;
+      padding-top: .6rem;
+      border-top: 1px solid var(--rule);
+      color: var(--muted);
+      font: 600 .66rem/1.45 var(--sans);
+      letter-spacing: .035em;
+    }
+
+    .inside {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+      padding: .9rem 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .inside p { margin: 0; }
+    .inside .lead { font-size: 1.12rem; }
+    .inside .note { color: var(--muted); font-style: italic; }
+
+    footer {
+      margin-top: 2rem;
+      padding-top: .8rem;
+      border-top: 5px double var(--rule);
+      font-family: var(--sans);
+      font-size: .69rem;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme]) {
+        --paper: #171717;
+        --ink: #f0eadf;
+        --muted: #bdb5a8;
+        --rule: #d7cfc2;
+        --wash: #292723;
+        --wash-strong: #3a352e;
+        --accent: #e48d7f;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .edition {
+        padding-left: max(.75rem, env(safe-area-inset-left));
+        padding-right: max(.75rem, env(safe-area-inset-right));
+      }
+
+      .controls { justify-content: stretch; }
+      .controls button { flex: 1 1 45%; }
+      .story { column-count: 1; }
+      .dateline { display: block; }
+      .dateline span { display: block; margin-top: .3rem; }
+      .section-banner { align-items: flex-start; flex-direction: column; gap: .35rem; }
+      .section-banner span { text-align: left; }
+      .inside { grid-template-columns: 1fr; }
+      .story p { text-align: left; }
+    }
+
+    @page {
+      size: A4;
+      margin: 11mm;
+    }
+
+    @media print {
+      .section + .section {
+        break-before: page;
+        page-break-before: always;
+      }
+      :root,
+      html,
+      html[data-theme],
+      html:not([data-theme]) {
+        --paper: #fff;
+        --ink: #000;
+        --muted: #222;
+        --rule: #000;
+        --wash: #eee;
+        --wash-strong: #ddd;
+        --accent: #000;
+        color-scheme: light;
+      }
+
+      html, body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+
+      body {
+        font-size: 9.65pt;
+        line-height: 1.34;
+      }
+
+      .edition {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+      }
+
+      .controls,
+      .inside {
+        display: none !important;
+      }
+
+      .masthead {
+        border-top-width: 3px;
+        border-bottom: 5px double #000;
+        padding-top: 0;
+      }
+
+      h1 {
+        font-size: 54pt;
+        line-height: .85;
+      }
+
+      .strap {
+        font-size: 10pt;
+      }
+
+      .dateline {
+        margin: 3mm 0 4mm;
+        font-size: 6.2pt;
+      }
+
+      .section { margin-bottom: 5mm; }
+
+      .section-banner {
+        margin-bottom: 3mm;
+        padding: 1.4mm 2mm;
+        break-after: avoid;
+      }
+
+      .section-banner h2 {
+        font-size: 17pt;
+      }
+
+      .section-banner span {
+        font-size: 5.8pt;
+      }
+
+      .story {
+        column-count: 2;
+        column-gap: 7mm;
+        column-rule: .4pt solid #000;
+      }
+
+      .headline {
+        font-size: 25pt;
+        line-height: 1;
+        break-after: avoid;
+      }
+
+      .dek {
+        font-size: 10pt;
+        break-after: avoid;
+      }
+
+      .byline {
+        font-size: 6pt;
+        margin-bottom: 2.5mm;
+      }
+
+      .story p {
+        font-size: 9.65pt;
+        text-align: justify;
+      }
+
+      .story p.dropcap::first-letter {
+        font-size: 4em;
+      }
+
+      .data-box {
+        border: .8pt solid #000;
+        border-top-width: 3pt;
+        background: #eee !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .data-box dl { font-size: 7.3pt; }
+      .data-box h3 { font-size: 7.2pt; }
+      .data-box small { font-size: 5.8pt; color: #222; }
+
+      .watch {
+        border-left: 2.5pt solid #000;
+        background: #f1f1f1 !important;
+        font-size: 8.6pt;
+        break-inside: avoid;
+      }
+
+      .source {
+        font-size: 6pt;
+        color: #222;
+      }
+
+      footer {
+        font-size: 6.2pt;
+        color: #222;
+      }
+    }
+
+    .subhead {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin: 1.15rem 0 .9rem;
+      padding-top: .9rem;
+      border-top: 5px double var(--rule);
+      break-before: avoid;
+    }
+    .subhead h2 {
+      margin: 0;
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    .subhead span {
+      font: 700 .65rem/1.25 var(--sans);
+      letter-spacing: .11em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+    @media (max-width: 700px) {
+      .subhead { align-items: flex-start; flex-direction: column; }
+      .subhead span { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <main class="edition">
+    <nav class="controls" aria-label="Edition controls">
+      <button type="button" id="theme-toggle">Dark theme</button>
+      <button type="button" onclick="window.print()">Print this edition</button>
+    </nav>
+    <header class="masthead">
+      <p class="kicker">Independent daily digest · Verified close to publication</p>
+      <h1>The Daily Ledger</h1>
+      <p class="strap">The world, the markets and the streets beyond the closing bell</p>
+    </header>
+    <div class="dateline">
+      <span>Thursday, 26 November 2026</span>
+      <span>Edition compiled in London</span>
+      <span>All story times are stated at source</span>
+    </div>
+    <div class="inside">
+      <p class="lead"><strong>Today at a glance:</strong> Global markets attempt a rebound after another AI sell-off, while S&P reviews Nvidia’s credit rating over governance risk. South Korea raises rates, North Korea rejects denuclearisation, and London begins a two-day Tube strike.</p>
+      <p class="note">This edition uses bylined reports with visible dates and articles that were opened and read in full. Market figures are labelled by session; official claims and unresolved damage reports are identified as such.</p>
+    </div>
+
+    <section class="section" aria-labelledby="markets">
+      <header class="section-banner">
+        <h2 id="markets">Markets &amp; Technology</h2>
+        <span>Thursday markets · Asia and Europe</span>
+      </header>
+
+      <article class="story" data-story="markets">
+        <h2 class="headline">Bargain hunters return after another AI-driven sell-off</h2>
+        <p class="dek">Global equities rebound as chip stocks recover and investors decide the latest US tariffs are less severe than feared.</p>
+        <p class="byline">Markets desk · CNBC report published 25 November 2026 at 23:48 GMT</p>
+        <p class="dropcap">Global stocks staged a tentative recovery on Thursday after a fresh AI-led sell-off, with investors returning to technology shares and other sectors in search of bargains. US cash markets were closed for Thanksgiving, leaving Europe and Asia to set the tone. In Europe, the Stoxx 600 rose 1.6% by 9:24am London time, with every major bourse higher. Germany’s DAX led with a 2% gain and the regional technology index climbed 2.4%.</p>
+        <p>The rebound followed a bruising month for AI equities. The Stoxx technology index had lost about 12% in November as investors questioned spending, returns and the circular financing links between chipmakers and AI developers. On Thursday, German chip company Infineon gained more than 4%, while ASMI and ASML each added 2.8% and BE Semiconductor rose 3%. The recovery suggested that investors were willing to buy selective exposure rather than abandon the sector altogether.</p>
+        <p>Asian-Pacific markets joined the move. South Korea’s Kospi closed 0.29% higher at 4,711.21, while the Kosdaq gained 0.78% to 655.71. Japan’s Nikkei rose 0.86% to 57,499.16 and the Topix added 0.11%. Australia’s S&P/ASX 200 gained 0.82% to 8,763.8. Hong Kong’s Hang Seng was up 1.52% late in its session, while mainland China’s CSI 300 finished marginally higher at 3,900.55.</p>
+        <p>Japanese technology names led the regional rebound. SoftBank Group rose more than 7%, Advantest gained 4.57% and Tokyo Electron added 0.59%. South Korean memory producers SK Hynix and Samsung gained more than 2% and 0.35% respectively. The reversal followed Wednesday’s sharp losses, when investors reconsidered whether AI infrastructure spending could justify the valuations assigned to the companies supplying chips, equipment and data centres.</p>
+        <p>The improved mood did not erase the risks. Oil prices were rising, US inflation data reinforced expectations of further Federal Reserve tightening and Washington had proposed tariffs on more than a dozen trading partners. Daniela Hathorn of Capital.com said markets were cautious rather than uniformly optimistic, while Russ Mould of AJ Bell warned investors not to become complacent about inflation or retaliation against the tariffs. Thursday’s rally was a search for value, not a declaration that the sell-off was over.</p>
+        <aside class="data-box" aria-label="Thursday market moves">
+          <h3>Thursday market moves</h3>
+          <dl><dt>Stoxx 600</dt><dd>+1.6%</dd><dt>DAX</dt><dd>+2.0%</dd><dt>Kospi close</dt><dd>4,711.21</dd><dt>Nikkei close</dt><dd>57,499.16</dd><dt>ASX 200 close</dt><dd>8,763.8</dd><dt>CSI 300 close</dt><dd>3,900.55</dd></dl>
+          <small>CNBC report published 25 November 2026. European figures were intraday at 9:24am London time; Asian indices are closing values.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch Friday’s shortened US session for confirmation that the rebound can survive Wall Street’s return, and whether oil and tariff retaliation begin to weigh on the recovery.</p>
+        <p class="source">Source: CNBC, “Global stocks rally as investors shrug off U.S. tariffs and AI jitters to ‘fish for bargains’,” by Chloe Taylor and Lee Ying Shan, published 25 November 2026 and read in full.</p>
+      </article>
+      <div class="subhead">
+        <h2>Technology</h2>
+        <span>Infrastructure · Cybersecurity</span>
+      </div>
+
+      <article class="story" data-story="outages">
+        <h2 class="headline">S&P puts Nvidia’s AA credit rating on negative watch</h2>
+        <p class="dek">The agency says the board’s handling of Jensen Huang’s resignation and return exposed weaknesses in independence, succession and executive oversight.</p>
+        <p class="byline">Technology desk · CNBC report published 26 November 2026 at 02:57 GMT</p>
+        <p class="dropcap">S&P Global Ratings placed Nvidia’s AA credit rating on a negative watch, warning that the company could be cut by one notch if it fails to address weaknesses in management and governance. The agency said questions around chief executive Jensen Huang’s conduct and potential export-control violations exposed vulnerabilities in the board’s structure and effectiveness. A downgrade would take the rating to AA-, still investment grade but more expensive for a company with a large bond programme.</p>
+        <p>Nvidia currently has about $32.5 billion of bonds in the US high-grade corporate index, according to Bloomberg. It priced $25 billion of senior notes in June, with maturities stretching from 2028 to 2056, shortly after S&P upgraded the company. A lower credit rating can reduce bond prices, increase borrowing yields and raise the cost of financing the data-centre and chip investments that underpin the company’s growth.</p>
+        <p>The review follows a governance crisis rather than a deterioration in Nvidia’s immediate operating results. Huang resigned on 12 November after multiple reported affairs, including one with a Chinese businesswoman alleged to be a spy, and the board reinstated him less than two weeks later after receiving input from senior federal officials. S&P said the reversal did not resolve questions about oversight of executive conduct or produce a credible succession plan.</p>
+        <p>The agency highlighted the unusually long tenure of several directors. Chairman Harvey Jones and early investor Tench Coxe have served since 1993, while Brooke Seawell joined in 1997. S&P said those tenures could compromise independence and that it was not aware of remedial action to address management and governance deficiencies. It also raised concerns about geopolitical risk and internal controls linked to Nvidia’s exposure to China.</p>
+        <p>S&P plans to meet the board and management to discuss board independence, management oversight and succession. Moody’s had already changed its Nvidia outlook to stable from positive on 18 November and kept it there after Huang’s return. Nvidia shares rose as much as 36% during Monday’s session but were down about 12.5% from that close by the time of the report, showing how quickly confidence gained from the reinstatement was being questioned.</p>
+        <aside class="data-box" aria-label="Nvidia credit watch">
+          <h3>Nvidia credit watch</h3>
+          <dl><dt>Current S&P rating</dt><dd>AA</dd><dt>Potential downgrade</dt><dd>AA−</dd><dt>Review window</dt><dd>90 days</dd><dt>US investment-grade bonds</dt><dd>about $32.5bn</dd><dt>June bond sale</dt><dd>$25bn</dd><dt>Shares from Monday close</dt><dd>about −12.5%</dd></dl>
+          <small>CNBC report published 26 November 2026. A negative watch is a warning, not a downgrade.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch whether Nvidia publishes concrete board changes or a succession framework before S&P completes its review; a ratings cut would turn the governance crisis into a measurable financing cost.</p>
+        <p class="source">Source: CNBC, “S&P warns Nvidia credit rating could be cut over ‘rising’ management and governance risk,” by Shikhar Gupta, published 26 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="rates">
+      <header class="section-banner">
+        <h2 id="rates">Interest Rates &amp; Economy</h2>
+        <span>South Korea · Monetary policy</span>
+      </header>
+
+      <article class="story" data-story="rates">
+        <h2 class="headline">Bank of Korea lifts rates to a two-year high</h2>
+        <p class="dek">Strong growth and inflation above target give the central bank room for another quarter-point increase, with more tightening left open.</p>
+        <p class="byline">Economy desk · CNBC report published 26 November 2026 at 00:54 GMT</p>
+        <p class="dropcap">South Korea’s central bank raised its benchmark rate by 25 basis points to 3.25%, the highest level in two years, as inflation remained above target and strong growth gave policymakers room to tighten. The Bank of Korea said it expected consumer-price pressure to stay above 2% for a considerable period because of past cost increases and gradually strengthening demand. Inflation stood at 2.8% in October.</p>
+        <p>The decision was unanimous with economist expectations and came at the central bank’s final meeting of the year. The Bank of Korea also raised its growth forecasts to 3.9% for 2026 and 4.1% for 2027, up from 3.3% and 2.9% in August. Third-quarter GDP had grown 3.4% from a year earlier, beating expectations and supporting the case for another rate rise.</p>
+        <p>Governor Shin Hyun-song said the upgraded projections reflected the growing weight of the information-technology sector as an engine of the Korean economy. Operating profits in the semiconductor industry could reach 700 trillion won, he said, according to the Yonhap news agency. He signalled that more increases were possible, though he avoided committing to a specific timetable.</p>
+        <p>The central bank has raised rates by 75 basis points over five months as the Iran war increased energy costs and the AI boom lifted demand for chips and related equipment. Higher rates could cool property prices and household borrowing, but they also risk slowing parts of the economy after an unusually strong year. Gareth Leather of Capital Economics argued the tightening cycle might be nearing its end, saying the Bank of Korea was more likely to use targeted property measures than further aggressive rate rises.</p>
+        <p>Markets took the decision in stride. The Kospi rose 1.88% after the announcement and the won strengthened, reducing some imported inflation pressure. The contrast with the United States is notable: Federal Reserve officials are debating how quickly to tighten further while South Korea is already tightening into strong growth. Both face the same question of whether technology investment is creating durable demand or a market boom that central banks must lean against.</p>
+        <aside class="data-box" aria-label="Bank of Korea decision">
+          <h3>Bank of Korea decision</h3>
+          <dl><dt>Policy rate</dt><dd>3.25%</dd><dt>Increase</dt><dd>+25bp</dd><dt>October inflation</dt><dd>2.8%</dd><dt>2026 growth forecast</dt><dd>3.9%</dd><dt>2027 growth forecast</dt><dd>4.1%</dd><dt>Rates raised in five months</dt><dd>75bp</dd></dl>
+          <small>CNBC report published 25 November 2026, citing the Bank of Korea and Yonhap.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch Korean inflation, household credit and property prices for signs that another increase is needed; a cooling chip cycle would weaken the growth argument for further tightening.</p>
+        <p class="source">Source: CNBC, “South Korea upgrades growth forecast, raises benchmark rates to highest in two years,” by Lim Hui Jie, published 25 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="world">
+      <header class="section-banner">
+        <h2 id="world">World</h2>
+        <span>North Korea · Nuclear policy</span>
+      </header>
+
+      <article class="story" data-story="world">
+        <h2 class="headline">Kim calls for tactical nuclear weapons to be operationalised</h2>
+        <p class="dek">Pyongyang says its nuclear status is permanent while the IAEA reports that another expansion at Yongbyon was completed externally.</p>
+        <p class="byline">World desk · CNBC report published 26 November 2026 at 05:14 GMT</p>
+        <p class="dropcap">North Korean leader Kim Jong Un called for a larger nuclear arsenal and for tactical nuclear weapons to be used across more military domains, according to state media. After visiting nuclear-material production and weapons-research facilities, he said Pyongyang must focus on operationalising those weapons for a wider range of missions. The report did not identify the sites visited or publish production figures.</p>
+        <p>Kim tied the programme to what he described as threats from adversary states and military alliances, singling out South Korea because it shares a border with North Korea. He rejected denuclearisation language and said the country’s nuclear status, written into its supreme law, would never change. North Korea has accelerated weapons development and refused dialogue with Washington and Seoul since negotiations between Kim and President Donald Trump collapsed in 2019.</p>
+        <p>The declaration followed an assessment by the International Atomic Energy Agency that another extension to Yongbyon’s original uranium-enrichment facility appeared to have been completed externally by late October. The nuclear watchdog has had no access to North Korea since 2009 and relies on satellite imagery and open-source intelligence, so its conclusions describe visible construction rather than verified production or weapons inventories.</p>
+        <p>Kim accused the United States of encouraging regional allies to acquire nuclear-powered submarines and pursue nuclear-sharing arrangements. South Korea has announced plans to seek nuclear-powered submarines after Trump backed the proposal in October 2025. Nuclear propulsion does not itself mean a vessel carries nuclear weapons, but the plans have added to regional suspicion and given Pyongyang another argument for expanding its own forces.</p>
+        <p>Trump said recently that he would be interested in meeting Kim again and denied that the North Korean leader had ignored his earlier offer. Kim’s public comments contained no response to that overture. The gap between a personal diplomatic pitch and North Korea’s formal commitment to permanent armament is now the central obstacle: Washington seeks denuclearisation, while Pyongyang describes the weapons as non-negotiable.</p>
+        <aside class="data-box" aria-label="North Korea nuclear signals">
+          <h3>North Korea nuclear signals</h3>
+          <dl><dt>IAEA access to North Korea</dt><dd>none since 2009</dd><dt>Yongbyon expansion reported completed</dt><dd>late October</dd><dt>Trump-Kim talks collapsed</dt><dd>2019</dd><dt>South Korean nuclear-submarine plan backed</dt><dd>October 2025</dd><dt>Site locations disclosed</dt><dd>none</dd></dl>
+          <small>CNBC report published 26 November 2026. State-media claims and IAEA satellite findings are attributed separately.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch for satellite evidence of new Yongbyon construction, any North Korean missile or nuclear test and whether Washington renews a serious diplomatic offer without demanding pre-emptive disarmament.</p>
+        <p class="source">Source: CNBC, “North Korea’s Kim calls for nuclear arsenal expansion, says status ‘will never change’,” by Matthew Tan, published 26 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="us">
+      <header class="section-banner">
+        <h2 id="us">United States</h2>
+        <span>Children’s savings · Private stock</span>
+      </header>
+
+      <article class="story" data-story="us">
+        <h2 class="headline">SpaceX pledges a share to every active Trump Account</h2>
+        <p class="dek">Elon Musk will match the corporate donation, placing private equity inside a government-created savings scheme for American children.</p>
+        <p class="byline">US desk · CNBC report published 25 November 2026 at 20:07 GMT</p>
+        <p class="dropcap">SpaceX said it would donate one share of its class A stock to every active Trump Account, with chief executive Elon Musk personally matching the gift. The company framed the move as a way to give the next generation ownership of the infrastructure it is building. Musk said the corporate share would transfer in December, while his personal share would follow when his lock-up expires in June.</p>
+        <p>The White House said in October that nearly 70 million Trump Accounts had been created, including more than 60 million through automatic enrolment, but it is unclear how many are active. Children under 18 with a Social Security number are eligible. Contributions from family, friends and employers require an account to be claimed, while auto-enrolled children may receive philanthropic donations without a guardian claiming the account.</p>
+        <p>Families can contribute up to $5,000 per child each year in after-tax money. Children born from 2025 through 2028 may also receive a one-time $1,000 government deposit, and total deposits in the programme have already passed $9 billion. Treasury rules introduced in September allow accounts to hold donated stock. That can help wealthy donors avoid capital gains tax on appreciated shares and gives children a stake in a specific company, but it also concentrates their savings.</p>
+        <p>Recipients cannot refuse stock donated to a Trump Account and generally cannot sell it until five years have passed or the calendar year in which they turn 17 ends, whichever comes earlier. SpaceX chief operating officer Gwynne Shotwell previously promised more than two million shares from her own holdings, with eligible account holders due to receive them in December. Other technology founders and companies are also preparing large gifts.</p>
+        <p>SpaceX shares have faced pricing pressure while the company negotiates a possible merger with Tesla. Two special committees and outside advisers are examining the potential deal. The donation therefore creates overlapping questions about corporate philanthropy, private-market valuation and whether children’s government-sponsored savings should be tied to a company whose ownership and value may change through a merger before the shares become freely sellable.</p>
+        <aside class="data-box" aria-label="SpaceX Trump Account pledge">
+          <h3>SpaceX Trump Account pledge</h3>
+          <dl><dt>Corporate gift</dt><dd>one Class A share</dd><dt>Musk personal match</dt><dd>one share</dd><dt>Corporate transfer target</dt><dd>December 2026</dd><dt>Musk transfer timing</dt><dd>after June lock-up</dd><dt>Shotwell pledge</dt><dd>over 2 million shares</dd><dt>Stock sale restriction</dt><dd>earlier of 5 years or age 17</dd></dl>
+          <small>CNBC report published 25 November 2026. The number of active accounts had not been disclosed.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch the December transfer and the SpaceX-Tesla merger talks; both will determine what the donated shares are actually worth and whether children can diversify before the lock-up ends.</p>
+        <p class="source">Source: CNBC, “SpaceX, Musk pledge to donate a share each to active Trump Accounts,” by Lora Kolodny, published 25 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="uk">
+      <header class="section-banner">
+        <h2 id="uk">United Kingdom</h2>
+        <span>London · Transport</span>
+      </header>
+
+      <article class="story" data-story="uk">
+        <h2 class="headline">First of eight Tube strikes closes key lines for two days</h2>
+        <p class="dek">Talks fail and London faces disruption from 10am today, with the Piccadilly, Circle and Waterloo & City lines most severely affected.</p>
+        <p class="byline">UK desk · Time Out London report published 26 November 2026 at 06:32 GMT</p>
+        <p class="dropcap">The first of eight RMT strikes began at midday on Thursday and will run until just before midnight on Friday, disrupting the London Underground for two days. Talks between the union and London Underground failed on Tuesday. Transport for London warned that service would be affected across the network, with the Piccadilly, Circle and Waterloo & City lines facing the most severe closures. Disruption was expected from about 10am on Thursday until 6pm on Friday.</p>
+        <p>The dispute concerns new working arrangements, including a proposed four-day week for drivers. The RMT says the plans would undermine negotiated agreements, lengthen and destabilise shifts and require more time behind the controls. Nick Dent, London Underground’s customer operations director, said the revised proposal gives drivers a genuine choice between four- and five-day patterns without forcing them to change depots and should create more efficient, reliable service.</p>
+        <p>RMT general secretary Eddie Dempsey rejected that framing. He said the issue was not opposition to a shorter week in principle but the conditions attached to this version, which he argued would intensify work, reduce flexibility and leave fewer staff carrying more duties. The union has called for the proposals to be withdrawn and for negotiations to resume on terms it considers consistent with a genuine four-day week.</p>
+        <p>Most Underground lines will run a reduced service, while the Elizabeth line, DLR, London Overground and bus network are expected to operate normally but with heavier demand. Interchange access at stations shared with the Underground may be reduced. Travellers to Heathrow can use the Elizabeth line or Heathrow Express instead of the Piccadilly line, while the Overground offers alternatives to several underground routes.</p>
+        <p>Seven further 24-hour strikes are planned over the next three months, including dates in December, January and February. The immediate practical advice is to check each journey, allow extra time and avoid relying on interchange at central stations that normally depend on the affected lines. The broader question is whether a two-day stoppage will create enough pressure for both sides to compromise before the Christmas timetable.</p>
+        <aside class="data-box" aria-label="London Tube strike">
+          <h3>London Tube strike</h3>
+          <dl><dt>Current stoppage</dt><dd>26–27 November</dd><dt>Starts</dt><dd>midday Thursday</dd><dt>Expected disruption</dt><dd>10am Thursday–6pm Friday</dd><dt>Most affected lines</dt><dd>Piccadilly, Circle, Waterloo & City</dd><dt>Further planned strikes</dt><dd>seven</dd><dt>Normal alternatives</dt><dd>Elizabeth line, DLR, Overground, buses</dd></dl>
+          <small>Time Out London report published 26 November 2026. Service plans may change and passengers should check TfL before travelling.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch Friday-evening recovery and whether the December dates remain in place; a settlement now would avoid further disruption to Christmas travel, retail and hospitality.</p>
+        <p class="source">Source: Time Out London, “November 2026 tube strikes: How to get around London during RMT industrial action today,” published 26 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <footer>
+      <strong>Editorial note.</strong> Stories were selected only when the complete article could be read and its publication time checked. Figures retain their source dates and attribution. Market moves are labelled by session, credit-watch language is not presented as a downgrade, and North Korean state-media claims are attributed to KCNA. No unverified political round-up was added merely to fill the UK section.
+    </footer>
+  </main>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const button = document.getElementById("theme-toggle");
+      const media = window.matchMedia("(prefers-color-scheme: dark)");
+      const current = () => root.dataset.theme || (media.matches ? "dark" : "light");
+      const label = () => { button.textContent = current() === "dark" ? "Light theme" : "Dark theme"; };
+      button.addEventListener("click", () => {
+        root.dataset.theme = current() === "dark" ? "light" : "dark";
+        label();
+      });
+      media.addEventListener("change", label);
+      label();
+    })();
+  </script>
+</body>
+</html>
