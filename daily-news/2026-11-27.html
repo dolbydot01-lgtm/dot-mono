@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>The Daily Ledger — 27 November 2026</title>
+  <style>
+    :root {
+      --paper: #f4efe5;
+      --ink: #171512;
+      --muted: #625d54;
+      --rule: #28241f;
+      --wash: #e6ddca;
+      --wash-strong: #d9cbb2;
+      --accent: #7b2019;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+      --sans: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    html[data-theme="dark"] {
+      --paper: #171717;
+      --ink: #f0eadf;
+      --muted: #bdb5a8;
+      --rule: #d7cfc2;
+      --wash: #292723;
+      --wash-strong: #3a352e;
+      --accent: #e48d7f;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      background: var(--paper);
+      color: var(--ink);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, color-mix(in srgb, var(--paper) 96%, black 4%) 0, var(--paper) 9%, var(--paper) 91%, color-mix(in srgb, var(--paper) 96%, black 4%) 100%);
+      color: var(--ink);
+      font-family: var(--serif);
+      line-height: 1.52;
+      text-rendering: optimizeLegibility;
+    }
+
+    .edition {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding:
+        max(1rem, env(safe-area-inset-top))
+        max(1rem, env(safe-area-inset-right))
+        max(2rem, env(safe-area-inset-bottom))
+        max(1rem, env(safe-area-inset-left));
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: .55rem;
+      margin-bottom: .75rem;
+      font-family: var(--sans);
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid var(--rule);
+      background: transparent;
+      color: var(--ink);
+      min-height: 42px;
+      padding: .55rem .9rem;
+      font: 700 .78rem/1 var(--sans);
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    button:hover,
+    button:focus-visible {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .masthead {
+      text-align: center;
+      border-top: 5px solid var(--rule);
+      border-bottom: 6px double var(--rule);
+      padding: .5rem 0 .9rem;
+    }
+
+    .kicker {
+      margin: 0 0 .25rem;
+      font: 700 clamp(.66rem, 1.2vw, .82rem)/1.2 var(--sans);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(3.4rem, 10.7vw, 8.4rem);
+      font-weight: 900;
+      line-height: .8;
+      letter-spacing: -.055em;
+      text-transform: uppercase;
+    }
+
+    .strap {
+      max-width: 780px;
+      margin: .7rem auto 0;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-style: italic;
+    }
+
+    .dateline {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: .5rem 1.25rem;
+      margin: .85rem 0 1.25rem;
+      padding: .48rem 0;
+      border-bottom: 1px solid var(--rule);
+      font: 700 .72rem/1.3 var(--sans);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .section {
+      margin: 0 0 1.75rem;
+    }
+
+    .section-banner {
+      margin: 0 0 .9rem;
+      padding: .55rem .8rem;
+      background: var(--ink);
+      color: var(--paper);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      break-after: avoid;
+    }
+
+    .section-banner h2 {
+      margin: 0;
+      font: 900 clamp(1.45rem, 4vw, 2.55rem)/1 var(--serif);
+      letter-spacing: .045em;
+      text-transform: uppercase;
+    }
+
+    .section-banner span {
+      font: 700 .65rem/1.25 var(--sans);
+      letter-spacing: .11em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .story {
+      column-count: 2;
+      column-gap: 2rem;
+      column-rule: 1px solid color-mix(in srgb, var(--rule) 65%, transparent);
+      orphans: 3;
+      widows: 3;
+    }
+
+    .story > * {
+      margin-top: 0;
+    }
+
+    .headline,
+    .dek,
+    .byline,
+    .source,
+    .watch {
+      column-span: all;
+    }
+
+    .headline {
+      margin-bottom: .35rem;
+      font-size: clamp(2rem, 5vw, 4.15rem);
+      font-weight: 900;
+      line-height: .98;
+      letter-spacing: -.03em;
+      text-wrap: balance;
+    }
+
+    .dek {
+      margin-bottom: .45rem;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2.3vw, 1.45rem);
+      font-style: italic;
+      line-height: 1.3;
+    }
+
+    .byline {
+      margin-bottom: .95rem;
+      padding-bottom: .65rem;
+      border-bottom: 1px solid var(--rule);
+      font: 700 .7rem/1.4 var(--sans);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .story p {
+      margin: 0 0 .75rem;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .story p.dropcap::first-letter {
+      float: left;
+      margin: .08em .11em 0 0;
+      color: var(--accent);
+      font-size: 4.3em;
+      font-weight: 900;
+      line-height: .72;
+    }
+
+    .data-box {
+      break-inside: avoid;
+      margin: .25rem 0 1rem;
+      padding: .8rem .9rem;
+      border: 1px solid var(--rule);
+      border-top: 5px solid var(--rule);
+      background: var(--wash);
+      font-family: var(--sans);
+    }
+
+    .data-box h3 {
+      margin: 0 0 .45rem;
+      font-size: .78rem;
+      line-height: 1.2;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .data-box dl {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: .3rem .7rem;
+      margin: 0;
+      font-size: .79rem;
+      line-height: 1.25;
+    }
+
+    .data-box dt { font-weight: 700; }
+    .data-box dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+
+    .data-box small {
+      display: block;
+      margin-top: .55rem;
+      font-size: .62rem;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+
+    .watch {
+      margin: .2rem 0 .75rem;
+      padding: .68rem .8rem;
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--wash) 72%, transparent);
+      font-size: .93rem;
+      line-height: 1.35;
+      break-inside: avoid;
+    }
+
+    .source {
+      margin: .2rem 0 0;
+      padding-top: .6rem;
+      border-top: 1px solid var(--rule);
+      color: var(--muted);
+      font: 600 .66rem/1.45 var(--sans);
+      letter-spacing: .035em;
+    }
+
+    .inside {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+      padding: .9rem 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .inside p { margin: 0; }
+    .inside .lead { font-size: 1.12rem; }
+    .inside .note { color: var(--muted); font-style: italic; }
+
+    footer {
+      margin-top: 2rem;
+      padding-top: .8rem;
+      border-top: 5px double var(--rule);
+      font-family: var(--sans);
+      font-size: .69rem;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme]) {
+        --paper: #171717;
+        --ink: #f0eadf;
+        --muted: #bdb5a8;
+        --rule: #d7cfc2;
+        --wash: #292723;
+        --wash-strong: #3a352e;
+        --accent: #e48d7f;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .edition {
+        padding-left: max(.75rem, env(safe-area-inset-left));
+        padding-right: max(.75rem, env(safe-area-inset-right));
+      }
+
+      .controls { justify-content: stretch; }
+      .controls button { flex: 1 1 45%; }
+      .story { column-count: 1; }
+      .dateline { display: block; }
+      .dateline span { display: block; margin-top: .3rem; }
+      .section-banner { align-items: flex-start; flex-direction: column; gap: .35rem; }
+      .section-banner span { text-align: left; }
+      .inside { grid-template-columns: 1fr; }
+      .story p { text-align: left; }
+    }
+
+    @page {
+      size: A4;
+      margin: 11mm;
+    }
+
+    @media print {
+      .section + .section {
+        break-before: page;
+        page-break-before: always;
+      }
+      :root,
+      html,
+      html[data-theme],
+      html:not([data-theme]) {
+        --paper: #fff;
+        --ink: #000;
+        --muted: #222;
+        --rule: #000;
+        --wash: #eee;
+        --wash-strong: #ddd;
+        --accent: #000;
+        color-scheme: light;
+      }
+
+      html, body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+
+      body {
+        font-size: 9.65pt;
+        line-height: 1.34;
+      }
+
+      .edition {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+      }
+
+      .controls,
+      .inside {
+        display: none !important;
+      }
+
+      .masthead {
+        border-top-width: 3px;
+        border-bottom: 5px double #000;
+        padding-top: 0;
+      }
+
+      h1 {
+        font-size: 54pt;
+        line-height: .85;
+      }
+
+      .strap {
+        font-size: 10pt;
+      }
+
+      .dateline {
+        margin: 3mm 0 4mm;
+        font-size: 6.2pt;
+      }
+
+      .section { margin-bottom: 5mm; }
+
+      .section-banner {
+        margin-bottom: 3mm;
+        padding: 1.4mm 2mm;
+        break-after: avoid;
+      }
+
+      .section-banner h2 {
+        font-size: 17pt;
+      }
+
+      .section-banner span {
+        font-size: 5.8pt;
+      }
+
+      .story {
+        column-count: 2;
+        column-gap: 7mm;
+        column-rule: .4pt solid #000;
+      }
+
+      .headline {
+        font-size: 25pt;
+        line-height: 1;
+        break-after: avoid;
+      }
+
+      .dek {
+        font-size: 10pt;
+        break-after: avoid;
+      }
+
+      .byline {
+        font-size: 6pt;
+        margin-bottom: 2.5mm;
+      }
+
+      .story p {
+        font-size: 9.65pt;
+        text-align: justify;
+      }
+
+      .story p.dropcap::first-letter {
+        font-size: 4em;
+      }
+
+      .data-box {
+        border: .8pt solid #000;
+        border-top-width: 3pt;
+        background: #eee !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .data-box dl { font-size: 7.3pt; }
+      .data-box h3 { font-size: 7.2pt; }
+      .data-box small { font-size: 5.8pt; color: #222; }
+
+      .watch {
+        border-left: 2.5pt solid #000;
+        background: #f1f1f1 !important;
+        font-size: 8.6pt;
+        break-inside: avoid;
+      }
+
+      .source {
+        font-size: 6pt;
+        color: #222;
+      }
+
+      footer {
+        font-size: 6.2pt;
+        color: #222;
+      }
+    }
+
+    .subhead {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin: 1.15rem 0 .9rem;
+      padding-top: .9rem;
+      border-top: 5px double var(--rule);
+      break-before: avoid;
+    }
+    .subhead h2 {
+      margin: 0;
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    .subhead span {
+      font: 700 .65rem/1.25 var(--sans);
+      letter-spacing: .11em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+    @media (max-width: 700px) {
+      .subhead { align-items: flex-start; flex-direction: column; }
+      .subhead span { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <main class="edition">
+    <nav class="controls" aria-label="Edition controls">
+      <button type="button" id="theme-toggle">Dark theme</button>
+      <button type="button" onclick="window.print()">Print this edition</button>
+    </nav>
+    <header class="masthead">
+      <p class="kicker">Independent daily digest · Verified close to publication</p>
+      <h1>The Daily Ledger</h1>
+      <p class="strap">The world, the markets and the streets beyond the closing bell</p>
+    </header>
+    <div class="dateline">
+      <span>Friday, 27 November 2026</span>
+      <span>Edition compiled in London</span>
+      <span>All story times are stated at source</span>
+    </div>
+    <div class="inside">
+      <p class="lead"><strong>Today at a glance:</strong> Wall Street’s correction deepens the debate over recession risk, SAP reportedly weighs 10,000 job cuts and a stronger GDP revision pressures the Fed. Missile debris kills two Italians in Kuwait, while record US car prices leave room for selective bargains and London’s Tube strike enters a second day.</p>
+      <p class="note">This edition uses bylined reports with visible dates and articles that were opened and read in full. Market figures are labelled by session; official claims and unresolved damage reports are identified as such.</p>
+    </div>
+
+    <section class="section" aria-labelledby="markets">
+      <header class="section-banner">
+        <h2 id="markets">Markets &amp; Technology</h2>
+        <span>Friday markets · S&P correction</span>
+      </header>
+
+      <article class="story" data-story="markets">
+        <h2 class="headline">Wall Street’s correction is not yet a recession signal</h2>
+        <p class="dek">The S&P 500 has fallen more than 10% from its record, but economists say history does not require a bear market or a downturn to follow.</p>
+        <p class="byline">Markets desk · CNBC report published 27 November 2026 at 12:06 GMT</p>
+        <p class="dropcap">The S&P 500 entered correction territory on 20 November for the first time since April 2025. The index fell 3.7% that day to 6,910.39, its seventh consecutive decline, leaving it 11.6% below the record close of 7,818.93 on 6 October. Investors were responding to anxiety about AI spending, the valuations of megacap technology companies and the Federal Reserve’s rate path.</p>
+        <p>A correction technically means a decline of at least 10% from a recent high. A bear market requires a fall of 20%. Neither event automatically means the economy has entered recession. CNBC reviewed 13 S&P 500 bear markets and found that eight overlapped with recessions recognised by the National Bureau of Economic Research, while five did not. The 1987 crash and the 2022 sell-off were prominent examples that did not coincide with an official downturn.</p>
+        <p>Deutsche Bank strategist Henry Allen said every bear market since the 1962 Kennedy Slide shared at least one of three conditions: an actual recession, deteriorating economic data that raised fears of one, or a cycle of Federal Reserve rate increases. He argued that none of those conditions was present so far in the current episode. The US flash composite purchasing managers’ index stood at 54.6 in November, above 50 and consistent with continuing business expansion.</p>
+        <p>Markets also have not priced a sudden hawkish shift. Investors expect another quarter-point Fed increase at the 9 December meeting, but they price fewer increases through September 2027 than they did on 6 October, when the S&P 500 reached its high. That modestly dovish change sits awkwardly with the usual pattern in which a sharp rise in rate expectations accompanies a prolonged equity decline.</p>
+        <p>The distinction matters for investors because a correction can end without becoming a full bear market. It also matters to the real economy because falling share prices can reduce household wealth and business confidence, creating the very slowdown that investors fear. For now, the evidence points to a market repricing rather than an economy in contraction; the question is whether the response to AI valuations and higher rates will remain contained.</p>
+        <aside class="data-box" aria-label="S&P 500 correction">
+          <h3>S&P 500 correction</h3>
+          <dl><dt>October record close</dt><dd>7,818.93</dd><dt>20 November close</dt><dd>6,910.39</dd><dt>Decline from record</dt><dd>11.6%</dd><dt>20 November daily fall</dt><dd>3.7%</dd><dt>Consecutive losing sessions</dt><dd>7</dd></dl>
+          <small>CNBC report published 27 November 2026. The prices are closing levels for 20 November and 6 October.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch whether the S&P 500 breaches 20% below its record and whether credit spreads, unemployment claims or consumer spending deteriorate alongside it; price declines alone do not define a recession.</p>
+        <p class="source">Source: CNBC, “The S&P 500 is in a correction. Bear markets and recessions don’t always follow,” by Deena Zaidi, published 27 November 2026 and read in full.</p>
+      </article>
+      <div class="subhead">
+        <h2>Technology</h2>
+        <span>Infrastructure · Cybersecurity</span>
+      </div>
+
+      <article class="story" data-story="outages">
+        <h2 class="headline">SAP reportedly weighs cutting at least 10,000 jobs</h2>
+        <p class="dek">The German software group is reviewing its workforce as it reorganises around artificial intelligence—while separately reporting a cyberattack.</p>
+        <p class="byline">Technology desk · CNBC report published 27 November 2026 at 06:36 GMT</p>
+        <p class="dropcap">SAP is preparing a restructuring plan that could eliminate at least 10,000 positions as it reshapes its software business for the AI era, according to Bloomberg. The German company employs more than 110,000 people. It said the business environment was changing rapidly because of AI and that it regularly reviewed whether its organisation and workforce remained suited to the market, while insisting no final decision had been made.</p>
+        <p>Bloomberg reported that every department had been asked to identify possible reductions, with product, engineering and sales receiving particular attention. SAP underwent a similar reorganisation in 2024, eliminating about 10,000 roles mainly through voluntary departures and retraining. Headcount later stayed roughly flat as it hired people into new positions, making the net effect of any fresh programme uncertain.</p>
+        <p>The company’s CEO, Christian Klein, is pushing an AI-first strategy. SAP completed four acquisitions this year—Reltio, Dremio, Prior Labs and TechWolf—and invested in AI businesses including Parloa, n8n and Conduct. The purchases support organising corporate data, developing business-information models and analysing workforce skills. That strategy explains why job reductions could coincide with hiring in areas tied to AI products.</p>
+        <p>The announcement also arrived alongside a disclosure that SAP had detected suspicious activity in its systems. The company said it took protective measures and had found no evidence that customer business data was accessed without authorisation. A security incident can intensify pressure on an enterprise software provider because customers trust it with payroll, procurement, finance and other sensitive corporate records.</p>
+        <p>SAP is not alone in linking workforce change to AI. WiseTech, Atlassian and Cloudflare have announced cuts while increasing investment in AI. In the US, employers attributed 121,401 announced job cuts to AI through October, about 20% of the total tracked by Challenger, Gray & Christmas. The pattern challenges the simple claim that AI will either replace workers or create more jobs: companies are altering roles, buying capabilities and reorganising at the same time.</p>
+        <aside class="data-box" aria-label="SAP restructuring">
+          <h3>SAP restructuring</h3>
+          <dl><dt>Potential job cuts</dt><dd>at least 10,000</dd><dt>Current global employees</dt><dd>more than 110,000</dd><dt>Prior cuts</dt><dd>about 10,000 in 2024</dd><dt>2026 acquisitions</dt><dd>4</dd><dt>US AI-attributed job cuts through October</dt><dd>121,401</dd></dl>
+          <small>CNBC report published 27 November 2026, citing Bloomberg and company statements. SAP said no final decision had been made.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch whether SAP discloses net headcount rather than gross cuts, and whether the reported security incident expands beyond the initial suspicious activity; both will determine the real cost of the restructuring.</p>
+        <p class="source">Source: CNBC, “German software major SAP is reportedly weighing cutting at least 10,000 jobs in AI push,” by Shikhar Gupta, published 27 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="rates">
+      <header class="section-banner">
+        <h2 id="rates">Interest Rates &amp; Economy</h2>
+        <span>US growth · Federal Reserve</span>
+      </header>
+
+      <article class="story" data-story="rates">
+        <h2 class="headline">A stronger GDP revision sharpens the case for higher rates</h2>
+        <p class="dek">Third-quarter growth was revised to 4.3%, reinforcing the economy’s resilience and pushing market expectations towards two more Fed increases.</p>
+        <p class="byline">Economy desk · CNBC report published 26 November 2026 at 17:57 GMT</p>
+        <p class="dropcap">The US economy grew at a 4.3% annualised rate in the third quarter, a sharp upward revision from the initial 3.4% estimate. The Commerce Department’s stronger figure showed that growth accelerated from the second quarter and that consumer spending and business investment remained surprisingly resilient despite elevated interest rates. The revision was released on Wednesday, the day before Thanksgiving.</p>
+        <p>President Donald Trump called the revision a “record setting error” and demanded an investigation. He suggested the initial figure could have influenced the midterm elections, when Democrats won control of both chambers of Congress and several governorships. The Commerce Department subsequently said revisions were routine, arising from more complete survey responses after the first estimate, and that GDP figures are updated repeatedly over a five-year period.</p>
+        <p>The 0.9 percentage-point change was not unprecedented. It was the largest revision since the second quarter of 2020 but tied for 16th among revisions from the advance estimate to the second release since 1990. It was approximately double the average revision of 0.43 percentage points across 147 quarters. By the final revision, the average absolute change from the second release has historically been 1.14 percentage points.</p>
+        <p>The revised growth rate changes the policy debate more than the statistical argument does. Jim Baird of Plante Moran Financial Advisors said the economy was performing well, but its resilience strengthened the case for further Federal Reserve rate increases. Traders priced a nearly 100% chance of a 25-basis-point increase at the December meeting and anticipated another increase in January, according to the CME FedWatch tool.</p>
+        <p>The immediate puzzle is how inflation can be brought down without breaking an economy that is growing strongly. Faster growth makes it harder for the Fed to argue that restrictive policy can be eased, while higher rates increase mortgage, credit-card and business borrowing costs. The revised GDP figures do not prove inflation will persist, but they make a swift pivot towards lower rates much less likely.</p>
+        <aside class="data-box" aria-label="US GDP and rate expectations">
+          <h3>US GDP and rate expectations</h3>
+          <dl><dt>Third-quarter GDP, revised</dt><dd>4.3%</dd><dt>Initial estimate</dt><dd>3.4%</dd><dt>Revision</dt><dd>+0.9 percentage points</dd><dt>Average revision since 1990</dt><dd>0.43 points</dd><dt>Market chance of December increase</dt><dd>nearly 100%</dd></dl>
+          <small>CNBC report published 26 November 2026. GDP rates are annualised; Fed pricing is from CME FedWatch, not an FOMC decision.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch the next inflation report and the 9 December Fed meeting; a strong growth print accompanied by sticky inflation would make another increase in January more likely.</p>
+        <p class="source">Source: CNBC, “Trump demands probe into ‘record setting error’ after third-quarter GDP data gets massive revision higher,” by Sean Conlon and Steve Liesman, published 26 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="world">
+      <header class="section-banner">
+        <h2 id="world">World</h2>
+        <span>Kuwait · Regional conflict</span>
+      </header>
+
+      <article class="story" data-story="world">
+        <h2 class="headline">Italian civilians killed as drone debris hits Kuwait</h2>
+        <p class="dek">Kuwait blames Iranian attacks, Tehran denies involvement and Israel says it is ready to strike Iran without US forces.</p>
+        <p class="byline">World desk · CNBC report published 27 November 2026 at 03:30 GMT</p>
+        <p class="dropcap">Kuwait’s army said two Italian civilians were killed by debris from missiles it attributed to Iranian attacks, while two other people were injured. The deaths occurred on Thursday and added a European civilian toll to a conflict that had already disrupted Gulf shipping, airports and industrial sites. Italy’s foreign ministry had been in contact with Kuwaiti authorities, and the identities and circumstances of the victims were not immediately detailed.</p>
+        <p>Iran’s military denied conducting offensive operations in the area and described the accusations as a pretext to escalate regional insecurity. Foreign Minister Abbas Araghchi said he had spoken to his Italian counterpart, expressed regret for the deaths and insisted Tehran had no involvement. He called the incident suspicious, offered cooperation with an investigation and warned that it looked like a justification for war.</p>
+        <p>The competing accounts leave the cause unresolved. Kuwait says the fatalities came from falling debris during attacks; Iran denies responsibility. An independent technical assessment would need to establish the missiles’ origin, trajectory and target. The diplomatic exchange matters because an attack that kills citizens of a NATO and European Union member raises pressure for a wider response even when the host government is not a belligerent.</p>
+        <p>Israel’s military spokesman said the country was prepared to strike Iran at any moment, even without US forces joining. That statement followed remarks by US envoy Jared Kushner that Israel needed to move beyond a permanent wartime mindset. Reuters had reported that Israeli intelligence chief Roman Gofman pressed US officials for joint strikes earlier in November, showing how the war has become entangled with disagreements inside the alliance.</p>
+        <p>President Donald Trump said the United States had victory at hand and that the conflict would end whenever he decided, while maintaining that Washington was giving Iran a chance to reach a deal. He did not describe terms acceptable to either side. The gap between claims of imminent victory and continuing attacks on Gulf territory leaves civilians, shipping crews and governments in the region exposed to escalation without a clear diplomatic endpoint.</p>
+        <aside class="data-box" aria-label="Kuwait attack">
+          <h3>Kuwait attack</h3>
+          <dl><dt>Italians killed</dt><dd>2</dd><dt>Other people injured</dt><dd>2</dd><dt>Kuwait’s attribution</dt><dd>Iranian attacks</dd><dt>Iran’s position</dt><dd>denies involvement</dd><dt>Date of incident</dt><dd>Thursday, 26 November</dd></dl>
+          <small>CNBC report published 27 November 2026. Responsibility and the missiles’ origin were disputed and not independently established.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch the Kuwait-Italy investigation and whether European governments treat the deaths as a direct attack; that judgment could widen the conflict beyond the US, Israel and Iran.</p>
+        <p class="source">Source: CNBC, “Two Italians killed in Kuwait drone attack; Trump says Iran war ends ‘whenever I want it’,” by Lim Hui Jie, published 27 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="us">
+      <header class="section-banner">
+        <h2 id="us">United States</h2>
+        <span>Consumer prices · Auto market</span>
+      </header>
+
+      <article class="story" data-story="us">
+        <h2 class="headline">A record $51,109 new-car price hides cheaper deals</h2>
+        <p class="dek">Average transaction prices reach a new high, but compact cars and aging inventory offer buyers alternatives well below the headline figure.</p>
+        <p class="byline">US desk · CNBC report published 27 November 2026 at 13:15 GMT</p>
+        <p class="dropcap">The average transaction price paid for a new vehicle in the US reached a record $51,109 in October, up 2.1% from a year earlier. The figure excludes incentives, taxes and fees, and reflects a market tilted towards large, well-equipped pickups and SUVs. It also represents a 34% increase from October 2019, when the average was $38,259, according to Kelley Blue Book.</p>
+        <p>The headline average does not describe every buyer. Three of the five highest-volume vehicle categories—compact and subcompact SUVs and compact cars—sold well below it. The average compact car cost $28,030. Sales of vehicles priced between roughly $28,000 and $38,000 rose 9.6% year on year, showing that many consumers are choosing smaller or less expensive models rather than leaving the market.</p>
+        <p>Dealers still have room to bargain. Automakers have delayed the rollout of some 2027 models because 2026 vehicles continue to sell at current prices. In October, 76% of new-vehicle sales were current-year models, compared with 59% a year earlier. As newer inventory arrives, manufacturers and dealers may offer stronger incentives to clear older stock, though waiting until the final week of December does not guarantee a better price.</p>
+        <p>Some discounts are substantial. A 2026 Nissan Pathfinder with a starting price of $41,565 carried a $5,000 rebate for qualified buyers through 30 November, according to Cars.com. Cars that have stayed on a dealer lot for 60 to 90 days can also be bargaining targets because dealerships want to clear aged inventory. Edmunds said new vehicles took an average of 58 days to sell in September.</p>
+        <p>The financing market adds another layer. A three-year-old vehicle sold for an average of $32,039 in the third quarter—3.1% above a year earlier but roughly $16,562 below its original sticker price, a record dollar gap. Buyers trading in vehicles after three years can still owe more than the car is worth, and rolling that negative equity into a new loan makes the effective purchase more expensive even when the listed price looks manageable.</p>
+        <aside class="data-box" aria-label="US new-car market">
+          <h3>US new-car market</h3>
+          <dl><dt>Average new-car price</dt><dd>$51,109</dd><dt>Annual increase</dt><dd>+2.1%</dd><dt>Average compact car</dt><dd>$28,030</dd><dt>2019 average</dt><dd>$38,259</dd><dt>Average days to sell</dt><dd>58</dd><dt>3-year-old average price</dt><dd>$32,039</dd></dl>
+          <small>CNBC report published 27 November 2026, using Kelley Blue Book, Edmunds, Cox Automotive and Cars.com data.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch year-end incentives and interest rates rather than the headline average alone; financing costs can erase a discount, especially when negative equity is rolled into a new loan.</p>
+        <p class="source">Source: CNBC, “New car prices are at a record high. Here’s where to look for deals,” by Sarah Agostino, published 27 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="uk">
+      <header class="section-banner">
+        <h2 id="uk">United Kingdom</h2>
+        <span>London · Transport</span>
+      </header>
+
+      <article class="story" data-story="uk">
+        <h2 class="headline">Tube strike enters second day with key lines still disrupted</h2>
+        <p class="dek">The RMT walkout ends at midday Friday, but TfL warns that normal service will not return until the evening.</p>
+        <p class="byline">UK desk · Time Out London report published 27 November 2026 at 07:00 GMT</p>
+        <p class="dropcap">The first of eight RMT strikes ends at midday on Friday, but disruption will continue across the London Underground until about 6pm. The action began at noon on Thursday and initially proved less severe than expected: only the Circle and Waterloo & City lines were completely suspended. TfL expects the Piccadilly, Circle and Waterloo & City lines to be most affected on Friday, while trains should run on most other routes.</p>
+        <p>The dispute concerns new working arrangements, including a proposed four-day week for drivers. The RMT says the plans would undermine negotiated agreements, lengthen and destabilise shifts and require more time behind the controls. Nick Dent, London Underground’s customer operations director, said the revised proposal gives drivers a genuine choice between four- and five-day patterns without forcing them to change depots and should create more efficient, reliable service.</p>
+        <p>RMT general secretary Eddie Dempsey rejected that framing. He said the issue was not opposition to a shorter week in principle but the conditions attached to this version, which he argued would intensify work, reduce flexibility and leave fewer staff carrying more duties. The union has called for the proposals to be withdrawn and for negotiations to resume on terms it considers consistent with a genuine four-day week.</p>
+        <p>Most Underground lines are running a reduced service, while the Elizabeth line, DLR, London Overground and buses are operating normally but with heavier demand. Interchange access at stations shared with the Underground may be reduced. Travellers to Heathrow can use the Elizabeth line or Heathrow Express instead of the Piccadilly line, while the Overground offers alternatives to several underground routes.</p>
+        <p>Seven further 24-hour strikes are planned over the next three months, including dates in December, January and February. The first stoppage has shown that the practical impact can differ from TfL’s pre-strike plan: the Piccadilly remained open on Thursday despite warnings that it could close. Passengers should still check live information before each journey, allow extra time and avoid relying on interchanges that normally depend on the affected lines.</p>
+        <aside class="data-box" aria-label="London Tube strike">
+          <h3>London Tube strike</h3>
+          <dl><dt>Current stoppage</dt><dd>26–27 November</dd><dt>Ends</dt><dd>midday Friday</dd><dt>Expected disruption</dt><dd>until about 6pm Friday</dd><dt>Most affected lines</dt><dd>Piccadilly, Circle, Waterloo & City</dd><dt>Further planned strikes</dt><dd>seven</dd><dt>Normal alternatives</dt><dd>Elizabeth line, DLR, Overground, buses</dd></dl>
+          <small>Time Out London report published 26 November 2026. Service plans may change and passengers should check TfL before travelling.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch Friday-evening recovery and whether the December dates remain in place; a settlement now would avoid further disruption to Christmas travel, retail and hospitality.</p>
+        <p class="source">Source: Time Out London, “November 2026 tube strikes: How to get around London during RMT industrial action today,” published 26 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <footer>
+      <strong>Editorial note.</strong> Stories were selected only when the complete article could be read and its publication time checked. Figures retain their source dates and attribution. Market moves are labelled by session, the GDP revision is distinguished from political criticism of it, and responsibility for the Kuwait deaths remains disputed. No unverified political round-up was added merely to fill the UK section.
+    </footer>
+  </main>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const button = document.getElementById("theme-toggle");
+      const media = window.matchMedia("(prefers-color-scheme: dark)");
+      const current = () => root.dataset.theme || (media.matches ? "dark" : "light");
+      const label = () => { button.textContent = current() === "dark" ? "Light theme" : "Dark theme"; };
+      button.addEventListener("click", () => {
+        root.dataset.theme = current() === "dark" ? "light" : "dark";
+        label();
+      });
+      media.addEventListener("change", label);
+      label();
+    })();
+  </script>
+</body>
+</html>
