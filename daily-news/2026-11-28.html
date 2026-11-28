@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>The Daily Ledger — 28 November 2026</title>
+  <style>
+    :root {
+      --paper: #f4efe5;
+      --ink: #171512;
+      --muted: #625d54;
+      --rule: #28241f;
+      --wash: #e6ddca;
+      --wash-strong: #d9cbb2;
+      --accent: #7b2019;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+      --sans: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    html[data-theme="dark"] {
+      --paper: #171717;
+      --ink: #f0eadf;
+      --muted: #bdb5a8;
+      --rule: #d7cfc2;
+      --wash: #292723;
+      --wash-strong: #3a352e;
+      --accent: #e48d7f;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      background: var(--paper);
+      color: var(--ink);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, color-mix(in srgb, var(--paper) 96%, black 4%) 0, var(--paper) 9%, var(--paper) 91%, color-mix(in srgb, var(--paper) 96%, black 4%) 100%);
+      color: var(--ink);
+      font-family: var(--serif);
+      line-height: 1.52;
+      text-rendering: optimizeLegibility;
+    }
+
+    .edition {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding:
+        max(1rem, env(safe-area-inset-top))
+        max(1rem, env(safe-area-inset-right))
+        max(2rem, env(safe-area-inset-bottom))
+        max(1rem, env(safe-area-inset-left));
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: .55rem;
+      margin-bottom: .75rem;
+      font-family: var(--sans);
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid var(--rule);
+      background: transparent;
+      color: var(--ink);
+      min-height: 42px;
+      padding: .55rem .9rem;
+      font: 700 .78rem/1 var(--sans);
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    button:hover,
+    button:focus-visible {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .masthead {
+      text-align: center;
+      border-top: 5px solid var(--rule);
+      border-bottom: 6px double var(--rule);
+      padding: .5rem 0 .9rem;
+    }
+
+    .kicker {
+      margin: 0 0 .25rem;
+      font: 700 clamp(.66rem, 1.2vw, .82rem)/1.2 var(--sans);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(3.4rem, 10.7vw, 8.4rem);
+      font-weight: 900;
+      line-height: .8;
+      letter-spacing: -.055em;
+      text-transform: uppercase;
+    }
+
+    .strap {
+      max-width: 780px;
+      margin: .7rem auto 0;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-style: italic;
+    }
+
+    .dateline {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: .5rem 1.25rem;
+      margin: .85rem 0 1.25rem;
+      padding: .48rem 0;
+      border-bottom: 1px solid var(--rule);
+      font: 700 .72rem/1.3 var(--sans);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .section {
+      margin: 0 0 1.75rem;
+    }
+
+    .section-banner {
+      margin: 0 0 .9rem;
+      padding: .55rem .8rem;
+      background: var(--ink);
+      color: var(--paper);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      break-after: avoid;
+    }
+
+    .section-banner h2 {
+      margin: 0;
+      font: 900 clamp(1.45rem, 4vw, 2.55rem)/1 var(--serif);
+      letter-spacing: .045em;
+      text-transform: uppercase;
+    }
+
+    .section-banner span {
+      font: 700 .65rem/1.25 var(--sans);
+      letter-spacing: .11em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .story {
+      column-count: 2;
+      column-gap: 2rem;
+      column-rule: 1px solid color-mix(in srgb, var(--rule) 65%, transparent);
+      orphans: 3;
+      widows: 3;
+    }
+
+    .story > * {
+      margin-top: 0;
+    }
+
+    .headline,
+    .dek,
+    .byline,
+    .source,
+    .watch {
+      column-span: all;
+    }
+
+    .headline {
+      margin-bottom: .35rem;
+      font-size: clamp(2rem, 5vw, 4.15rem);
+      font-weight: 900;
+      line-height: .98;
+      letter-spacing: -.03em;
+      text-wrap: balance;
+    }
+
+    .dek {
+      margin-bottom: .45rem;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2.3vw, 1.45rem);
+      font-style: italic;
+      line-height: 1.3;
+    }
+
+    .byline {
+      margin-bottom: .95rem;
+      padding-bottom: .65rem;
+      border-bottom: 1px solid var(--rule);
+      font: 700 .7rem/1.4 var(--sans);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .story p {
+      margin: 0 0 .75rem;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .story p.dropcap::first-letter {
+      float: left;
+      margin: .08em .11em 0 0;
+      color: var(--accent);
+      font-size: 4.3em;
+      font-weight: 900;
+      line-height: .72;
+    }
+
+    .data-box {
+      break-inside: avoid;
+      margin: .25rem 0 1rem;
+      padding: .8rem .9rem;
+      border: 1px solid var(--rule);
+      border-top: 5px solid var(--rule);
+      background: var(--wash);
+      font-family: var(--sans);
+    }
+
+    .data-box h3 {
+      margin: 0 0 .45rem;
+      font-size: .78rem;
+      line-height: 1.2;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .data-box dl {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: .3rem .7rem;
+      margin: 0;
+      font-size: .79rem;
+      line-height: 1.25;
+    }
+
+    .data-box dt { font-weight: 700; }
+    .data-box dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+
+    .data-box small {
+      display: block;
+      margin-top: .55rem;
+      font-size: .62rem;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+
+    .watch {
+      margin: .2rem 0 .75rem;
+      padding: .68rem .8rem;
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--wash) 72%, transparent);
+      font-size: .93rem;
+      line-height: 1.35;
+      break-inside: avoid;
+    }
+
+    .source {
+      margin: .2rem 0 0;
+      padding-top: .6rem;
+      border-top: 1px solid var(--rule);
+      color: var(--muted);
+      font: 600 .66rem/1.45 var(--sans);
+      letter-spacing: .035em;
+    }
+
+    .inside {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+      padding: .9rem 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .inside p { margin: 0; }
+    .inside .lead { font-size: 1.12rem; }
+    .inside .note { color: var(--muted); font-style: italic; }
+
+    footer {
+      margin-top: 2rem;
+      padding-top: .8rem;
+      border-top: 5px double var(--rule);
+      font-family: var(--sans);
+      font-size: .69rem;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme]) {
+        --paper: #171717;
+        --ink: #f0eadf;
+        --muted: #bdb5a8;
+        --rule: #d7cfc2;
+        --wash: #292723;
+        --wash-strong: #3a352e;
+        --accent: #e48d7f;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .edition {
+        padding-left: max(.75rem, env(safe-area-inset-left));
+        padding-right: max(.75rem, env(safe-area-inset-right));
+      }
+
+      .controls { justify-content: stretch; }
+      .controls button { flex: 1 1 45%; }
+      .story { column-count: 1; }
+      .dateline { display: block; }
+      .dateline span { display: block; margin-top: .3rem; }
+      .section-banner { align-items: flex-start; flex-direction: column; gap: .35rem; }
+      .section-banner span { text-align: left; }
+      .inside { grid-template-columns: 1fr; }
+      .story p { text-align: left; }
+    }
+
+    @page {
+      size: A4;
+      margin: 11mm;
+    }
+
+    @media print {
+      .section + .section {
+        break-before: page;
+        page-break-before: always;
+      }
+      :root,
+      html,
+      html[data-theme],
+      html:not([data-theme]) {
+        --paper: #fff;
+        --ink: #000;
+        --muted: #222;
+        --rule: #000;
+        --wash: #eee;
+        --wash-strong: #ddd;
+        --accent: #000;
+        color-scheme: light;
+      }
+
+      html, body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+
+      body {
+        font-size: 9.65pt;
+        line-height: 1.34;
+      }
+
+      .edition {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+      }
+
+      .controls,
+      .inside {
+        display: none !important;
+      }
+
+      .masthead {
+        border-top-width: 3px;
+        border-bottom: 5px double #000;
+        padding-top: 0;
+      }
+
+      h1 {
+        font-size: 54pt;
+        line-height: .85;
+      }
+
+      .strap {
+        font-size: 10pt;
+      }
+
+      .dateline {
+        margin: 3mm 0 4mm;
+        font-size: 6.2pt;
+      }
+
+      .section { margin-bottom: 5mm; }
+
+      .section-banner {
+        margin-bottom: 3mm;
+        padding: 1.4mm 2mm;
+        break-after: avoid;
+      }
+
+      .section-banner h2 {
+        font-size: 17pt;
+      }
+
+      .section-banner span {
+        font-size: 5.8pt;
+      }
+
+      .story {
+        column-count: 2;
+        column-gap: 7mm;
+        column-rule: .4pt solid #000;
+      }
+
+      .headline {
+        font-size: 25pt;
+        line-height: 1;
+        break-after: avoid;
+      }
+
+      .dek {
+        font-size: 10pt;
+        break-after: avoid;
+      }
+
+      .byline {
+        font-size: 6pt;
+        margin-bottom: 2.5mm;
+      }
+
+      .story p {
+        font-size: 9.65pt;
+        text-align: justify;
+      }
+
+      .story p.dropcap::first-letter {
+        font-size: 4em;
+      }
+
+      .data-box {
+        border: .8pt solid #000;
+        border-top-width: 3pt;
+        background: #eee !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .data-box dl { font-size: 7.3pt; }
+      .data-box h3 { font-size: 7.2pt; }
+      .data-box small { font-size: 5.8pt; color: #222; }
+
+      .watch {
+        border-left: 2.5pt solid #000;
+        background: #f1f1f1 !important;
+        font-size: 8.6pt;
+        break-inside: avoid;
+      }
+
+      .source {
+        font-size: 6pt;
+        color: #222;
+      }
+
+      footer {
+        font-size: 6.2pt;
+        color: #222;
+      }
+    }
+
+    .subhead {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin: 1.15rem 0 .9rem;
+      padding-top: .9rem;
+      border-top: 5px double var(--rule);
+      break-before: avoid;
+    }
+    .subhead h2 {
+      margin: 0;
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    .subhead span {
+      font: 700 .65rem/1.25 var(--sans);
+      letter-spacing: .11em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+    @media (max-width: 700px) {
+      .subhead { align-items: flex-start; flex-direction: column; }
+      .subhead span { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <main class="edition">
+    <nav class="controls" aria-label="Edition controls">
+      <button type="button" id="theme-toggle">Dark theme</button>
+      <button type="button" onclick="window.print()">Print this edition</button>
+    </nav>
+    <header class="masthead">
+      <p class="kicker">Independent daily digest · Verified close to publication</p>
+      <h1>The Daily Ledger</h1>
+      <p class="strap">The world, the markets and the streets beyond the closing bell</p>
+    </header>
+    <div class="dateline">
+      <span>Saturday, 28 November 2026</span>
+      <span>Edition compiled in London</span>
+      <span>All story times are stated at source</span>
+    </div>
+    <div class="inside">
+      <p class="lead"><strong>Today at a glance:</strong> Beijing’s support pledge sparks a record rally in Chinese chip stocks, while SAP reportedly plans deep job cuts and inflation reshapes Black Friday. Ukraine and Russia strike each other’s home cities, US car prices hit a record and weekend engineering work closes much of London’s rail network.</p>
+      <p class="note">This edition uses bylined reports with visible dates and articles that were opened and read in full. Market figures are labelled by session; official claims and unresolved damage reports are identified as such.</p>
+    </div>
+
+    <section class="section" aria-labelledby="markets">
+      <header class="section-banner">
+        <h2 id="markets">Markets &amp; Technology</h2>
+        <span>Friday close · China tech</span>
+      </header>
+
+      <article class="story" data-story="markets">
+        <h2 class="headline">Beijing’s market pledge ignites a record chip rally</h2>
+        <p class="dek">Chinese semiconductor shares post their largest one-day advance after the State Council promises stronger state-backed support and liquidity.</p>
+        <p class="byline">Markets desk · CNBC report published 27 November 2026 at 10:07 GMT</p>
+        <p class="dropcap">Chinese technology stocks surged on Friday after a rare intraday statement from the State Council promised stronger support from state-backed funds and sufficient market liquidity. The CSI Semiconductor index of 40 chip companies rose 17.6%, its largest one-day gain on record, while the STAR market jumped 14%. CXMT, Cambricon and SMIC led the advance.</p>
+        <p>The Hang Seng rose 2% and the CSI 300 climbed 4%, its biggest daily increase since October 2024. The rally began after Premier Li Qiang chaired a meeting whose readout was released around midday rather than after the close. It referred explicitly to the “national team” of state investors, a phrase not previously used in a State Council market statement, and said capital markets were crucial to the wider economy.</p>
+        <p>Trading activity followed the announcement. Full-day turnover across the Shanghai, Shenzhen and Beijing exchanges was 52% higher than the previous session, according to Shanghai-based portfolio manager Zong Ke. Policymakers also promised to strengthen stabilisation funds such as Central Huijin and encourage insurance and social-security money to invest more in equities, while urging dividends, buybacks and enforcement against financial fraud.</p>
+        <p>The intervention followed a sharp deterioration in sentiment. The CSI 300 had fallen on Thursday to its lowest level since the 2025 escalation of the US-China tariff war. Washington’s tighter restrictions on advanced AI chips, including access through overseas data centres, had increased pressure on Beijing to accelerate semiconductor self-sufficiency and support domestic technology companies.</p>
+        <p>The gains reflect state policy as much as private demand. Hong Hao of Lotus Asset Management said the language effectively institutionalised Central Huijin as a stabilisation fund and could produce a more durable rally than earlier stimulus bounces. Skeptics may still ask whether repeated intervention can substitute for earnings and whether markets will become dependent on official support. The immediate move, however, was decisive and unusually broad.</p>
+        <aside class="data-box" aria-label="China market rally">
+          <h3>China market rally</h3>
+          <dl><dt>STAR index</dt><dd>+14%</dd><dt>CSI Semiconductor</dt><dd>+17.6%</dd><dt>Hang Seng</dt><dd>+2%</dd><dt>CSI 300</dt><dd>+4%</dd><dt>Turnover increase</dt><dd>+52%</dd><dt>Prior record chip gain</dt><dd>nearly 17%, late 2024</dd></dl>
+          <small>CNBC report published 27 November 2026, citing Wind Information. Figures reflect Friday’s session.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch whether state funds keep buying after the first rally and whether turnover remains elevated; a policy-driven bounce without follow-through would repeat earlier short-lived stimulus trades.</p>
+        <p class="source">Source: CNBC, “Chinese chip stocks notch biggest ever one-day gains as Beijing signals broader market support,” by Evelyn Cheng and Anniek Bao, published 27 November 2026 and read in full.</p>
+      </article>
+      <div class="subhead">
+        <h2>Technology</h2>
+        <span>Infrastructure · Cybersecurity</span>
+      </div>
+
+      <article class="story" data-story="outages">
+        <h2 class="headline">SAP reportedly weighs cutting at least 10,000 jobs</h2>
+        <p class="dek">The German software group is reviewing its workforce as it reorganises around artificial intelligence—while separately reporting a cyberattack.</p>
+        <p class="byline">Technology desk · CNBC report published 27 November 2026 at 06:36 GMT</p>
+        <p class="dropcap">SAP is preparing a restructuring plan that could eliminate at least 10,000 positions as it reshapes its software business for the AI era, according to Bloomberg. The German company employs more than 110,000 people. It said the business environment was changing rapidly because of AI and that it regularly reviewed whether its organisation and workforce remained suited to the market, while insisting no final decision had been made.</p>
+        <p>Bloomberg reported that every department had been asked to identify possible reductions, with product, engineering and sales receiving particular attention. SAP underwent a similar reorganisation in 2024, eliminating about 10,000 roles mainly through voluntary departures and retraining. Headcount later stayed roughly flat as it hired people into new positions, making the net effect of any fresh programme uncertain.</p>
+        <p>The company’s CEO, Christian Klein, is pushing an AI-first strategy. SAP completed four acquisitions this year—Reltio, Dremio, Prior Labs and TechWolf—and invested in AI businesses including Parloa, n8n and Conduct. The purchases support organising corporate data, developing business-information models and analysing workforce skills. That strategy explains why job reductions could coincide with hiring in areas tied to AI products.</p>
+        <p>The announcement also arrived alongside a disclosure that SAP had detected suspicious activity in its systems. The company said it took protective measures and had found no evidence that customer business data was accessed without authorisation. A security incident can intensify pressure on an enterprise software provider because customers trust it with payroll, procurement, finance and other sensitive corporate records.</p>
+        <p>SAP is not alone in linking workforce change to AI. WiseTech, Atlassian and Cloudflare have announced cuts while increasing investment in AI. In the US, employers attributed 121,401 announced job cuts to AI through October, about 20% of the total tracked by Challenger, Gray & Christmas. The pattern challenges the simple claim that AI will either replace workers or create more jobs: companies are altering roles, buying capabilities and reorganising at the same time.</p>
+        <aside class="data-box" aria-label="SAP restructuring">
+          <h3>SAP restructuring</h3>
+          <dl><dt>Potential job cuts</dt><dd>at least 10,000</dd><dt>Current global employees</dt><dd>more than 110,000</dd><dt>Prior cuts</dt><dd>about 10,000 in 2024</dd><dt>2026 acquisitions</dt><dd>4</dd><dt>US AI-attributed job cuts through October</dt><dd>121,401</dd></dl>
+          <small>CNBC report published 27 November 2026, citing Bloomberg and company statements. SAP said no final decision had been made.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch whether SAP discloses net headcount rather than gross cuts, and whether the reported security incident expands beyond the initial suspicious activity; both will determine the real cost of the restructuring.</p>
+        <p class="source">Source: CNBC, “German software major SAP is reportedly weighing cutting at least 10,000 jobs in AI push,” by Shikhar Gupta, published 27 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="rates">
+      <header class="section-banner">
+        <h2 id="rates">Interest Rates &amp; Economy</h2>
+        <span>Consumer economy · Black Friday</span>
+      </header>
+
+      <article class="story" data-story="rates">
+        <h2 class="headline">Inflation squeezes budgets but shoppers still turn out</h2>
+        <p class="dek">Higher prices and weak sentiment are concentrating holiday spending into bargain windows, with discounts and instalment payments shaping the season.</p>
+        <p class="byline">Economy desk · CNBC report published 27 November 2026 at 11:00 GMT</p>
+        <p class="dropcap">US shoppers entered the holiday season facing higher prices, uneven confidence and an economy still growing, a combination that has pushed many to concentrate spending on discounts. Consumer prices rose 0.4% in October and the personal consumption expenditures index accelerated to 3.8% from a year earlier. Retail sales grew at their slowest pace in nearly a year, while the Conference Board’s confidence measure had fallen to its lowest since 2014.</p>
+        <p>The caution has changed how families shop rather than eliminating holiday spending. Planned gift and non-gift purchases were projected at an average $1,049, up 5.9% from $990 a year earlier and still 3.2% higher after inflation. Holiday sales are expected to exceed $1 trillion, but a substantial part of that growth reflects higher prices rather than greater volume.</p>
+        <p>Online activity has been strong. Adobe estimated that consumers spent $82.5 billion online in the first 22 days of November, 9.1% more than a year earlier. Salesforce projected $357 billion of global online sales during the Black Friday-to-Cyber Monday week and $84 billion in the United States, both about 6% higher. Retailers increased US discount rates by 8% in November compared with last year.</p>
+        <p>Deloitte’s survey found that 87% of shoppers planned to participate in Black Friday or Cyber Monday, the highest level since 2016. Consumers expected to spend an average of $624 during the holiday. Generation Z was especially active, with 40% planning to use buy-now-pay-later services. Analysts described that as a way to preserve the holiday experience while delaying the eventual financial burden.</p>
+        <p>Retailers reported a similarly mixed picture. Walmart and Target said they were leaning into value, while Best Buy saw demand for both lower-priced products and premium upgrades. TJX expected momentum to build, but Burlington and Gap had issued weaker guidance after warm autumn weather slowed sales. The season therefore depends less on whether Americans spend at all than on whether discounts, weather and credit can keep them spending while household budgets remain strained.</p>
+        <aside class="data-box" aria-label="US holiday spending">
+          <h3>US holiday spending</h3>
+          <dl><dt>October CPI</dt><dd>+0.4%</dd><dt>October PCE inflation</dt><dd>3.8%</dd><dt>Planned holiday spending</dt><dd>$1,049 average</dd><dt>Online spending, 1–22 November</dt><dd>$82.5bn</dd><dt>Expected US online sales, holiday week</dt><dd>$84bn</dd><dt>Shoppers planning to participate</dt><dd>87%</dd></dl>
+          <small>CNBC report published 27 November 2026, citing Adobe, Salesforce, Deloitte and company earnings.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch final holiday sales and credit-card delinquencies; heavy discounting may protect volumes while reducing retailer margins, and buy-now-pay-later demand may shift financial stress into January.</p>
+        <p class="source">Source: CNBC, “Inflation has shoppers hunting for value. That bodes well for Black Friday,” by Laya Neelakandan, published 27 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="world">
+      <header class="section-banner">
+        <h2 id="world">World</h2>
+        <span>Ukraine · Home-city strikes</span>
+      </header>
+
+      <article class="story" data-story="world">
+        <h2 class="headline">Kyiv and St Petersburg exchange attacks far from the front</h2>
+        <p class="dek">Russian missiles cut power in Zelensky’s hometown while Ukrainian drones reach Putin’s birthplace and briefly close its airport.</p>
+        <p class="byline">World desk · Metro report published 27 November 2026 at 12:33 GMT</p>
+        <p class="dropcap">Russian missiles struck a major electricity substation in Kryvyi Rih, the hometown of President Volodymyr Zelenskiy, causing widespread power cuts and several fires. Mayor Oleksandr Vilkul said the destruction was significant and emergency crews had begun rescue work. Russia described the target as infrastructure supporting Ukraine’s defence, while local officials focused on the immediate effect on electricity and public safety.</p>
+        <p>Ukrainian long-range drones reached St Petersburg, Vladimir Putin’s birthplace, where explosions and fires were reported in central areas and residential buildings were damaged. Air defences intercepted incoming drones, and Pulkovo international airport temporarily suspended flights. Internet service was also disrupted. The combination of military and civilian infrastructure showed how far both sides can now reach beyond their immediate front lines.</p>
+        <p>Residents described the human impact of the overnight attacks. One mother said her child was trying to sleep with a pillow over his head to muffle the sound of air-defence machine-gun fire. Romania’s military diverted two F-16 fighter jets because of a feared drone threat near its border. The regional alerts underlined the risk that drones and air-defence activity can spill into neighbouring NATO territory even when a weapon is not aimed there.</p>
+        <p>The strikes followed Zelenskiy’s public criticism of what he called Trump’s strange relationship with the Kremlin. He said Ukraine needed a clearly American position rather than signals that could have come from Russia, and described Putin as an aggressor rather than a friend. His comments reflected anxiety that Washington might press Kyiv toward a settlement on terms shaped by Moscow.</p>
+        <p>Trump separately altered a joint statement with NATO Secretary-General Mark Rutte, changing a warning about spreading the war so that it applied to both Russia and Ukraine. The move reportedly surprised NATO officials. Against that diplomatic backdrop, the attacks on the two leaders’ home cities showed that each side still believes it can improve its position through force before any negotiation begins.</p>
+        <aside class="data-box" aria-label="Ukraine overnight attacks">
+          <h3>Ukraine overnight attacks</h3>
+          <dl><dt>Russian target</dt><dd>Kryvyi Rih electricity substation</dd><dt>Ukrainian target</dt><dd>St Petersburg</dd><dt>Airport status</dt><dd>temporarily closed</dd><dt>NATO jets diverted</dt><dd>2 Romanian F-16s</dd><dt>Date</dt><dd>27 November 2026</dd></dl>
+          <small>Metro report published 27 November 2026. Damage and target descriptions come from the officials and witnesses reported.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch whether either side expands strikes on energy infrastructure and whether Romania or other NATO members raise their air-defence posture; a misread drone crossing could escalate beyond Ukraine.</p>
+        <p class="source">Source: Metro, “Putin and Zelensky launch massive attacks on each other’s home cities,” published 27 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="us">
+      <header class="section-banner">
+        <h2 id="us">United States</h2>
+        <span>Consumer prices · Auto market</span>
+      </header>
+
+      <article class="story" data-story="us">
+        <h2 class="headline">A record $51,109 new-car price hides cheaper deals</h2>
+        <p class="dek">Average transaction prices reach a new high, but compact cars and aging inventory offer buyers alternatives well below the headline figure.</p>
+        <p class="byline">US desk · CNBC report published 27 November 2026 at 13:15 GMT</p>
+        <p class="dropcap">The average transaction price paid for a new vehicle in the US reached a record $51,109 in October, up 2.1% from a year earlier. The figure excludes incentives, taxes and fees, and reflects a market tilted towards large, well-equipped pickups and SUVs. It also represents a 34% increase from October 2019, when the average was $38,259, according to Kelley Blue Book.</p>
+        <p>The headline average does not describe every buyer. Three of the five highest-volume vehicle categories—compact and subcompact SUVs and compact cars—sold well below it. The average compact car cost $28,030. Sales of vehicles priced between roughly $28,000 and $38,000 rose 9.6% year on year, showing that many consumers are choosing smaller or less expensive models rather than leaving the market.</p>
+        <p>Dealers still have room to bargain. Automakers have delayed the rollout of some 2027 models because 2026 vehicles continue to sell at current prices. In October, 76% of new-vehicle sales were current-year models, compared with 59% a year earlier. As newer inventory arrives, manufacturers and dealers may offer stronger incentives to clear older stock, though waiting until the final week of December does not guarantee a better price.</p>
+        <p>Some discounts are substantial. A 2026 Nissan Pathfinder with a starting price of $41,565 carried a $5,000 rebate for qualified buyers through 30 November, according to Cars.com. Cars that have stayed on a dealer lot for 60 to 90 days can also be bargaining targets because dealerships want to clear aged inventory. Edmunds said new vehicles took an average of 58 days to sell in September.</p>
+        <p>The financing market adds another layer. A three-year-old vehicle sold for an average of $32,039 in the third quarter—3.1% above a year earlier but roughly $16,562 below its original sticker price, a record dollar gap. Buyers trading in vehicles after three years can still owe more than the car is worth, and rolling that negative equity into a new loan makes the effective purchase more expensive even when the listed price looks manageable.</p>
+        <aside class="data-box" aria-label="US new-car market">
+          <h3>US new-car market</h3>
+          <dl><dt>Average new-car price</dt><dd>$51,109</dd><dt>Annual increase</dt><dd>+2.1%</dd><dt>Average compact car</dt><dd>$28,030</dd><dt>2019 average</dt><dd>$38,259</dd><dt>Average days to sell</dt><dd>58</dd><dt>3-year-old average price</dt><dd>$32,039</dd></dl>
+          <small>CNBC report published 27 November 2026, using Kelley Blue Book, Edmunds, Cox Automotive and Cars.com data.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch year-end incentives and interest rates rather than the headline average alone; financing costs can erase a discount, especially when negative equity is rolled into a new loan.</p>
+        <p class="source">Source: CNBC, “New car prices are at a record high. Here’s where to look for deals,” by Sarah Agostino, published 27 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <section class="section" aria-labelledby="uk">
+      <header class="section-banner">
+        <h2 id="uk">United Kingdom</h2>
+        <span>London · Weekend travel</span>
+      </header>
+
+      <article class="story" data-story="uk">
+        <h2 class="headline">Elizabeth line closes for a weekend of rail disruption</h2>
+        <p class="dek">No strike is planned, but large sections of the Tube and the purple rail route will be shut across 28 and 29 November.</p>
+        <p class="byline">UK desk · Time Out London report published 27 November 2026 at 07:00 GMT</p>
+        <p class="dropcap">London’s weekend travel will be severely constrained by planned engineering work rather than industrial action. The Elizabeth line will be largely closed across 28 and 29 November, with its central section not operating. The Hammersmith & City line will be completely shut, and significant sections of the Circle, District and Metropolitan lines will also be unavailable.</p>
+        <p>The southern section of the Northern line will also have no Friday or Saturday night service. The closures affect both residents and visitors during a weekend when London’s cultural calendar is busy, including the opening of the new London Museum, an exhibition at the Hayward Gallery and a Christmas fair at the Finnish Church. Travellers need to build extra time into journeys and consider buses that replace the rail routes.</p>
+        <p>The disruption comes immediately after the two-day RMT strike, but the causes are different: this weekend’s work is planned maintenance and the strike was a dispute over driver rosters and working conditions. Passengers should not assume that the absence of a fresh walkout means normal service. The Elizabeth line’s central section is particularly important for airport, Crossrail and mainline connections, so its closure can spread delays across the broader transport network.</p>
+        <p>For journeys into central London, the practical alternatives depend on the route. Buses are likely to be busier, and interchanges to remaining rail lines may be more crowded. Travellers heading to Heathrow should check the Heathrow Express and alternative rail links before relying on the Elizabeth line. The Metropolitan, Circle, District and Hammersmith & City closures mean that even journeys that avoid the Elizabeth line may require revised routes.</p>
+        <p>The advice is to verify each leg on the day, check TfL’s status information and allow more time for interchanges. The weekend’s maintenance may be less disruptive than a strike, but its concentration on major east-west and orbital routes gives it broad reach. Visitors should treat the rail network as a patchwork of available services rather than assuming that a single alternative will cover every closure.</p>
+        <aside class="data-box" aria-label="London weekend closures">
+          <h3>London weekend closures</h3>
+          <dl><dt>Dates</dt><dd>28–29 November 2026</dd><dt>Elizabeth line</dt><dd>central section closed</dd><dt>Hammersmith & City</dt><dd>entire line closed</dd><dt>Also disrupted</dt><dd>Circle, District, Metropolitan</dd><dt>Northern line</dt><dd>no Friday/Saturday night service on southern section</dd></dl>
+          <small>Time Out London report published 27 November 2026. Passengers should verify live TfL information before travelling.</small>
+        </aside>
+        <p class="watch"><strong>What to watch —</strong> Watch Sunday reopening updates, especially on the Elizabeth line, because a delayed engineering handback could affect Monday morning commutes and airport connections.</p>
+        <p class="source">Source: Time Out London, “Watch out, London: the Elizabeth line will be down this weekend,” by Ed Cunningham, published 27 November 2026 and read in full.</p>
+      </article>
+    </section>
+    <footer>
+      <strong>Editorial note.</strong> Stories were selected only when the complete article could be read and its publication time checked. Figures retain their source dates and attribution. Market moves are labelled by session, SAP’s job reduction is reported rather than confirmed, and the Ukraine damage accounts are attributed to officials and witnesses. No unverified political round-up was added merely to fill the UK section.
+    </footer>
+  </main>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const button = document.getElementById("theme-toggle");
+      const media = window.matchMedia("(prefers-color-scheme: dark)");
+      const current = () => root.dataset.theme || (media.matches ? "dark" : "light");
+      const label = () => { button.textContent = current() === "dark" ? "Light theme" : "Dark theme"; };
+      button.addEventListener("click", () => {
+        root.dataset.theme = current() === "dark" ? "light" : "dark";
+        label();
+      });
+      media.addEventListener("change", label);
+      label();
+    })();
+  </script>
+</body>
+</html>
